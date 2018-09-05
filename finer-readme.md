@@ -70,7 +70,7 @@ A more detailed description of each category is given below. It should be noted 
     - provinces (historical and modern)
     - administrative subdivisions (cantons, prefectures, municipalities, districts; dioceses, electorates...)
     - settlements, i.e. cities, towns, villages
-    - neighbourhoods, residential areas
+    - neighborhoods, residential areas
   - **EnamexLocGpl**: Geography
     - geographical, geopolitical and cultural regions
     - continents, landmasses
@@ -202,7 +202,7 @@ A more detailed description of each category is given below. It should be noted 
 FiNER accepts **plain-text** input written in **Standard Finnish**. More precisely, the input should be
 - plain-text, (e.g. `.txt`, `.tsv`, `.csv`). XML (`.html`, `.xml`) is also allowed if the element tags only occupy a single line, e.g. using HTML-style tags to structure the text is perfectly acceptable.
 - preferably untokenized – the rules are designed for a specific tokenization where e.g. abbreviations ending in full stops are single tokens
-- written in Standard Modern Finnish (although historical and colloquial/dialectal Finnish may also work to limited extent)
+- written in Standard Modern Finnish (although historical and colloquial/dialectal Finnish may also work to a limited extent)
 - preferably be running text consisting of full sentences.
 - should follow Finnish orthographic and typographic rules i.e. use proper punctuation and capitalization
 - divided so that each independent text should be given as a separate input; this can be done either by giving each input text as a separate file, or by submitting a single file where each individual text is enclosed in the HTML-style tags `<text>...</text>` – this prevents the content of one text from affecting the analyses of any subsequent texts in the input.
