@@ -31,7 +31,7 @@ Gazetteers do not have strict naming conventions. However, the category to which
 
 Gazetteers that list single-word names can be imported into pmatch rules with the expression `@txt"filename.txt"`. However, many also contain multi-word names. These cannot be used directly as such and they have to be converted into pmatch expressions that are saved as `m4` files and imported into the actual rule set. This is done by the scripts `convert-m4gaz.sh` and `txt2m4.py` (see below).
 
-The ending of a gazetteer's filename generally indicates how the names in said gazetteer should be used in the rule set i.e. whether the list contains full names, parts of names, and whether `lemma_exact()`, `wordform_exact()`, o `inflect_sg()` should be used to match the inflected forms. Common endings are listed below:
+The ending of a gazetteer's filename generally indicates how the names in said gazetteer should be used in the rule set i.e. whether the list contains full names, parts of names, and whether `lemma_exact()`, `wordform_exact()`, or `inflect_sg()` should be used to match the inflected forms. Common endings are listed below:
 
 - `Fin`: the final element of each name is a Finnish word that is subject to Finnish morphophonological processes such as consonant gradation; inflected forms are matched with the function `lemma_exact()`
 - `Congr`: all elements in the name inflect like Finnish words and are matched with `lemma_exact()`
