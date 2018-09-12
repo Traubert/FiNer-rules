@@ -1,0 +1,9 @@
+akseli
+huoneisto
+keittiö
+kiinteistö
+lääkäri
+profiili
+remontti
+tehdas
+yrittäjä

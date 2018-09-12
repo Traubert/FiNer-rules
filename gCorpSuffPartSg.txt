@@ -1,0 +1,14 @@
+katsastus
+#kehitys
+kuljetus
+kustannus
+#myynti
+rahoitus
+rakennus
+sijoitus
+toimisto
+#tuotanto
+#tuote
+ustutkimus
+#vakuutus
+välitys

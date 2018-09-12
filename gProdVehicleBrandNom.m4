@@ -1,0 +1,9 @@
+[ wordform_exact({Alfa}) WSep wordform_exact({Romeo}) |
+wordform_exact({Aston}) WSep wordform_exact({Martin}) |
+wordform_exact({Beijing}) WSep wordform_exact({Jeep}) |
+wordform_exact({BMW}) WSep wordform_exact({Alpina}) |
+wordform_exact({De}) WSep wordform_exact({Tomaso}) |
+wordform_exact({Land}) WSep wordform_exact({Rover}) |
+wordform_exact({Range}) WSep wordform_exact({Rover}) |
+wordform_exact({Rolls}) WSep wordform_exact({Royce}) |
+wordform_exact( {Learjet} | {Ferguson} | {Valmet} | {Airbus} | {Alpina} | {ARO} | {Ascari} | {Audi} | {Bajaj-Tempo} | {Bedford} | {Bentley} | {Besturn} | {BMW} | {Boeing} | {Brilliance} | {Bugatti} | {Buick} | {BYD} | {Cadillac} | {Changan} | {Changhe} | {Chaparral} | {Chery} | {Chevrolet} | {Chrysler} | {Citroen} | {Citroën} | {Comac} | {Dacia} | {Daihatsu} | {Datsun} | {Denza} | {Dodge} | {Embraer} | {Eurocopter} | {Eurofighter} | {Ferrari} | {Fiat} | {Fisker} | {Fokker} | {Ford} | {GAZ} | {Geely} | {GMC} | {Golo} | {Gumpert} | {Hafei} | {Haima} | {Haval} | {Holden} | {Honda} | {Hongqi} | {Huansu} | {Huasong} | {Hummer} | {Hyundai} | {Infiniti} | {Isuzu} | {Iveco} | {Jaguar} | {Jeep} | {Jinbei} | {Kamov} | {Karma} | {Kia} | {Koenigsegg} | {KTM} | {Lada} | {Laibao} | {Lamborghini} | {Lancia} | {Landwind} | {Lexus} | {Lincoln} | {Lister} | {Lobini} | {Lockheed} | {Lotus} | {Mahindra} | {Maruti} | {Maserati} | {Mastretta} | {Maybach} | {Mazda} | {McLaren} | {Mercedes-Benz} | {Mitsubishi} | {Moskvitš} | {MVS} | {Namco} | {Nissan} | {Opel} | {Pagani} | {Peugeot} | {Porsche} | {Rabo} | {Renault} | {Replicar} | {Roewe} | {Rolls-Royce} | {Rover} | {Saab} | {SAIC} | {Samand} | {Santana} | {Saturn} | {SEAT} | {Senova} | {Sikorsky} | {Skoda} | {Škoda} | {Spyker} | {Ssangyong} | {Subaru} | {Suzuki} | {Tesla} | {Toroidion} | {Toyota} | {TVR} | {UAZ} | {Vauxhall} | {VAZ} | {Vector} | {Volkswagen} | {Volvo} | {Weiwang} | {Xiali} | {Yugo} | {Zaschka} | {Zastava} | {ZAZ} | {Zhonghua} ) ]

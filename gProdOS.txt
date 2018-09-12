@@ -1,0 +1,12 @@
+Android
+Debian
+iOS
+IOS
+Linux
+MacOS
+Metro
+Sailfish
+Symbian
+Tizen
+Ubuntu
+Windows
