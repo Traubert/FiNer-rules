@@ -2,6 +2,8 @@
 
 FiNER is a rule-based named-entity recognition tool for Finnish. It uses tools based on the CRF-based tagger FinnPos, the Finnish morphology package OmorFi, and the FinnTreeBank corpus for tokenization and morphological analysis, and a set of pattern-matching (`pmatch`) rules for recognizing and categorizing proper names and other expressions in plaintext input.
 
+Additional technical documentation is available [here](technical.md).
+
 ## Ontology & Name hierarchy
 
 FiNER primarily identifies proper names belonging to different categories, most of which are further divided into more specific subcategories. Its name hierarchy is loosely based on that used by the Swedish Named-Entity Recognizer (SweNER) and consists of five categories for proper names (`Enamex`) – namely, locations, organizations, people, products, and events – as well as two additional categories for temporal and numerical expressions, respectively.

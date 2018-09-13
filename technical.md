@@ -1,15 +1,15 @@
 ## Previous technical documentation
 
-These lins contain documentaion on earlier versions of FiNER: 
+These links contain documentaion on earlier versions of FiNER: 
 
 - [http://www.helsinki.fi/~jkuokkal/finer_dist/](http://www.helsinki.fi/~jkuokkal/finer_dist/)
-- Kettunen, Kimmo & Mäkelä, Eetu & Ruokolainen, Teemu & Kuokkala, Juha. & Löfberg, Laura (2017). Old Content and Modern Tools: Searching Named Entities in a Finnish OCRed Historical Newspaper Collection 1771–1910. Digital Humanities Quarterly. DOI: [http://www.digitalhumanities.org/dhq/vol/11/3/000333/000333.html](http://www.digitalhumanities.org/dhq/vol/11/3/000333/000333.html).
+- Kettunen, Kimmo & Mäkelä, Eetu & Ruokolainen, Teemu & Kuokkala, Juha. & Löfberg, Laura (2017). Old Content and Modern Tools: Searching Named Entities in a Finnish OCRed Historical Newspaper Collection 1771–1910. _Digital Humanities Quarterly_. DOI: [http://www.digitalhumanities.org/dhq/vol/11/3/000333/000333.html](http://www.digitalhumanities.org/dhq/vol/11/3/000333/000333.html).
 
 ## Name hierarchy: main differences from SweNER
 
 - FiNER features an additional subcategory of organizations, namely `EnamexOrgEdu` for schools
-- categories `OBJ` (EnemxObj_) & `WRK` (`EnamexArt_`) are subsumed under Products (`EnamexProXxx`) without subcategorization.  
-- all events (`EnamexEvn_`) are tagged as `EnamexEvtXxx` without subcategorization.
+- categories `OBJ` (`EnamexObj_`) and `WRK` (`EnamexArt_`) are subsumed under Products (`EnamexProXxx`) without futher subcategorization.  
+- all events (`EnamexEvn_`) are tagged as `EnamexEvtXxx` without further subcategorization.
 
 ## Overview of methodology (in Finnish)
 
