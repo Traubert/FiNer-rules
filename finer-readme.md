@@ -1,6 +1,6 @@
 # FiNER – Finnish Named-Entity Recognizer
 
-FiNER is a rule-based named-entity recognition tool for Finnish. It uses tools based on the CRF-based tagger FinnPos, the Finnish morphology package OmorFi, and the FinnTreeBank corpus for tokenization and morphological analysis, and a set of pattern-matching (`pmatch`) rules for recognizing and categorizing proper names and other expressions in plain-text input.
+FiNER is a rule-based named-entity recognition tool for Finnish. It uses tools based on the CRF-based tagger FinnPos, the Finnish morphology package OmorFi, and the FinnTreeBank corpus for tokenization and morphological analysis, and a set of pattern-matching (`pmatch`) rules for recognizing and categorizing proper names and other expressions in plaintext input.
 
 ## Ontology & Name hierarchy
 
@@ -199,8 +199,8 @@ A more detailed description of each category is given below. It should be noted 
 
 ## Input
 
-FiNER accepts **plain-text** input written in **Standard Finnish**. More precisely, the input should be
-- plain-text, (e.g. `.txt`, `.tsv`, `.csv`). XML (`.html`, `.xml`) is also allowed if the element tags only occupy a single line, e.g. using HTML-style tags to structure the text is perfectly acceptable.
+FiNER accepts **plaintext** input written in **Standard Finnish**. More precisely, the input should be
+- plaintext, (e.g. `.txt`, `.tsv`, `.csv`). XML (`.html`, `.xml`) is also allowed if the element tags only occupy a single line, e.g. using HTML-style tags to structure the text is perfectly acceptable.
 - preferably untokenized – the rules are designed for a specific tokenization where e.g. abbreviations ending in full stops are single tokens
 - written in Standard Modern Finnish (although historical and colloquial/dialectal Finnish may also work to a limited extent)
 - preferably be running text consisting of full sentences.
@@ -222,17 +222,18 @@ The final output consists of two tab-separated columns, the first of which conta
     Outokummun	<EnamexOrgCrp/>
     osakkeita	
     .	
-    
+    	
 
 **Note that the FiNER rules only match whole words, not parts of words or truncated names**; this also entails that 1) some of the neighboring tokens such as quotation marks or truncated names may be included in the match for consistency's and readability's sake and 2) the number of matches does not necessarily equal the number of matched references/mentions in the text (more detailed information about FiNER's annotation practices coming soon).
 
-## Pipeline
+## Availability & Use
 
-- **add_hashes**: converts empty lines between sentences into non-empty sentence-boundary markers (`.#.`); adds empty lines around `<text>...</text>` elements; these are required for the `Capture()` mechanism to work properly 
-- **move_tags**: moves each NER start tags from the beginning of line into the tag column (fifth column by default); nested NER tags are moved into their respective columns (columns 6–9); start tags and ends tags on the same line in the same column are merged into closed tags (single-token names)
-- **correct-analyses.py**: rectifies frequent or regular errors in lemmas and removes morpheme boundaries (`#`)
-- **remove_exc**: removes the `<Exc...> ... </Exc...>` tags produced by the exception rules; removes the sentence-boundary markers (`.#.`)
+The most recent distribution (v.1.1, May 2018) can be found [here](http://korp.csc.fi/download/finnish-tagtools/v1.1/). This package includes `finnish-nertag`, which implements a pipeline in which FiNER is the ner-tagging stage.
+
+An dated online demo version with limited functionality is available for use [here](http://korp.csc.fi/cgi-bin/fintag/fintag.py).
+
+[CSC](http://csc.fi/) users can also use a pre-installed version of FiNER on the [Taito](http://research.csc.fi/taito-user-guide] supercluster and [Mylly](http://www.kielipankki.fi/tuki/mylly/).
 
 ## Known issues
 - FiNER may slow down considerably or get stuck altogether if the input contains several consecutive strings written in all caps. These should be converted into lowercase or split into sequences of e.g. four strings.
-- The transducers compiled from the pmatch rules are large (approx. 600 MB in total) 
+- The transducers compiled from the pmatch rules are large (approx. 600 MB in total).
