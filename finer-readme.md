@@ -230,9 +230,9 @@ The final output consists of two tab-separated columns, the first of which conta
 
 The most recent distribution (v.1.1, May 2018) can be found [here](http://korp.csc.fi/download/finnish-tagtools/v1.1/). This package includes `finnish-nertag`, which implements a pipeline in which FiNER is the ner-tagging stage.
 
-An dated online demo version with limited functionality is available for use [here](http://korp.csc.fi/cgi-bin/fintag/fintag.py).
+A dated online demo version with limited functionality is available for use [here](http://korp.csc.fi/cgi-bin/fintag/fintag.py).
 
-[CSC](http://csc.fi/) users can also use a pre-installed version of FiNER on the [Taito](http://research.csc.fi/taito-user-guide] supercluster and [Mylly](http://www.kielipankki.fi/tuki/mylly/).
+[CSC](http://csc.fi/) users can also use a pre-installed version of FiNER on the [Taito](http://research.csc.fi/taito-user-guide) supercluster and [Mylly](http://www.kielipankki.fi/tuki/mylly/).
 
 ## Known issues
 - FiNER may slow down considerably or get stuck altogether if the input contains several consecutive strings written in all caps. These should be converted into lowercase or split into sequences of e.g. four strings.
