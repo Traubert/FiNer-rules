@@ -2,11 +2,13 @@
 
 FiNER is a rule-based named-entity recognition tool for Finnish. It uses tools based on the CRF-based tagger [FinnPos](https://github.com/mpsilfve/FinnPos), the Finnish morphology package [OmorFi](https://github.com/flammie/omorfi), and the FinnTreeBank corpus for tokenization and morphological analysis, and a set of pattern-matching (`pmatch`) rules for recognizing and categorizing proper names and other expressions in plaintext input.
 
-Additional technical documentation is available [here](technical.md).
+The pattern-matching rules are built and compiled using the [Helsinki Finite-State Technology](https://hfst.github.io/) toolkit.
+
+Information on rule compilation and gazetteer usage can be found [here](files-readme.md). Additional technical and methodological documentation is available [here](technical.md).
 
 ## Ontology & Name hierarchy
 
-FiNER primarily identifies proper names belonging to different categories, most of which are further divided into more specific subcategories. Its name hierarchy is loosely based on that used by the Swedish Named-Entity Recognizer (SweNER) and consists of five categories for proper names (`Enamex`) – namely, locations, organizations, people, products, and events – as well as two additional categories for temporal and numerical expressions, respectively.
+FiNER primarily identifies proper names belonging to different categories, most of which are further divided into more specific subcategories. Its name hierarchy is loosely based on that used by the Swedish Named-Entity Recognizer (HFST-SweNER) and consists of five categories for proper names (`Enamex`) – namely, locations, organizations, people, products, and events – as well as two additional categories for temporal and numerical expressions, respectively.
 
 A general overview of the categories and their respective subcategories (as of September 2018) are shown in the tables below:
 
@@ -230,7 +232,7 @@ The final output consists of two tab-separated columns, the first of which conta
 
 ## Availability & Use
 
-The most recent distribution (v.1.1, May 2018) can be found [here](http://korp.csc.fi/download/finnish-tagtools/v1.1/). This package includes `finnish-nertag`, which implements a pipeline in which FiNER is the ner-tagging stage.
+The most recent distribution of `finnish-tagtools` (v.1.1, May 2018) can be found [here](http://korp.csc.fi/download/finnish-tagtools/v1.1/). This package includes `finnish-nertag`, which implements a pipeline in which FiNER is the ner-tagging stage.
 
 A dated online demo version with limited functionality is available for use [here](http://korp.csc.fi/cgi-bin/fintag/fintag.py).
 
