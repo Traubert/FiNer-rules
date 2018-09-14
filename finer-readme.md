@@ -205,7 +205,10 @@ A more detailed description of each category is given below. It should be noted 
 
 FiNER accepts **plaintext** input written in **Standard Finnish**. More precisely, the input should be
 - plaintext, (e.g. `.txt`, `.tsv`, `.csv`). XML (`.html`, `.xml`) is also allowed if the element tags only occupy a single line, e.g. using HTML-style tags to structure the text is perfectly acceptable.
-- preferably untokenized – the rules are designed for a specific tokenization where e.g. abbreviations ending in full stops are single tokens
+- preferably untokenized – the rules are designed for token-per-line input where
+  - sentences are separated by empty lines
+  - abbreviations ending in full stops are single tokens (_esim._, _mm._, _j.n.e._)
+  - numbers that use spaces as digit group separators are single tokens (_50 000_)
 - written in Standard Modern Finnish (although historical and colloquial/dialectal Finnish may also work to a limited extent)
 - preferably be running text consisting of full sentences.
 - should follow Finnish orthographic and typographic rules i.e. use proper punctuation and capitalization
