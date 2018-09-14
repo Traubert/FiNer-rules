@@ -17,7 +17,7 @@ The primary rule set. Contains the overwhelming majority of the pmatch rules use
 
 ### proper_tagger.ph2.m4
 
-The secondary rule set. Generally recognizes names in the neighbourhood of names that have already identified by the primary rules set e.g. in lists.
+The secondary rule set. Generally uses the names identified by the primary rule set to find new names in their neighborhood. Also recognizes titles that precede names tagged as `EnamexPrsHum`.
 
 ### finer_defs.m4
 
@@ -55,7 +55,7 @@ For instance, the band name _Mariska ja Pahat Sudet_ is formulated in the gazett
 
 A hash in a file name (`#`) stands for any word form that begins with a number.
 
-The resulting `m4` files can be imported into the rule sets with the function `m4_include(`filename.m4')`.y
+The resulting `m4` files can be imported into the rule sets with the function `m4_include('filename.m4')`.
 
 ### convert-m4gaz.sh
 
@@ -67,7 +67,7 @@ Lists of verbs associated with Organizations and Persons, respectively. Used pri
 
 ## Inflection rules (infl_*.txt)
 
-Regular expressions / replacement rules for inflecting names. Used by the function `inflect_sg()` to match inflected forms of foreign names.
+Regular expressions / replacement rules for generating inflected forms from names. Used by the function `inflect_sg()` to match inflected forms of foreign names.
 
 ### compile-infl.sh
 
