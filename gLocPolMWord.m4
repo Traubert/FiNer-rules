@@ -27,6 +27,7 @@ wordform_exact({Jersey}) WSep inflect_sg({City}) |
 wordform_exact({Kansas}) WSep inflect_sg({City}) |
 wordform_exact({Kap}) WSep inflect_sg({Verde}) |
 wordform_exact({Key}) WSep inflect_sg({West}) |
+wordform_exact({Kiovan}) WSep "V" lemma_exact({venäjä}) |
 wordform_exact({Las}) WSep inflect_sg({Vegas}) |
 wordform_exact({Le}) WSep inflect_sg({Havre}) |
 wordform_exact({Le}) WSep inflect_sg({Mans}) |

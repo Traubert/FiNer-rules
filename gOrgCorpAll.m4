@@ -38,7 +38,6 @@ wordform_exact({Andreessen}) WSep inflect_sg({Horowitz}) |
 wordform_exact({Android}) WSep inflect_sg({Authority}) |
 wordform_exact({Android}) WSep inflect_sg({Central}) |
 wordform_exact({Android}) WSep inflect_sg({Community}) |
-wordform_exact({Anil}) WSep wordform_exact({Ambanin}) WSep wordform_exact({Reliance}) WSep inflect_sg({Communications}) |
 wordform_exact({Anunak}) WSep inflect_sg({Group}) |
 wordform_exact({Archer}) WSep wordform_exact({Daniels}) WSep inflect_sg({Midland}) |
 wordform_exact({Arctecho}) WSep inflect_sg({OÜ}) |
@@ -381,7 +380,6 @@ wordform_exact({Mozilla}) WSep inflect_sg({Corporation}) |
 wordform_exact({Mozilla}) WSep inflect_sg({Foundation}) |
 wordform_exact({Mr}) WSep inflect_sg({Max}) |
 wordform_exact({Mt.}) WSep inflect_sg({Gox}) |
-wordform_exact({Mukesh}) WSep wordform_exact({Ambanin}) WSep wordform_exact({Reliance}) WSep wordform_exact({Jio}) WSep inflect_sg({Infocomm}) |
 wordform_exact({Multimedia}) WSep wordform_exact({Research}) WSep inflect_sg({Group}) |
 wordform_exact({NCC}) WSep inflect_sg({Roads}) |
 wordform_exact({NH}) WSep wordform_exact({Investment}) WSep wordform_exact({&}) WSep inflect_sg({Securities}) |
@@ -474,6 +472,8 @@ wordform_exact({Red}) WSep inflect_sg({Lobster}) |
 wordform_exact({Reebok-CCM}) WSep inflect_sg({Hockey}) |
 wordform_exact({Reed}) WSep inflect_sg({Elsevier}) |
 wordform_exact({Reliance}) WSep inflect_sg({Communications}) |
+wordform_exact({Reliance}) WSep inflect_sg({Communications}) |
+wordform_exact({Reliance}) WSep wordform_exact({Jio}) WSep inflect_sg({Infocomm}) |
 wordform_exact({Robert} Apostr {s}) WSep inflect_sg({Coffee}) |
 wordform_exact({Robert}) WSep inflect_sg({Bosch}) |
 wordform_exact({Robert’s}) WSep inflect_sg({Coffee}) |

@@ -45,7 +45,7 @@ python3 txt2m4.py \
 python3 txt2m4.py gProdMWord.txt gProdMWordFin.txt gProdMusic.txt gArtifact.txt > gProdMWord.m4
 python3 txt2m4.py gProdGame.txt > gProdGame.m4
 python3 txt2m4.py gProdVehicleBrand.txt > gProdVehicleBrand.m4
-#python3 txt2m4.py gProdVehicleBrand.txt > gProdVehicleBrandNom.m4
+python3 txt2m4string.py gProdVehicleBrand.txt > gProdVehicleBrandStr.m4
 python3 txt2m4.py gProdFilmTvMWord.txt gProdFilmTvMWordFin.txt > gProdFilmTvMWord.m4
 python3 txt2m4.py gProdLitFin.txt > gProdLitMWord.m4
 python3 txt2m4.py gProdDrug.txt > gProdDrug.m4

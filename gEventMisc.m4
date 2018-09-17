@@ -13,6 +13,7 @@ wordform_exact({Google}) WSep inflect_sg({I/O}) |
 wordform_exact({Hamina}) WSep inflect_sg({Tattoo}) |
 wordform_exact({Helsinki}) WSep wordform_exact({City}) WSep inflect_sg({Run}) |
 wordform_exact({Ijahis}) WSep inflect_sg({Idja}) |
+wordform_exact({International}) WSep wordform_exact({Conference}) WSep wordform_exact({on}) WSep wordform_exact({Cyber}) WSep inflect_sg({Security}) |
 wordform_exact({Irakin}) WSep lemma_exact({sota}) |
 wordform_exact({Itsenäisyyspäivän}) WSep lemma_exact({vastaanotto}) |
 wordform_exact({Kalevan}) WSep lemma_exact_morph({kisa}, {NUM=PL}) |
@@ -22,7 +23,6 @@ wordform_exact({MGP}) WSep inflect_sg({Nordic}) |
 wordform_exact({Maailman}) WSep lemma_exact({rauhankongressi}) |
 wordform_exact({Maailma}) WSep inflect_sg({kylässä}) |
 wordform_exact({Naisten}) WSep "K" lemma_exact({kymppi}) |
-wordform_exact({New}) WSep wordform_exact({Yorkin}) WSep wordform_exact({International}) WSep wordform_exact({Conference}) WSep wordform_exact({on}) WSep wordform_exact({Cyber}) WSep inflect_sg({Security}) |
 wordform_exact({Persianlahden}) WSep lemma_exact({sota}) |
 wordform_exact({Rakkautta}) WSep wordform_exact({&}) WSep inflect_sg({Anarkiaa}) |
 wordform_exact({Rakkautta}) WSep wordform_exact({ja}) WSep inflect_sg({Anarkiaa}) |

@@ -10,7 +10,9 @@
 
 m4_include(`finer_defs.m4')
 
-Define CorpOrPro [ @txt"gStatORGxPRO.txt" | @txt"gProdVehicleBrand.txt" ] ;
+Define VehicleBrand [ m4_include(`gProdVehicleBrandStr.m4') ] ;
+
+Define CorpOrPro [ @txt"gStatORGxPRO.txt" | VehicleBrand ] ;
 Define CorpOrLoc @txt"gStatLOCxORG.txt" ;
 Define LocOrPer  @txt"gStatLOCxPER.txt" ;
 
@@ -129,7 +131,6 @@ Define PersonNickname SetQuotes( (AlphaDown) CapWord ( WSep CapWord ) ) ;
 
 !------------------------------------------
 
-! P:96.49 R:44.46
 Define PersonPrefixed1
        [ Ins(PersonFirstnameNom) WSep ]*
        Ins(PersonFirstnameNom)
@@ -148,7 +149,7 @@ Define PersonPrefixed2
 
 Define PersonPrefixed3
        [ [ PersonFirstnameNom ] WSep ]+
-       [ PersonNickname ] WSep !! < Removed CapNameNom
+       [ PersonNickname ] WSep
        [ CapName - PropOrg ] ;
 
 Define PersonPrefixed4
@@ -156,7 +157,6 @@ Define PersonPrefixed4
        CapNameNom WSep
        wordform_exact( [ CapNameStr ] - [ [ {Microsoft} | {Google} | {Samsung} | {Nokia} | {Times} | {Solita} | {Digitoday} ] Field ] ) ;
 
-! P:93.44 R:80.57
 Define PersonSuffixed1
        [ [ Ins(PersonFirstnameNom) | CapMisc ] WSep ]*
        [ NameInitial WSep ]*
@@ -166,9 +166,7 @@ Define PersonSuffixed1
        ( WSep JrSr )
        NRC( WSep Dash AlphaDown ) ;
 
-! P:85.97 R:42.89
 Define PersonGazIsol
-       !NLC( WSep AlphaUp Word WSep )
        [ Ins(PersonFirstname) | Ins(PersonSurname) ]
        NRC( WSep [ Dash | AlphaUp ] AlphaDown ) ;
 
@@ -187,7 +185,6 @@ Define PersonSemtag2
        LC( NoSentBoundary )
        [ PropFirstLastNom WSep ]
        [ NameInitial WSep ]*
-       !CapName
        CapNameNom
        ( WSep [ PropFirst | PropLast ])
        NRC( WSep Dash AlphaDown ) ;
@@ -271,7 +268,6 @@ Define PersonHispanic
 
 !--------
 
-! P:99.75 R:16.25
 Define PersonTitledNom1
        LC( PersTitleNom WSep )
        [ NameInitial WSep ]*
@@ -294,7 +290,6 @@ Define PersonHyphen1
 
 !---------
 
-! P:??? R:???
 !* Rizzo[, 76, kertoo...]
 Define PersonWithAge
        ( CapMisc WSep )
@@ -307,19 +302,19 @@ Define PersonCaptured
        [ [ wordform_exact([ PerCpt ]) | PropFirstNom | PropLastNom ] WSep ]*
        [ PerCpt ] ( FinSuff ) FSep Word ;
 
-! P:100.0 R:0.22
 !* Ville Niinistö [(vihr.)]
 Define PersonWithParty
        ( CapMisc WSep )
-       CapWord
+       CapName
        RC( WSep lemma_exact(LPar) WSep PartyMemberAbbr WSep lemma_exact(RPar) ) ;
 
 Define HumanRelativeWord
        lemma_exact([ {puoliso} | {vaimo} | ({elämän}){kumppani} | {tytär} | {vauva} | {esikoinen} | 
        		     [{pojan}|{tyttären}|{siskon}|{sisaren}|{veljen}][{poika}|{tytär}|{tyttö}] |
-       		     ({iso}){isä} ({puoli}) | ({iso}){äiti} ({puoli}) | ({iso}|{pikku}){veli} ({puoli}) | ({iso}|{pikku}){sisko} ({puoli}) | {sisar} ({puoli}) | ({pikku}){serkku} | {täti} | {setä} | {eno} | {kummi} | {mumm}["i"|"o"|"u"] | {vaari} | {pa} ("a") {ppa} | {sukulainen} | {perhe}({enjäsen}) | {rakastaja}({tar}) ]) ;
+       		     ({iso}){isä} ({puoli}) | ({iso}){äiti} ({puoli}) | ({iso}|{pikku}){veli} ({puoli}) | ({iso}|{pikku}){sisko} ({puoli}) |
+		     {sisar} ({puoli}) | ({pikku}){serkku} | {täti} | {setä} | {eno} | {kummi} | {mumm}["i"|"o"|"u"] | {vaari} |
+		     {pa} ("a") {ppa} | {sukulainen} | {perhe}({enjäsen}) | {rakastaja}({tar}) ]) ;
 
-! P:100.0 R:0.09
 Define PersonIsRelative
        LC( wordform_ends(FinVowel "n") WSep ( PosAdj WSep ) HumanRelativeWord WSep )
        ( CapMisc WSep )
@@ -330,7 +325,6 @@ Define PersonHyphen2
        AlphaUp AlphaDown AlphaDown+ Dash lemma_morph( {veli} | {sisko} | {täti} | {setä} | {vaari} | {ukki} | {mumm}["i"|"o"|"u"] | {mamma} | {pappa} | {poika} | {serkku} , {NUM=SG}) ;
 
 ! "Xxx [hengästyy]"
-! P:100.0 R:4.44
 Define PersonAction1
        ( Ins(PersonFirstnameNom) WSep )
        ( [ CapNameNomNSB | PropFirstLastNom ] WSep )
@@ -338,7 +332,6 @@ Define PersonAction1
        RC( [ WSep AuxVerb ]^{0,4} WSep lemma_exact_morph(VerbPer, {VOICE=ACT}) ) ;
 
 ! "[huomauttaa] Xxx"
-! P:87.5 R:0.31
 Define PersonAction2
        LC( lemma_exact(Comma) WSep
        lemma_exact_morph(
@@ -366,12 +359,6 @@ Define PersonAction3
        [ CapNameNomNSB | AlphaUp AlphaDown PropNom ]
        RC( [ WSep AuxVerb ]^{0,4} WSep lemma_exact_morph( [ VerbPer | {sanoa} | {kertoa} | {väittää} | {kritisoida} | {pohtia} ], {VOICE=ACT}) ) ;
 
-!Define PersonAction4
-!       LC( lemma_exact({tavata} | {palkata} | {erottaa}) WSep )
-!       (CapWordNomSg WSep) CapWordGenPar ;
-!	NRC( NounGen WSep ) ;
-
-! P:100.0 R:0.22
 Define PersonWithRelative
        ( [ CapMiscFirst ] WSep )
        [ NameInitial WSep ]*
@@ -379,7 +366,6 @@ Define PersonWithRelative
        RC( WSep [ HumanRelativeWord | lemma_exact_morph({vanhempi}|{vanhemmat}, {NUM=PL}) |
        	   	  lemma_exact_morph({vanha}, {CMP=CMP} Field {NUM=PL}) ]) ;
 
-! P:??? R:???
 Define PersonWithPossession
        ( [ CapMiscFirst ] WSep )
        [ NameInitial WSep ]*
@@ -390,14 +376,12 @@ Define PersonWithPossession
 		{kuolinvuode} | {mausoleumi} | {kuolinpesä} | {työsopimus} | {työpanos} | {työsuhde} ) ) ;
 		!! NB: excluded "käsi" and "kirja" due to frequent methaphorical usage
 
-! P:100.0 R:0.13
 Define PersonWithPostposition
        ( CapMisc WSep )
        [ NameInitial WSep ]*
        [ LC( NoSentBoundary ) CapNameStr [ PropGen - PropOrg ] ]
        RC( WSep wordform_exact( {mielestä} | {seurassa} | {mukaan} )) ;
 
-! P:??? R:???
 Define PersonWithOrigins
        ( CapMisc WSep )
        ( CapMisc WSep )
@@ -466,21 +450,38 @@ Define PersHuman
 !! Animals, ?mythical beasts (see also below)
 !!----------------------------------------------------------------------
 
-!* naukua|haukkua|haukahtaa|kehrätä|murista|luimistella|naukaista|sähistä|
-!* kaakattaa|sirkuttaa|visertää|kotkottaa|kiekua| <- todellisuudessa ei toimi
+Define AnimalNameColloc1
+       [ PropFirstLastGen::0.20 | PropGen::0.60 | CapNameGenNSB::0.60 ]
+       RC( WSep AlphaDown lemma_ends( {turkki} | {pyrstö} | {häntä} | {tassu} | {käpälä} | {sorkka} | {kavio} | {kuono} | {poikanen} |
+       	   		  	      {pentu} | {haukunta} | {nau'unta} | {naukuminen} | {sarvi} | [{höyhen}|{sulka}] ({peite}) |
+				      {sulkasato} | {juoksuaika} | {pesä} | {karsina} | {viserrys} | {poikue} ) ) ;
 
-!* Heluna|Mansikki|Musti|Fifi|Asteri|Tessu|Peni|Ressu|Rekku|Turre
-!* NSB: Musti|Ystävä|Ruusu|Omena|Kielo|Kirjo|Lemmikki
+Define AnimalNameColloc2
+       [ CapMisc::0.60 | PropFirstLast::0.20 ]
+       RC( ( WSep PosAdv) [ WSep AuxVerb ( WSep PosAdv ) ]^{0,4}
+       	     WSep lemma_exact_morph( {naukua} | {ammua} | {nelistää} | {naukaista} | {haukahtaa} | {luimistella} | {vinkaista} | {kehrätä} |
+	     	  		     {murista} | {ulvahtaa} | {kiekua} | {kiekaista} | {poikia} | {varsoa}, {VOICE=ACT} ) ) ;
 
-!* Xxx:n turkki|pyrstö|tassu|käpälä|kuono|poikanen|pentu|haukunta|nau'unta|naukuminen
+Define AnimalNameGaz1
+       Ins(AlphaUp) lemma_exact_morph( DownCase( {Heluna} | {Mansikki} | {Musti} | {Fifi} | {Asteri} | {Tessu} | {Peni} | {Ressu} |
+       		      		       		 {Rekku} | {Turre} | {Muppe} ), {NUM=SG} )::0.20 ;
+
+Define AnimalNameGaz2
+       LC( NoSentBoundary )
+       Ins(AlphaUp) lemma_exact_morph( DownCase( {Musti} | {Ystävä} | {Ruusu} | {Omena} | {Kielo} | {Kirjo} | {Lemmikki} ), {NUM=SG} )::0.30 ;
+
+Define AnimalName
+       [ Ins(AnimalNameColloc1)
+       | Ins(AnimalNameColloc2)
+       | Ins(AnimalNameGaz1)
+       | Ins(AnimalNameGaz2)
+       ] EndTag(EnamexPrsAnm) ;
 
 !!----------------------------------------------------------------------
 !! <EnamexPrsMyt>:
 !! Deities, fictional and mythical beings
-!! ! May be limited to deities in the future
+!! NB: May be limited to deities and spirits in the future
 !!----------------------------------------------------------------------
-
-!* päähenkilö|sankari|sankaritar Xxx
 
 Define PersMythType [
        [ Field [ {jumala} | {jumalatar} | {kääpiö} | {hirviö} | {peikko} | {menninkäinen} | {maahinen} | {keiju} | {kääpiö} | {tonttu}
@@ -573,6 +574,7 @@ Define PersFictional
 !* Category HEAD
 Define Person
        [ Ins(PersHuman)
+       | Ins(AnimalName)
        | Ins(PersFictional)
        ] ;
 
@@ -614,7 +616,7 @@ Define LocGeneralColloc2
        			{vetäytyä} | {luota} | {luokse} | {luo} | {lähettää} | {ratsastaa} ) WSep
        ( PosAdv WSep ) )
        [ CapMisc WSep ]*
-       AlphaUp AlphaDown morphtag([{CASE=ILL}|{CASE=ELA}|{CASE=ALL}|{CASE=ABL}]) ;
+       AlphaUp AlphaDown lemma_exact_morph([ Field::0.75 | {nokia}::0.10 ], {CASE=ILL}|{CASE=ELA}|{CASE=ALL}|{CASE=ABL} ) ;
 
 Define LocGeneralColloc3
        LC( lemma_exact( {asua} | {sijaita} | {opiskella} | {piileksiä} | {piileskellä} | {varttua} | {syntyä} | {käydä} |
@@ -622,7 +624,7 @@ Define LocGeneralColloc3
 			{vierailla} | {sotatoimi} | {luona} | {maanjäristys} ) WSep
        ( PosAdv WSep ) )
        [ CapMisc WSep ]*
-       AlphaUp AlphaDown morphtag({CASE=INE}|{CASE=ADE}) ;
+       AlphaUp AlphaDown lemma_exact_morph([ Field::0.75 | {nokia}::0.10 ], {CASE=INE}|{CASE=ADE} ) ;
 
 Define LocGeneralColloc4
        LC( morphtag_semtag({CASE=GEN}, {PROP=GEO}) WSep )
@@ -631,17 +633,17 @@ Define LocGeneralColloc4
 
 !* "Agincourtissa [ vuonna 1415 ]"
 Define LocGeneralColloc5
-       AlphaUp AlphaDown morphtag({CASE=INE})
+       [ AlphaUp AlphaDown morphtag({CASE=INE})::0.75 | wordform_exact({Nokialla})::0.10 ]
        RC( ( WSep wordform_exact({vuonna}) )
        	   WSep wordform_exact( [ "1" 0To9 | {20} ] 0To9 0To9 (".") ) ) ;
 
 Define LocGeneralColloc6
-       AlphaUp AlphaDown morphtag({NUM=SG} Field {CASE=ELA})
+       AlphaUp AlphaDown lemma_exact_morph([ Field::0.75 | {nokia}::0.10 ], {NUM=SG} Field {CASE=ELA})
        RC( WSep wordform_exact( {pohjoiseen} | {etelään} | {itään} | {länteen} | {koilliseen} | {kaakkoon} | {luoteeseen} ) ) ;
 
 Define LocGeneralColloc7
        LC( lemma_exact( {pitkin} | {ympäri} | {keskellä} ) WSep )
-       AlphaUp AlphaDown morphtag({CASE=PAR}) ;
+       AlphaUp AlphaDown lemma_exact_morph([ Field::0.75 | {nokia}::0.10 ], {CASE=PAR}) ;
 
 !* TODO:
 !* [ Yyy:ssa ] Xxx:ssa
@@ -655,12 +657,12 @@ Define LocGeneral
        | Ins(LocGeneral4)::0.45
        | Ins(LocGeneralPrefixed)::0.60
        | Ins(LocGeneralColloc1)::0.50
-       | Ins(LocGeneralColloc2)::0.75
-       | Ins(LocGeneralColloc3)::0.75
+       | Ins(LocGeneralColloc2)::0.00
+       | Ins(LocGeneralColloc3)::0.00
        | Ins(LocGeneralColloc4)::0.75
-       | Ins(LocGeneralColloc5)::0.75
-       | Ins(LocGeneralColloc6)::0.75
-       | Ins(LocGeneralColloc7)::0.75
+       | Ins(LocGeneralColloc5)::0.00
+       | Ins(LocGeneralColloc6)::0.00
+       | Ins(LocGeneralColloc7)::0.00
        ] EndTag(EnamexLocPpl) ;
 
 !!----------------------------------------------------------------------
@@ -668,10 +670,8 @@ Define LocGeneral
 !!----------------------------------------------------------------------
 
 Define ClstBody
-       [ {Merkurius} | {Venus} | {Mars} | {Jupiter} | {Saturnus} | {Uranus} | {Neptunus} | {Pluto} | {Kepler} [ Dash | SS ] 0To9+ Alpha+ | {Ceres} | {Ganymede} | {Vesta} | {Maapallo} ] ;
-
-Define ClstBodyDefective
-       [ {Ceres} | {Cerekse} | {Venukse} | {Saturnukse} | {Uranukse} | {Neptunukse} | {Sedna} ] ;
+       {Merkurius} | {Venus} | {Mars} | {Jupiter} | {Saturnus} | {Uranus} | {Neptunus} | {Pluto} |
+       {Kepler} Dash 0To9+ Alpha+ | {Ceres} | {Ganymede} | {Vesta} | {Maapallo} | {Sedna} ;
 
 Define LocAst1
        UppercaseAlpha lemma_exact( DownCase( ClstBody )) ;
@@ -682,8 +682,8 @@ Define LocAst2
 
 Define LocAst3
        LC( NoSentBoundary )
-       [ UppercaseAlpha lemma_ends( Dash [ AlphaDown* {planeetta} | {tähti} | {asteroidi} | {komeetta} | {kuu} | {sumu} | {galaksi}
-       	 			    	 | {tähtisumu} ] ) ] |
+       [ UppercaseAlpha lemma_ends( Dash [ AlphaDown* {planeetta} | {tähti} | {asteroidi} | {komeetta} | {kuu} |
+       	 			    	   {sumu} | {galaksi} | {tähtisumu} ] ) ] |
        [ UppercaseAlpha lemma_ends( AlphaDown AlphaDown AlphaDown+ [ {sumu}::0.25 | {galaksi} ] ) ] ;
 
 Define LocAst4
@@ -695,14 +695,11 @@ Define LocAst4
 Define LocAst5
        wordform_exact( {13} 0To9 0To9 0To9 0To9 ) WSep CapWord ;
 
-! TBD: [X:n kuu] Y
+!TODO: [X:n kuu] Y
 
 Define LocAst6
        LC([ CapNameGen | PropGen ] WSep lemma_exact({kuu}) WSep )
        [ CapNameGen | Prop ] ;
-
-Define LocAstGaz
-       UppercaseAlpha lemma_exact_morph( {linnunrata} | {aurinkokunta} | {andromeda} | {nostopainosumu}, {NUM=SG}) ;
 
 Define LocAstGazMWord
        wf_lemma_x2( OptCap({Iso}), {karhu} ) |
@@ -716,8 +713,11 @@ Define LocAstGazMWord
        lemma_sg_x2( {hajanainen}, {kiekko} ) |
        lemma_sg_x2( {pieni}, {nostopainosumu} ) ;
 
-Define LocAstX
-       inflect_sg( ClstBodyDefective | @txt"gLocAstCelestialBody.txt" ) ;
+Define LocAstGaz1
+       UppercaseAlpha lemma_exact_morph( {linnunrata} | {aurinkokunta} | {andromeda} | {nostopainosumu}, {NUM=SG}) ;
+
+Define LocAstGaz2
+       inflect_sg( @txt"gLocAstCelestialBody.txt" | ClstBody ) ;
 
 ! Category HEAD
 Define LocAstro
@@ -727,8 +727,8 @@ Define LocAstro
        | Ins(LocAst4)::0.30
        | Ins(LocAst5)::0.30
        | Ins(LocAst6)::0.60
-       | Ins(LocAstX)::0.25
-       | Ins(LocAstGaz)::0.25
+       | Ins(LocAstGaz1)::0.25
+       | Ins(LocAstGaz2)::0.25
        | Ins(LocAstGazMWord)::0.25
        ] EndTag(EnamexLocAst) ;
 
@@ -805,7 +805,7 @@ Define LocGeoPrefixed2
        		       {Côte} | {Île}("s") | {Isla}("s") | {Ilha} | {Rio} | {Río} | {Pulau} | {Tesik} | {Val}("l") | {Grotte} | {Grotto} |
 		       {Vrh} | {Brdo} | {Vrelo} | {Izvor} | {Jabal} | {Koh} | {Ko} | {Char} | {Ostrov} | {Cape} | {Massif} | {Puy} | {Forêt} |
 		       {Quebrada} | {Cueva} | {Gran} ) WSep
-       ( "d" Word WSep ( AlphaDown+ FSep Word WSep ) )
+       ( DeLa WSep )
        [ CapName | CapMisc ] ;
 
 Define LocGeoPrefixed3
@@ -850,20 +850,20 @@ Define LocGeoNationalPark1
 Define LocGeoNationalPark2
        wordform_x2({Parc}, OptCap( {national}("e") | {naturel} )) WSep
        ( CapMisc WSep )
-       ( "d" (NoFSep) ( Word WSep ) )
+       ( DeLa WSep )
        CapName ;
 
 !* Xxxvuoret, Xxxsaaret
 Define LocGeoPluralized
        LC( NoSentBoundary ) AlphaUp AlphaDown lemma_exact( AlphaDown AlphaDown+ (Dash) [ {vuori} | {saari} ], {NUM=PL} ) ;
 
-Define gazLocGeoRegion @txt"gLocGeoRegion.txt" ;
-Define gazLocGeoIsland @txt"gLocGeoIsland.txt" ;
-Define gazLocGeoMountain @txt"gLocGeoMountain.txt" ;
-Define gazLocGeoReserve @txt"gLocGeoReserve.txt" ;
-Define gazLocGeoIslandPl @txt"gLocGeoIslandPl.txt" ;
+Define gazLocGeoRegion     @txt"gLocGeoRegion.txt" ;
+Define gazLocGeoIsland     @txt"gLocGeoIsland.txt" ;
+Define gazLocGeoMountain   @txt"gLocGeoMountain.txt" ;
+Define gazLocGeoReserve    @txt"gLocGeoReserve.txt" ;
+Define gazLocGeoIslandPl   @txt"gLocGeoIslandPl.txt" ;
 Define gazLocGeoMountainPl @txt"gLocGeoMountainPl.txt" ; 
-Define gazLocGeoHydro @txt"gLocGeoHydro.txt" ; ! NB: Excluded Amazon for the time being (-> ORG)
+Define gazLocGeoHydro 	   @txt"gLocGeoHydro.txt" ; ! NB: Excluded Amazon for the time being (-> ORG)
 
 Define LocGeoGaz1A
        Field AlphaUp lemma_exact( ( Ins(GeoPfx) Dash) DownCase([ gazLocGeoRegion | gazLocGeoIsland | gazLocGeoHydro | gazLocGeoReserve | gazLocGeoMountain ]) ) ;
@@ -875,8 +875,6 @@ Define LocGeoGaz2
        [ m4_include(`gLocGeoMWord.m4') ] ;
 
 Define LocGeoGazPl
-       !( ([ "I" | "P" ] lemma_exact_morph( {iso} | {pieni} , {NUM=PL} ) WSep wordform_exact( {ja} ) WSep ) 
-       ![ "I" | "P" ] lemma_exact_morph( {iso} | {pieni} , {NUM=PL} ) WSep )
        Field AlphaUp lemma_morph( DownCase([ gazLocGeoIslandPl | gazLocGeoMountainPl ]), {NUM=PL} ) ;
 
 Define LocGeoCaptured
@@ -914,26 +912,6 @@ Define LocGeogr
 !!----------------------------------------------------------------------
 !! <EnamexLocPpl>: Political areas
 !!----------------------------------------------------------------------
-
-!* "Länsi-Lappi", "Itä-Uusimaa", "Pohjois-Korea"
-
-Define LocPolList1         !! single PROP=GEO/LAST words are preferredly LAST, except these:
-       AlphaUp lemma_exact( Ins(GeoPfx) Dash
-       [ {suomi} |
-       	 {ruotsi} |
-	 {norja} |
-	 {tanska} |
-         {saksa} |
-	 {viro} |
-	 {israel} |
-	 {neuvostoliitto} |
-	 {korea} |
-         {turku} |
-	 {lappi} |
-	 {häme} |
-	 {uusimaa} |
-	 {uusikaupunki} ]
-	 ) ;
 
 !* "Uusimaa" : "Uudenmaan"
 Define LocPolAdjPfx
@@ -1031,19 +1009,12 @@ Define LocPolColloc1
        RC( ( WSep lemma_exact_morph([ (AlphaDown+ - [{koti}|{synnyin}|{syntymä}]) {kaupunki} | {osavaltio} | ({maalais}|{pikku}){kunta} ], {CASE=GEN}) )
        WSep ( PosAdj WSep) lemma_exact( (AlphaDown+ - [{koti}]) {kylä} | {pitäjä} | {kirkonkylä} | {kirkkokylä} | {taajama} | {lähiö} |
        	      	     	   		{pormestari} | {kuvernööri} | {kaupunginjohtaja} | {arkkipiispa} | {kaupunginvaltuutettu} |
-					{sulttaani} | {kuninga}["s"|{tar}] | {kalifi} | {asukas}({luku}|{määrä}) | {alue} | {esikaupunki} |
+					{sulttaani} | {kuninga}["s"|{tar}] | {kalifi} | {asukas} ({luku}|{määrä}) | {alue} | {esikaupunki} |
 					{ympäryskunta} | {maakunta} | {provinssi} | {lääni} | {asemakaava} | {kortteli} | {keskusta} |
 					{lähiö} | {seutu} | {maisema} | {kaupunkikulttuuri} | {lähettyvil}[{lä}|{le}|{tä}] | {katu} |
 					{puisto} | {asukas} | {konttori}::0.25 | {risteys}::0.25 | (Field {taso}|{kierto}){liittymä}::0.5 |
-					{maantie} | {pommitus} | {verilöyly} | {maanjäristys} | {kauppala} | {väestö} ) ) ;
-
-!ilmatila
-!ulkoministeri
-!kansanäänestys
-!kansalainen
-!kansalaisuus
-!sotilasjuntta
-!prinssi
+					{maantie} | {pommitus} | {verilöyly} | {maanjäristys} | {kauppala} | {väestö} | {ilmatila} |
+					{ulkoministeri} | {kansanäänestys} | {kansalainen} | {kansalaisuus} | {sotilasjuntta} | {prinssi} ) ) ;
 
 !* "Xxx:n kaupunki" (muttei: "Xxx:n kotikaupunki")
 Define LocPolColloc2
@@ -1065,8 +1036,7 @@ Define LocPolCity2
 Define LocPolColloc9A
        LC( wordform_exact( {kotoisin} | {syntyisin} ) WSep )
        [ CapMisc WSep ]*
-       !AlphaUp wordform_ends( AlphaDown [ {sta} | {stä} ] )
-       wordform_exact( CapNameStr FinVowel Capture(LocPolCpt3) [ {sta} | {stä} ] ) ;
+       wordform_exact( CapNameStr Vowel Capture(LocPolCpt3) [ {sta} | {stä} ] ) ;
 
 Define LocPolColloc9B
        [ CapMisc WSep ]*
@@ -1093,12 +1063,6 @@ Define LocPolMisc5
        LC( NoSentBoundary )
        "B" lemma_exact( {brittiläinen} ) WSep
        AlphaUp AlphaDown lemma_exact( AlphaDown AlphaDown+ (Dash) AlphaDown AlphaDown+ ) ;
-
-!Define LocPolColloc8
-!       [ UppercaseAlpha morphtag({POS=NOUN} Field {CASE=GEN}) ]
-!       WSep lemma_exact( {ja} ) WSep
-!       [ UppercaseAlpha morphtag({POS=NOUN} Field {CASE=GEN}) ]
-!       RC( ( WSep lemma_exact({välinen}) ) WSep lemma_exact( {raja} ) ) ;
 
 Define LocPolColloc3
        LC( NoSentBoundary )
@@ -1195,48 +1159,47 @@ Define LocMultiPart [
 
 !* Category HEAD
 Define LocPolit
-       [ Ins(LocPolList1)::0.250
-       | Ins(LocPolAdjPfx)::0.250
-       | Ins(LocPolComp1)::0.250
-       | Ins(LocPolComp2)::0.250
-       | Ins(LocPolComp3)::0.250
-       | Ins(LocPolSuffix1)::0.300
-       | Ins(LocPolSuffix2)::0.250
-       | Ins(LocPolSuffix3)::0.500
-       | Ins(LocPolSubdivision)::0.250
-       | Ins(LocPolSuffix5)::0.250
-       | Ins(LocPolSuffix6)::0.250
-       | Ins(LocPolSuffix7)::0.250
-       | Ins(LocPolSuffix8)::0.500
-       | Ins(LocPolPrefixed1)::0.200
-       | Ins(LocPolPrefixed2)::0.600
-       | Ins(LocPolInfixed1)::0.250
-       | Ins(LocPolInfixed2)::0.250
-       | Ins(LocPolMisc1)::0.250
-       | Ins(LocPolMisc2)::0.250
-       | Ins(LocPolMisc3)::0.400
-       | Ins(LocPolMisc4)::0.250
-       | Ins(LocPolMisc5)::0.250
-       | Ins(LocPolCity1)::0.500
-       | Ins(LocPolCity2)::0.600
-       | Ins(LocPolColloc1)::0.000
-       | Ins(LocPolColloc2)::0.000
-       | Ins(LocPolColloc3)::0.500
-       | Ins(LocPolColloc4)::0.500
-       | Ins(LocPolColloc5)::0.500
-       | Ins(LocPolColloc6)::0.500
-       | Ins(LocPolColloc7)::0.500
-       | Ins(LocPolColloc9A)::0.500
-       | Ins(LocPolColloc9B)::0.500
-       | Ins(LocPolCaptured)::0.750
-       | Ins(LocPolDisamb)::0.100
-       | Ins(LocMiscGazSgA)::0.250
-       | Ins(LocMiscGazSgB)::0.250
-       | Ins(LocMiscGazSgC)::0.250
-       | Ins(LocMiscGazPl)::0.250
-       | Ins(LocMultiPart)::0.100
-       | Ins(LocPolSuffixed)::0.750
-       | Ins(LocPolXxxinen)::0.750
+       [ Ins(LocPolAdjPfx)::0.25
+       | Ins(LocPolComp1)::0.25
+       | Ins(LocPolComp2)::0.25
+       | Ins(LocPolComp3)::0.25
+       | Ins(LocPolSuffix1)::0.30
+       | Ins(LocPolSuffix2)::0.25
+       | Ins(LocPolSuffix3)::0.50
+       | Ins(LocPolSubdivision)::0.25
+       | Ins(LocPolSuffix5)::0.25
+       | Ins(LocPolSuffix6)::0.25
+       | Ins(LocPolSuffix7)::0.25
+       | Ins(LocPolSuffix8)::0.50
+       | Ins(LocPolPrefixed1)::0.20
+       | Ins(LocPolPrefixed2)::0.60
+       | Ins(LocPolInfixed1)::0.25
+       | Ins(LocPolInfixed2)::0.25
+       | Ins(LocPolMisc1)::0.25
+       | Ins(LocPolMisc2)::0.25
+       | Ins(LocPolMisc3)::0.40
+       | Ins(LocPolMisc4)::0.25
+       | Ins(LocPolMisc5)::0.25
+       | Ins(LocPolCity1)::0.50
+       | Ins(LocPolCity2)::0.60
+       | Ins(LocPolColloc1)::0.00
+       | Ins(LocPolColloc2)::0.00
+       | Ins(LocPolColloc3)::0.50
+       | Ins(LocPolColloc4)::0.50
+       | Ins(LocPolColloc5)::0.50
+       | Ins(LocPolColloc6)::0.50
+       | Ins(LocPolColloc7)::0.50
+       | Ins(LocPolColloc9A)::0.50
+       | Ins(LocPolColloc9B)::0.50
+       | Ins(LocPolCaptured)::0.75
+       | Ins(LocPolDisamb)::0.10
+       | Ins(LocMiscGazSgA)::0.25
+       | Ins(LocMiscGazSgB)::0.25
+       | Ins(LocMiscGazSgC)::0.25
+       | Ins(LocMiscGazPl)::0.25
+       | Ins(LocMultiPart)::0.10
+       | Ins(LocPolSuffixed)::0.75
+       | Ins(LocPolXxxinen)::0.75
        ] EndTag(EnamexLocPpl) ;
 
 !!----------------------------------------------------------------------
@@ -1246,7 +1209,7 @@ Define LocPolit
 Define StreetSfxFin	[ FinVowel ("s"|"n"|"l"|"r") {tie}({ltä}|{lle}|{llä}) | {katu} | {kuja} | {polku} | {väylä} | {bulevardi}
        			| {esplanadi} | {puistikko} ] ;
 
-Define StreetSfxMisc	[ {väg} ({en}) | {gata} ("n") | {gränd} ({en}) | {stig} ({en}) | {veien} | {straat} !! Poistettu gate/gaten!
+Define StreetSfxMisc	[ {väg} ({en}) | {gata} ("n") | {gränd} ({en}) | {stig} ({en}) | {veien} | {straat} !! Removed "gate/gaten"
 			| {avenue} | {boulevard} | {bulevard}({en}) | {stra}[{ss}|"ß"]"e" | {gasse} | {uli}[{ts}|"c"]"a"
 			| {storg} | {torget} ] ;
 
@@ -1282,7 +1245,7 @@ Define LocStreet4
 		       {Jalan} | {Jl.} | {Lorong} | {Lebuh}({raya}) | {Prospekt} ) WSep
        ( NameInitial WSep )
        ( CapNameNom WSep )
-       ( wordform_exact("d" AlphaDown+ ) WSep AlphaDown+ Word WSep )
+       ( DeLa WSep )
        ( CapNameNom WSep )
        CapName ;
 
@@ -1322,13 +1285,16 @@ Define LocStreetHighway
        lemma_exact( {valtatie} | {yhdystie} ) WSep
        lemma_exact( 1To9 0To9* (".") ) ;
 
-Define LocStreetSpecial
+Define LocStreetGaz
        [ LC( NoSentBoundary ) AlphaUp lemma_exact_morph([ {esplanadi} | {bulevardi} | {kurvi} ], {NUM=SG}) ] |
        [ AlphaUp lemma_exact_morph([ {espa} | {mansku} | {freda} | {rotuaari} | {länäri} | {länsiväylä} | {turuntie} ], {NUM=SG} ) ] |
        [ inflect_sg( {Broadway} | {Cheapside} | {Champs-Élysées} | {Champs-Elysees} | {Rautatientori} | {Elielinaukio} | {Senaatintori} ) ] |
        [ wf_lemma_x3({Taivaallisen}, {rauhan}, {aukio}) ] ;
 
-!* 67th	 Street, 7th Avenue, 23rd Street
+!* 67th  Street, 7th Avenue, 23rd Street
+Define LocStreetNth
+       wordform_exact( 1To9 (0To9) [{st}|{nd}|{rd}|{th}] ) WSep
+       inflect_sg( OptCap( {street} | {avenue} ) ) ;
 
 !* Category HEAD
 Define LocStreet
@@ -1338,25 +1304,22 @@ Define LocStreet
        | Ins(LocStreetMisc2)::0.75
        | Ins(LocStreetMisc3)::0.75
        | Ins(LocStreetHighway)::0.50
-       | Ins(LocStreetSpecial)::0.25
+       | Ins(LocStreetNth)::0.25
+       | Ins(LocStreetGaz)::0.25
        ] EndTag(EnamexLocStr) ;
 
 !!----------------------------------------------------------------------
 !! <EnamexLocFnc>: Buildings, infrastructure, facilities, real estate/property
 !!----------------------------------------------------------------------
 
-!! kirkko, kappeli, tuomiokirkko, katedraali, basilika, moskeija, synagoga, temppeli
-
 Define LocReligiousType
-       {kirkko}::0.20 | {kappeli} | [{tuomio}|{puu}|{kivi}|{paanu}|{sauva}|{suur}] {kirkko} | {katedraali} | {basilika} | {moskeija} | {synagoga} | {temppeli} | {luostari} ;
+       {kirkko}::0.20 | {kappeli} | [{tuomio}|{puu}|{kivi}|{paanu}|{sauva}|{suur}] {kirkko} | {katedraali} | {basilika} |
+       {moskeija} | {synagoga} | {temppeli} | {luostari} ;
 
 Define LocStructType
        {pato} | {kaivos} | {linna} | {kartano} | {linnoitus} | {linnake} | {palatsi} | {muuri} | {aukio} | {torni} | {majakka} |
-       {stadion} | {areena} | {riemukaari} | {paviljonki} | {tunneli} | {allas} | [ [ Dash | Vowel "n" | [ FinVowel - Apostr ] ("s"|"l"|"r") ] {silta} ] ;
-
-!! Pietarinkirkko, Johanneksen kirkko
-!! Johanneksen kirkko
-!! Pyhän Henrikin katedraali
+       {stadion} | {areena} | {riemukaari} | {paviljonki} | {tunneli} | {allas} | [ [ Dash | Vowel "n" |
+       [ FinVowel - Apostr ] ("s"|"l"|"r") ] {silta} ] ;
 
 Define LocPlaceOfWorship1A
        LC( NoSentBoundary )
@@ -1413,7 +1376,7 @@ Define LocPlaceHyphen
        lemma_ends({niminen}) WSep
        lemma_morph( Ins(LocStructType) | Ins(LocReligiousType) | {talo} | {huone} | {sali} | {halli} | {linna} | {kiinteistö} ) ;
 
-!* Golden Gate -silta
+!* TODO: Golden Gate -silta
 
 !* Mannilan tila RN:o 17:15
 Define LocPlaceProperty1
@@ -1441,7 +1404,7 @@ Define LocPlaceProperty5
 
 Define LocPlaceMisc5
        [ CapMisc WSep ]*
-       [ [ CapNameGenNSB | PropGeoGen ] - PropOrgGen ] EndTag(EnamexLocPpl2) WSep
+       [ [ CapNameGenNSB::0.60 | PropGeoGen ] - PropOrg ] EndTag(EnamexLocPpl2) WSep
        lemma_morph(
             {lentokenttä} |
 	    {lentoasema} |
@@ -1492,9 +1455,9 @@ Define LocPlaceMisc7
        [ CapNameNSB | CapMisc | [ AlphaUp 1To9] AbbrNom::0.50 ] WSep
        inflect_sg( {Hotel} | {Park} | {Station} | {Garden} | {Castle} | {Abbey} | {Palace} | {Square} | {Stadium} | {Cathedral} |
        		   {Church}::0.25 | {Stadion} | {House}::0.25 | {Temple} | {Arena} | {Areena} | {Hall} | {Studio} | {Place} | {Plaza} |
-		   {Ranch} | {Center}::0.25 | {Zoo} | {Speedway} | {Cemetery} | {Statehouse} | {Bridge} | {Kerk} | {Dom} |
-		   {Memorial} | {Monument} | {Capitol} | {Tower}("s") | {Arch} | {Gate} | {Circuit} | {Aquarium} | {Münster} | OptCap( {most} |
-		   {Shrine} | {Fountain} | {Lodge} | {Zamok} ) ) ;
+		   {Ranch} | {Center}::0.25 | {Zoo} | {Speedway} | {Cemetery} | {Statehouse} | {Bridge} | {Kerk} | {Dom} | {Minster} |
+		   {Memorial} | {Monument} | {Capitol} | {Tower}("s") | {Arch} | {Gate} | {Circuit} | {Aquarium} | {Münster} |
+		   OptCap({most}) | {Shrine} | {Fountain} | {Lodge} | {Zamok} ) ;
 
 Define LocPlaceMisc8
        inflect_sg( AlphaUp AlphaDown+ [ {stugan} | {huset} | {gården} | {parken} ] ) ;
@@ -1520,7 +1483,7 @@ Define LocPlacePrefixed2
        [ wordform_x2( {Notre}|{Nôtre}, {Dame} )
        | wordform_x2( {Santa}, {Maria}|{María}|{Cruz} )
        | wordform_x2( {San}|{São}, AlphaUp AlphaDown+ ) ] WSep
-       [ "d" Field ( Word WSep ( "l" Word WSep ) ) CapName | wordform_exact( "M" AlphaDown+ ) ]  ;
+       [ [ DeLa | AndOfThe ] WSep CapName | wordform_exact( "M" AlphaDown+ ) ] ;
 
 Define LocPlacePrisonCamp
        AlphaUp lemma_ends( {vankileiri} ) WSep
@@ -1669,8 +1632,8 @@ Define AthleticOrgPrefixed3
 Define AthleticOrgSuffixed1
        [ PropGeoGen | lemma_exact( {imatra}, {NUM=SG} Field {CASE=GEN} ) ] EndTag(EnamexLocPpl2) WSep
        ( wordform_exact({Työväen}) WSep )
-       AlphaUp lemma_exact( [ {pallo}|{luistin}|{hiihto}|{urheilu}|{jalkapallo}] ( SS ) [{seura}|{kerho}|{klubi}] | {dynamo}
-        	            | {pallo} ( SS ) {kerho} | [{pallo}|{jää} ({kiekko})] ( SS ) {klubi} |
+       AlphaUp lemma_exact( [ {pallo}|{luistin}|{hiihto}|{urheilu}|{jalkapallo}] ( Dash ) [{seura}|{kerho}|{klubi}] | {dynamo}
+        	            | {pallo} ( Dash ) {kerho} | [{pallo}|{jää} ({kiekko})] ( Dash ) {klubi} |
 			      Field {veikko} | NoFSep* {toveri} | Field {poika} | {urheilija} |
 			      Field {palloilija} | {pallo} | {kiekko} | {maila} | {kuula} |
 		                    {aura} | {tappara} | {lukko}({on}) | {haka} | {hanka} | Field {volley} |
@@ -1828,7 +1791,6 @@ Define CultGroupSuffixed2
        DashExt lemma_ends( {orkesteri} | {yhtye} | {kuoro} | {bändi} | {duo} | {soittokunta} | [{tanssi}|{teatteri}|{baletti}][{ryhmä}|{seurue}] | {kollektiivi} | {sirkus}({ryhmä}) ) ;
 
 Define CultGroupSuffixed3A
-       !LC( NoSentBoundary )
        [ [ AlphaUp Field ] - Cap( {rap} | Field (Dash) {rock} | Field {pop} | {jazz} | {eurodance} | {ambient} | {house} | {studio} |
        	   	   	     	  {radio} | {punk} | {hiphop} | {hip-hop} ) ] Capture(CltCpt1) Dash AlphaDown Field FSep Field [ {orkesteri} |
 				  {soittokunta} | {yhtye} | {kuoro} | {bändi} | {duo} ] FSep Word ;
@@ -2044,8 +2006,6 @@ Define SchoolName4
        ( ( WSep wordform_exact({and}) ) WSep CapWord ) )
        ( WSep DashExt AlphaDown Ins(SchoolType) ) ;
 
-!* TBD: École / Gimnazija Xxx Xxx
-
 Define SchoolPrefixed
        wordform_exact( {École} | {Université} | {Università} | {Universidad} | {Lycée} | {Gimnasio} | {Gimnazija} | {Accademia} ) WSep
        ( CapMisc WSep )
@@ -2167,7 +2127,6 @@ Define OrgFinBank9
        {OKO} lemma_exact({oko}) ;
 
 !* Category HEAD
-! P:100.0 R:0.23
 Define FinancOrg
        [ Ins(OrgFinStockMarket)::0.25
        | Ins(OrgFinBank)::0.25
@@ -2189,16 +2148,14 @@ Define FinancOrg
 Define MediaTypeStr
        [ [ Field [ {lehti}("ä") | {blogi} | {julkaisu} | {lehtitalo} | {uutis}[{toimisto}|{palvelu}|{portaali}] | {yleisradio}({yhtiö})
        	 | {verkkomedia} | {kanava} ] ]
-	 - [ {väli} (SS) {lehti} | {jakelu} (SS) {kanava} | {uudelleen} (SS) {julkaisu} | {murtautumis} (SS) {kanava} ] ] ;
+	 - [ {välilehti} | {jakelukanava} | {uudelleenjulkaisu} | {murtautumiskanava} ] ] ;
 
 Define MediaType lemma_exact(MediaTypeStr) ;
 
 ! "Forbes-lehti"
-! P:97.37 R:0.41
 Define MediaSuffixed1
        [[ AlphaUp Field ] - [ {Youtube} | {YouTube} | {Chrome} ]] Dash Ins(MediaType) ;
 
-!* P:100.0 R:0.24
 !* "Aamulehti", "Helsingin Seutu"
 Define MediaSuffixed2
        LC( NoSentBoundary )
@@ -2215,7 +2172,6 @@ Define MediaSuffixed4
        		   	   	 	 {zeitung} | {spiegel} | {bladid} | {blaðið} ) ) ;
 
 !* "Fanni & Kaneli -ruokablogi", "Days of Old -lehti", "Rise of the Phoenix -blogi"
-!* P:97.73 R:0.47
 Define MediaSuffixed5
        [ CapMisc WSep ]*
        [ CapWord WSep [ AndOfThe WSep ]+ ( CapWord WSep ) ]*
@@ -2230,7 +2186,6 @@ Define MediaSuffixed6
        DashExt Ins(MediaType) ;
 
 ! "Wall Street Journal", "The New York Times", "Morning Herald -sanomalehti"
-! P:96.23 R:2.53
 Define MediaSuffixed7
        ( wordform_exact({The}) WSep [ CapWord WSep ]* )
        [ CapMisc WSep ]*
@@ -2246,13 +2201,11 @@ Define MediaSuffixed7
 	( WSep Dash Ins(MediaType) ) ;
 
 ! "Taloussanomat", "Ilta-Sanomat"
-! P:100.0 R:0.15
 Define MediaSuffixedPl1
        LC( NoSentBoundary )
        AlphaUp lemma_morph( AlphaDown+ (Dash) [ {sanoma} ("t") | {uuti} ({nen}|{set}) ], {NUM=PL} ) ;
 
 ! "Turun Sanomat", "Helsingin Uutiset", "Kansan Uutiset"
-! P:100.0 R:0.09
 Define MediaSuffixedPl2
        [ PropGeoGen EndTag(EnamexLocPpl2) | CapWordGen::0.05 ] WSep
        AlphaUp lemma_morph( {sanoma} ("t") | {uuti} ({nen}|{set}), {NUM=PL} ) ;
@@ -2271,7 +2224,6 @@ Define MediaPrefixed1
        wordform_exact({Radio}) WSep CapWord ;
 
 !* "Journal of Blah Blah Innovation Management"
-! P:100.0 R:0.03
 Define MediaPrefixed2
        [ CapMisc WSep ]*
        wordform_exact( {Journal} | {News} ) WSep wordform_exact({of})
@@ -2285,7 +2237,7 @@ Define MediaPrefixed3
 		       {Periódico} | {Periodico} | {Voz} | {Correo} | {Diari} | {Opinión} | {Diário} | {Correio} | {Jornal} |
 		       {Slobodna} | {Glas} | {Dnevni} | {Večernji} | {Vetšerni} ("j") | {Monde} | {Mundo} | {Dagbladet} | {Bladet} |
 		       {Ziarul} | {Monitorul} | {Gazeta} | {Noticias} | {Radiotelevisione} ) WSep
-       ( "d" Word ( WSep "l" Word) WSep )
+       ( DeLa WSep )
        CapName ;
 
 Define MediaChannel
@@ -2306,13 +2258,11 @@ Define gazMediaMWordNoCongr OptQuotes([
        m4_include(`gOrgMedia.m4')
        ]) ;
 
-! P:100.0 R:3.42
 Define MediaMWord
        [ Ins(gazMediaMWordNoCongr) | Ins(gazMediaMWordCongr) ]
        ( WSep Dash [ Ins(MediaType) | lemma_exact( (Dash)  AlphaDown* [ {sivusto} | {yhtiö} ]) ] ) ;
        
 ! [talouslehti] Forbes
-! P:95.59 R:0.95
 Define MediaWithType
        LC( lemma_exact_morph(MediaTypeStr, {[NUM=SG][CASE=NOM]}) WSep )
        [ CapMisc WSep ]*
@@ -2578,7 +2528,6 @@ Define CorpHyphen1C
        AlphaUp Field Dash AlphaUp lemma_ends( Dash [ {yhtymä} | {yhtiö} ]) ;
 
 ! Xxx Xxx -sijoitusyhtiö
-! P:87.5 R:0.15
 Define CorpHyphen2A
        [ ( PropOrgNom WSep )
        ( CapWord WSep AndOfThe WSep ( CapWord WSep ))
@@ -2612,7 +2561,6 @@ Define CorpSuffixedInc
        inflect_sg( {Inc} ( "." | {orporated} ) ) ;
 
 ! "DPD Finland", "Erich Krause Finland", "Brenntag Nordic", "Pool Media International" 
-! P:100.0 R:0.08
 Define CorpSuffixedMisc
        [[ CapMisc | AlphaUp [ AbbrNom | PunctWord ]] WSep ]+
        inflect_sg( {Finland} | {Sweden} | {Europe} | {France} | {International} | {Worldwide} | {Global} | {Nordic} | {Scandinavia} |
@@ -2631,17 +2579,17 @@ Define CorpSuffixedSuomi2
 Define CorpPrefixedMisc
        wordform_exact( {Café} | {Hotel} | {Caffe} | {Brasserie} | {Buregdžinica} | {Ćevabdžinica} | {Cafe} | {Bar} |
        		       {Bistro} | {Pub} | {Pizzeria} | {Restaurant} | {Ristorante} ) WSep
-       ( wordform_exact( OptCap( "d" [ NoFSep ]^{1,4} ) ) WSep )
+       ( OptCap(DeLa) WSep )
        ( CapMisc WSep )
        CapName ;
 
 Define CorpAffixedMisc
-     [ Ins(CorpSuffixedMisc) | Ins(CorpSuffixedSuomi1) | Ins(CorpSuffixedSuomi2) | Ins(CorpPrefixedMisc) | Ins(CorpSuffixedAndCo) | Ins(CorpSuffixedInc) ] ;
+     [ Ins(CorpSuffixedMisc) | Ins(CorpSuffixedSuomi1) | Ins(CorpSuffixedSuomi2) |
+       Ins(CorpPrefixedMisc) | Ins(CorpSuffixedAndCo) | Ins(CorpSuffixedInc) ] ;
 
 !-----------------------------------------------------------------------
 
 ! "[ohjelmistojätti] Foofoo"
-! P:97.1 R:2.66
 Define CorpPfxAttribute
        LC( wordform_ends( [ {yhtiö}
 	   		  | {yritys}
@@ -2660,7 +2608,6 @@ Define CorpPfxAttribute
        CapWord ;
 
 !  "Xxxx:n [markkinaosuus]"
-! P:96.67 R:0.32
 Define CorpWithEconomy
        [ CapMisc WSep ]*
        [ [ AlphaUp morphtag({[POS=NOUN]}Field{[NUM=SG][CASE=GEN]}) ] - [ lemma_ends( {vuosi} | {firma} | {yksikkö} | {hetkinen} | {euro} | {dollari} | {neljännes} | {kuu} | {jakso} | {laite} | {yhtiö} | {yritys} | {miljardi} | {miljoona} ) ] ]
@@ -2685,7 +2632,6 @@ Define CorpWithXxx
        ] ;
 
 ! Dillidillin [ lanseeraa / julkisti / on irtisanonut / ... ]
-! P:86.96 R:0.44
 Define OrgColloc1
        [ [ [ CapNounNomNSB::0.50 | CapForeign::0.50 | AbbrBase | PropOrg ] - PropFirst ] WSep ]*
        [ [ CapNounNomNSB::0.50 | CapForeign::0.50 | PropOrg ] - [ PropLast | PropFirst | PropGeo ] ]
@@ -2752,7 +2698,6 @@ Define PolitParty1C
 
 ! "Viskipuolue", "Piraattipuolue", "Oliivipuukoalitio"
 Define PolitParty1D
-       !LC( NoSentBoundary )
        AlphaUp [ lemma_morph( AlphaDown [ (Dash) {puolue} | {koalitio} ], {NUM=SG} )
        - lemma_ends( [{hallitus}|{oppositio}|{valta}|{sisar}|{veljes}|{populisti}]{puolue} ) ];
 
@@ -2775,9 +2720,9 @@ Define PolitParty2C
 
 ! "Vihreä liitto", "
 Define PolitParty2B
-       AlphaUp ( wordform_exact( {Suomen} ) EndTag(EnamexLocPpl2) WSep )  !! yleisemmin: valtio-GEN
+       AlphaUp ( lemma_exact_morph( DownCase(CountryName), {CASE=GEN}) EndTag(EnamexLocPpl2) WSep )
        lemma_exact( {vihreä} | {kirjava} ) WSep
-       lemma_exact( {puolue} | {liitto} | {koalitio} ) ;   !! "liitto" seems to go with CorpPrefixed2
+       lemma_exact( {puolue} | {liitto} | {koalitio} ) ;
 
 ! "ruotsidemokraatit", "demarit", "?Ruotsin vihreät" (muttei: "Ruotsin vihreät niityt")
 Define PolitParty3A
@@ -2837,7 +2782,7 @@ Define PolitSuffixedWB
 
 Define PolitPrefixed
        wordform_exact( {Alleanza} | {Alianza} | {Partia} | {Partido} | {Stranka} | {Democratici} | {Frente} ) WSep
-       ( "d" Word WSep )
+       ( DeLa WSep )
        CapName ;
 
 Define PolitWithAttribute
@@ -3004,7 +2949,6 @@ Define OrgYouth
 !-----------------------------------------------------------------------
 
 ! "Itä-Suomen hovioikeus", "Helsingin raastuvanoikeus"
-! P:100.0 R:0.08
 Define OrgJurid1
        [ PropGeoGen | CapNameGenNSB ] EndTag(EnamexLocPpl2) WSep
        ( lemma_morph({piiri}, {CASE=GEN}) WSep )
@@ -3016,7 +2960,6 @@ Define OrgJurid2
        [ lemma_ends( {tuomioistuin} ) | ["H"|"M"|"K"|"R"] "O" lemma_exact( [ {ho} | {mo} | {ko} | {ro} ] (".") ) ] ;
        
 ! "Ranskan korkein oikeus"
-! P:87.5 R:0.08
 Define OrgJurid3
        [ CapNounGen | USpl ] EndTag(EnamexLocPpl2) WSep
        "k" lemma_exact({korkea}|{korkein}|{korkee}) WSep lemma_exact(({hallinto-}){oikeus}) ;
@@ -3073,7 +3016,6 @@ Define OrgMunicipality
 !-----------------------------------------------------------------------
 
 ! "Federal Bureau of Investigation", "National Highway Traffic Safety Administration"
-! P:78.57 R:0.24
 Define OrgAgencySuffixed
        ( wordform_exact( {US} | {American} | {British} | {Finnish} | {National} | {Federal} | {International} | {Global} ) WSep
        ( CapWord WSep ) ( CapWord WSep ) )
@@ -3113,7 +3055,6 @@ Define OrgAgencyFin
        lemma_morph( AlphaDown [ {komitea} | {komissio} | {instituutti} | {virasto} | {viranomainen} | {ministeriö} |
        		    	      	{neuvosto} | {iedustelupalvelu} | {urvallisuuspalvelu} ], {NUM=SG}) ;
 
-! P:97.78 R:3.4
 Define OrgAgencyGaz
        lemma_exact(DownCase(@txt"gOrgGovernm.txt")) ;
 
@@ -3140,22 +3081,22 @@ Define OrgMiscTypeStr
 	 {järjestö} | {liike} | {pelitalo} | {ryhmä} | {aivoriihi} | {liiga} | {kopla} | {divisioona} | {tiimi} | {säätiö} | {yhteisö} |
 	 {yksikkö} | {operaattori} | {jengi} | {ajatuspaja} | {järjestö} | {organisaatio} | {laboratorio} ] ;
 
-Define OrgMiscSemtag
-       !( PropGeoGen EndTag(EnamexLocPpl2 WSep )
+Define OrgMiscSemtag1
        [ LC( NoSentBoundary ) PropOrg ] ;
 
-Define OrgMiscIsolated
+Define OrgMiscSemtag2
        LC( WSep [ ? - AlphaUp ] Word WSep )
-       !( PropGeoGen EndTag(EnamexLocPpl2) WSep )
        PropOrg
        RC( WSep [ ? - [ AlphaUp | Dash ] ]) ;
+
+Define OrgMiscSemtag3
+       Field " " Field PropOrg ;
 
 !* "The Pretenders"
 Define OrgMiscGuessed1
        wordform_exact({The}) WSep ( CapMisc WSep ) UppercaseAlpha wordform_ends({ers}) ;
 
 !* "XXXX XXXX -hakkeriryhmä"
-! P:88.46 R:0.25
 Define OrgMiscHyphen1
        ( wordform_exact({The}) WSep ( CapWord WSep ) ( CapWord WSep ) )
        [ CapMisc WSep ]*
@@ -3353,8 +3294,8 @@ Define OrgDynastyClan1
        CapNameStr lemma_morph( Dash [ {dynastia} | {klaani} ], {NUM=SG}) ;
 
 Define OrgDynastyClan2
-       [ PropGen | CapNameGenNSB ] EndTag(EnamexPrsHum) WSep
-       CapNameStr lemma_ends( Dash [ {dynastia} | {klaani} ], {NUM=SG}) ;
+       [ PropGen | CapNameGenNSB ] EndTag(EnamexPrsHum2) WSep
+       lemma_exact( [ {dynastia} | {klaani} ], {NUM=SG}) ;
 
 Define OrgWhiteHouseExt
        "V" lemma_exact_morph({valkoinen}, {NUM=SG} Field {CASE=}[{ALL}|{ADE}|{ABL}|{PAR}]) WSep
@@ -3407,7 +3348,6 @@ Define MunicipalityNom
 
 
 !* Facebook [syyttää/uhkailee/arvostelee]
-! P:90.0 R:0.99
 Define OrgDisamb6
        [ wordform_exact( Ins(CorpOrPro) | Ins(CorpOrLoc) ) | Ins(MunicipalityNom) | Ins(PropOrgNom) | Ins(WhiteHouseNom) ]
        RC( (WSep PosAdv) [ WSep AuxVerb ( WSep PosAdv ) ]^{0,4} WSep lemma_exact_morph( VerbOrg , {VOICE=ACT} ) ) ;
@@ -3421,7 +3361,7 @@ Define OrgDisamb8
        RC( WSep morphtag( {PROP=} [{FIRST}|{LAST}] ) ) ;
 
 Define OrgDefault
-       inflect_sg( @txt"gStatORG.txt" | @txt"gProdVehicleBrand.txt" ) ;
+       inflect_sg( @txt"gStatORG.txt" | VehicleBrand ) ;
 
 Define OrgMiscGaz [ m4_include(`gOrgMiscAll.m4') ] ;
 
@@ -3435,8 +3375,9 @@ Define MiscOrg
        | Ins(OrgMunicipality)
        | Ins(OrgAgency)
        | Ins(OrgMiscOrderOf)::0.50
-       | Ins(OrgMiscSemtag)::0.50
-       | Ins(OrgMiscIsolated)::0.75
+       | Ins(OrgMiscSemtag1)::0.50
+       | Ins(OrgMiscSemtag2)::0.75
+       | Ins(OrgMiscSemtag3)::0.30
        | Ins(OrgMiscGuessed1)::0.40
        | Ins(OrgMiscGuessed2)::0.50
        | Ins(OrgMiscHyphen1)::0.50
@@ -3633,8 +3574,6 @@ Define ProFilmTV
 !* Books & Literature
 !------------------------------------------------------------------------
 
-!TODO: Vanha/Uusi Testamentti
-
 Define LitType [[ ( AlphaDown Field ) [ {kirja}({sarja}) | {elämäkerta} | {teos} | {romaani}({sarja}) | {novelli} | {dekkari}({sarja}) | 
       	       [{runo}|{novelli}|{essee}]{kokoelma} | {essee} | {runo} | {sarjakuva} | {sarjis} | {manga} | {jännäri} | {trilleri} |
 	       {näytelmä} | {ooppera} | {klassikko} ] ]
@@ -3737,7 +3676,7 @@ Define ProArtwork
 ! - space shuttles
 !------------------------------------------------------------------------
 
-Define VehicleBrandNom [ m4_include(`gProdVehicleBrandNom.m4') ] ;
+Define VehicleBrandNom wordform_exact(VehicleBrand) ;
 Define VehicleType lemma_ends( @txt"gProdVehicleType.txt" ) ;
 
 Define ProVehicleSuffixed1
@@ -3767,15 +3706,18 @@ Define ProVehicleMisc1
        inflect_sg( @txt"gProdVehicleModel.txt" ) ;
 
 Define ProVehicleBrandPl
-       inflect_pl( {Tesla} | {Toyota} | {Opel} | {Volvo} | {BMW} | {Volkswagen} | {Audi} | {Fiat} ) ;
+       inflect_pl( VehicleBrand ) ;
 
 !TODO: ajaa Teslaa/Teslalla, tankata/virittää/huoltaa/pestä/katsastaa
-!TODO: Xxx:n (etu)?penkki/istuin/moottori/tuulilasi/ratti/konepelti/pakoputki/takakontti/verhoilu/rengas/vaihteisto/
-!      	     ohjattavuus/ohjaustuntuma/käyntiääni/tankkaaminen/tankkaus/takalasi/sivupeili/poljin/kytkin/bensamittari/?mittari/
-!	     ?ohjeki!rja/kuljettaja/?kuski/kyyti/kyydissä/kyytiin/kyydistä/(bensa)tankki/takaveto/takavalo/vaihdelaatikko/
-!	     varoitusvalo/merkkivalo/runko/keula/huoltaminen/vuosihuolto/katsastus/?vilkku/?purku/?purkaminen
-!	     ?ikkuna/?ovet/?kori/?katto/?raato/?ohjaamo
-	     
+
+Define ProVehicleColloc1
+       [ PropGen::0.40 | CapNameGenNSB::0.60 | infl_sg_gen(VehicleBrand)::0.10 ] 
+       RC( WSep lemma_exact( [{taka}|{etu}|{nahka}]{penkki} | {istuin} | {moottori} | {tuulilasi} | {ratti} | {konepelti} | {pakoputki} |
+       	   		     {takakontti} | {verhoilu} | {rengas} | {vaihteisto} | {ohjattavuus} | {ohjaustuntuma} | {käyntiääni} |
+			     {tankkaaminen} | {tankkaus} | {takalasi} | {sivupeili} | {poljin} | {kytkin} | {kojelauta} | {bensamittari} |
+			     {mittari} | {ohjekirja} | {kuljettaja} | {kuski} | {kyyti} | {kyydissä} | {kyytiin} | {kyydistä} |
+			     {bensatankki} | {polttoainetankki} | {takaveto} | {takavalo} | {vaihdelaatikko} | {varoitusvalo} |
+			     {merkkivalo} | {runko} | {keula} | {huoltaminen} | {vuosihuolto} | {katsastus} | {vilkku} | {ohjaamo} ) ) ;
 
 ! "USS Enterprise", "HMS Victory", "USCGC Eagle (WIX-327)", "MS Allure of the Seas"
 Define ProVehicleShipNameA
@@ -3797,6 +3739,7 @@ Define ProVehicle
        [ Ins(ProVehicleSuffixed1)::0.25
        | Ins(ProVehicleSuffixed2)::0.25
        | Ins(ProVehicleSuffixed3)::0.25
+       | Ins(ProVehicleColloc1)::0.00
        | OptQuotes(Ins(ProVehiclePrefixed1)::0.60)
        | OptQuotes(Ins(ProVehicleMisc1)::0.30)
        | OptQuotes(Ins(ProVehicleShipNameA)::0.25)
@@ -4053,8 +3996,6 @@ Define ProAgreement
 !------------------------------------------------------------------------
 
 !* "Xxx-sovellus"
-!* P:94.14 R:12.59
-
 Define ProMiscSuffixed1A
        [ Alpha Field | 0To9 ] [ 0To9 | AlphaUp ] Field Capture(ProCptD) Dash Ins(ProType) ;
 
@@ -4077,7 +4018,6 @@ Define ProMiscSuffixed1D
 !       AlphaUp Field Dash Ins(ProType) ;
 
 !* "Xxx 999 -sovellus"
-!* P:88.38 R:8.69
 Define ProMiscSuffixed2
        [ Alpha* [ CapMisc | AcrNom ] WSep ]*
        ( Alpha* [ AlphaUp | 0To9 ] Word WSep )
@@ -4085,7 +4025,6 @@ Define ProMiscSuffixed2
        DashExt Ins(ProType) ;
 
 !* "The X of the Y -kirja"
-! P:95.0 R:0.43
 Define ProMiscSuffixed3A
        ( wordform_exact({The}) WSep ( CapWord WSep ) ( CapWord WSep ) )
        [ CapMisc WSep ]*
@@ -4114,7 +4053,6 @@ Define ProMiscSuffixed3D
        NotConj WSep )
        DashExt Ins(ProType) ;
 
-! P:89.21 R:8.89
 Define ProMiscSuffixed4A
        ( [ Alpha* [ CapMisc | AcrNom ] WSep ]+
        	 NumNom WSep )
@@ -4145,7 +4083,6 @@ Define ProMiscSuffixed
 Define ProPfx [ wordform_exact( Ins(ProMfac) ) EndTag(EnamexOrgCrp2) | wordform_exact( Ins(CorpOrPro) | Ins(ProSeries) | Ins(ProOS) | Ins(ProBrowser) ) ] ;
 
 ! "Xxx Reader", "Samsung Xxx Pro"
-! P:92.42 R:7.37
 Define ProMiscOther1A
        Ins(ProPfx) WSep
        [ [ Alpha | 0To9 ]* [ CapNameNom | CapNum ] WSep ]*
@@ -4164,7 +4101,6 @@ Define ProMiscOther1B
        ( WSep DashExt Ins(ProType) ) ;
 
 ! "Xxx 4 Yyy:ssä"
-! P:88.24 R:12.1
 Define ProMiscOther2A
        ( Alpha* CapMisc WSep )
        Ins(ProPfx)
@@ -4182,7 +4118,6 @@ Define ProMiscOther2B
        WSep [ Alpha* 0To9 Word | VersionSeq ]
        ( WSep DashExt Ins(ProType) ) ;
 
-!* P:79.71 R:21.82
 Define ProMiscOther3
        [ Alpha* [ CapMisc | AcrNom ] WSep ]*
        Ins(ProPfx)
@@ -4191,7 +4126,6 @@ Define ProMiscOther3
        ( WSep DashExt Ins(ProType) ) ;
 
 !* Xxx Development Kit
-!* P:83.33 R:0.11
 Define ProMiscOther4
        [ Alpha* CapMisc WSep ]+
        [ wordform_exact({App}) WSep inflect_sg({Store}) |
@@ -4216,7 +4150,6 @@ Define ModelString
        [ AlphaUp | 0To9 ]* [ AlphaUp 0To9 | 0To9 AlphaUp ] [ AlphaUp | 0To9 ]*
        ( Dash [ AlphaUp | 0To9 ]+ ) ;
 
-! P:88.41 R:1.37
 Define ProMiscModel1A
        [ Alpha* [ CapMisc | AcrNom ] WSep ]+
        ( wordform_exact( ModelString ) WSep )
@@ -4229,7 +4162,6 @@ Define ProMiscModel1B
        ( wordform_exact( ModelString ) WSep )
        inflect_sg( ModelString ) ;
 
-! P:84.62 R:0.25
 Define ProMiscVersion1
        [ Alpha* [ CapMisc | AcrNom ] WSep ]*
        [ Alpha* [ CapNameGenNSB | AlphaUp PropGen | CapForeign ] ] WSep
@@ -4246,7 +4178,6 @@ Define ProMiscVersion3
        [ Alpha* [ CapMisc | AcrNom ] WSep ]*
        lemma_exact({versio}) WSep Ins(VersionSeqX) ;
 
-! P:86.32 R:4.1
 Define ProMiscOther5
        LC( WSep [ Field - [ Field AlphaUp Field ] ] FSep Word WSep )
        inflect_sg( Alpha* ProSuff )
@@ -4314,8 +4245,8 @@ Define ProDisamb6
 Define ProCapture
        [ ProCpt01 | ProCpt02 | ProCpt03
        | ProCpt04 | ProCpt06 | ProCptV01 | ProCptV02
-       | ProCptA | ProCptB | ProCptC | ProCptD
-       | ProCptE | ProCptF | ProCptG ] FinSuff FSep Word ;
+       | ProCptA  | ProCptB  | ProCptC   | ProCptD
+       | ProCptE  | ProCptF  | ProCptG ] FinSuff FSep Word ;
 
 Define ProCollocSg
        [ CapMisc WSep ( NumWord WSep ) ]*
@@ -4390,7 +4321,6 @@ Define gazProdMWordNoCongr [
        m4_include(`gProdMWord.m4')
        ] ;
 
-!* P:89.2 R:14.99
 Define ProMiscMultiWord
        OptQuotes( Ins(gazProdMWordNoCongr)
        [ WSep [ CapMisc | CapNum | AcrNom ] ]*
@@ -4398,7 +4328,7 @@ Define ProMiscMultiWord
        ( WSep DashExt Ins(ProType) ) ;
 
 Define ProMiscPl
-       inflect_pl( ProSeries | @txt"gProdVehicleModel.txt" | @txt"gProdVehicleBrand.txt" | {Xperia} | {Nokia} | {Lumia} | {Tesla} ) ;
+       inflect_pl( ProSeries | @txt"gProdVehicleModel.txt" | {Xperia} | {Nokia} | {Lumia} | {Tesla} ) ;
 
 Define ProDefault
        inflect_sg( @txt"gStatPRO.txt" ) ;
@@ -4468,7 +4398,7 @@ Define EvtConflict2
 
 !* "Falklandin sota", "Isänmaallinen sota"
 Define EvtConflict3
-       [ ( AlphaUp PropGeoGen EndTag(EnamexLocPpl2) WSep wordform_exact(Dash) WSep )
+       [ ( AlphaUp PropGeoGen WSep wordform_exact(Dash) WSep )
 	 AlphaUp PropGeoGen EndTag(EnamexLocPpl2) | [ LC( NoSentBoundary ) AlphaUp PosAdj ] ] WSep
        lemma_exact_morph({sota}, {NUM=SG})
        NRC( WSep Word ( WSep Word ) ( WSep Word ) WSep wordform_exact( {vastaan} ) ) ;
@@ -4522,7 +4452,6 @@ Define EvtSocial1
 
 !* "Weekend-festivaali"
 Define EvtSocial2
-       ![ [ LC( NoSentBoundary ) AlphaUp | PropGeoGen WSep AlphaUp ] Ins(EvtType) ] |
        [ LC( NoSentBoundary ) AlphaUp Ins(EvtType) ] |
        [ AlphaUp Field Dash Ins(EvtType) ] ;
 
@@ -4545,6 +4474,7 @@ Define EvtSocial3C
        	     		  	     | {festivaali} | {festari}
        	     		  	     | {tanssi} | {kisa} | {markkina} ] ("t"), {NUM=PL} ) ;
 
+!* "Tuomaan markkinat", "Xxx:n keskiaikaiset markkinat"
 Define EvtSocial3D
        [ [ AlphaUp PropFirstGen | wordform_exact( {Tuomaan} | {Heikin} ) ]
        | [ PropGeoGen WSep lemma_exact_morph({keskiaikainen}, {NUM=PL}) ] ] WSep
@@ -4711,7 +4641,7 @@ Define MonthAbbr OptCap( MonthPfx {k.} ) ;
 Define MonthName OptCap( MonthPfx {kuu} ) ;
 Define DayStr DayNum ( ( "." ) Dash DayNum ) "." ;
 Define Day [ wordform_exact( DayStr ) | PosNumOrd ] ;
-Define MonthRange OptCap( MonthPfx (?) [ SS | Dash ] (?) MonthPfx "k"["."|{uu}] ) ;
+Define MonthRange OptCap( MonthPfx Dash MonthPfx "k"["."|{uu}] ) ;
 Define Paiva [ {päivä} | {p.} | {pvä} (".") | {pnä} (".") | "p" ] ;
 Define Era wordform_exact( {jaa.} | {eaa}(".") | ["j"|"e"]["k"|"K"] "r" (".") | {AD} ) ; 
 
@@ -5149,18 +5079,18 @@ Define ExceptKorko
        EndTag(Exc001) ;
 
 Define ExceptJosKun
-       LC( [ # | ".#." WSep | SentencePunct WSep | OrdinalWord WSep ] )
+       LC( SentBoundary | OrdinalWord WSep )
        wordform_exact( [{Jos} | {Sen} | {Liian} |{Mutta} | {Jotta} | {Kun} | {Toki} | {Joissakin} | {Myös} | {Heistä} | {Vaikka} |
        {Jopa} | {Jo} | {Luin}] ({pa}|{kin}) | {But} | {Perin} | {Perillä} | {Periltä} | {Perille} )
        EndTag(Exc002) ;
 
 Define ExceptCommonNounPersName1
-       LC( [ # | ".#." WSep | SentencePunct WSep | OrdinalWord WSep ] )
+       LC( SentBoundary | OrdinalWord WSep )
        wordform_ends( [ {Aina} ({kin}) | {Lunasta} | {Meri} | {Ainoa} | {Mai}[{ssa}|{hin}|{sta}|{lle}|{lta}] | {Halpa} | {Alun} | {Jo} | {Alla} | {Ole}("n") | {Onne} ? | {Rauha} | {Toivo} | {Lintu} | {Alan} | {Portin} | {Hiljaa} | {Vappu} | {Anna}("n"|"t"|{mme}|{tte}) ] ({pa}|{kin}|{han}|{kaan}) | {Aku}["n"|{ssa}|{sta}] )
        EndTag(Exc003) ;
 
 Define ExceptCommonNounPersName2
-       LC( [ # | ".#." WSep | SentencePunct WSep | OrdinalWord WSep ] )
+       LC( SentBoundary | OrdinalWord WSep )
        lemma_exact(
 		{aina} ({kin}) | {alla} | {antaa} | {hiljaa} | {aarre} | {meri} | {saari} | {hoikka} | {levy} | {rannikko} | {tuuli} | {siru} | {voitto} | {taisto} | {arvo} |
 		{myrsky} | {syksy} | {rauha} | {toivo}("a") | {jolla} | {lintu} | {lumi} | {vanha} | {lima} | {mäki} | {kallio} | {linna} | {eli} | {elää} | {aamu} |
@@ -5173,7 +5103,7 @@ Define ExceptCommonNounPersName2
        EndTag(Exc003A) ;
 
 Define ExceptMiesPoika
-       LC( [ # | ".#." WSep | SentencePunct WSep | OrdinalWord WSep ] )
+       LC( SentBoundary | OrdinalWord WSep )
        lemma_exact( {mies} | {he} | {liika} |{pian} | {lista} | {avain} | {joki} | {kohta} | {avata} | {se} | {senkin} | {olla} | {ainoa} | {poika} | {monet} | {moni} | {muu} | {jokin} | {jotta} | {ainakin} | {vanha} | {laina} | {ryhmä} | {jatkettu} | {linkki} | {internet} | {hakkeri} | {ainakaan} | {talo} | {tuleva} | {harva} | {tietty} | {miljoon}("a") | {oma} | {viisi} | {korke}("e") | {jakaa} | {metropoli} | {imago} | {varhaisteini} )
        EndTag(Exc004) ;
 
@@ -5193,9 +5123,9 @@ Define ExceptLanguage1
 
 Define ExceptLanguage2
        lemma_exact_morph( Ins(LangOrLoc), {[NUM=SG][CASE=PAR]})
-       RC( [ WSep AuxVerb ]^{0,4} WSep lemma_exact_morph( {puhua} | {kirjoittaa} | {lukea} | {käyttää} | {lausua} | {ääntää} |
-       	     	  	  	  		     {opettaa} | {opiskella} | {harjoitella} ))
-       						     EndTag(Exc004) ;
+       RC( [ WSep AuxVerb ]^{0,4}
+       	     WSep lemma_exact_morph( {puhua} | {kirjoittaa} | {lukea} | {käyttää} | {lausua} | {ääntää} |
+       	     	  	  	     {opettaa} | {opiskella} | {harjoitella} )) EndTag(Exc004) ;
 
 Define ExceptLanguage3
        LowercaseAlpha lemma_exact_morph( Ins(LangOrLoc) )
@@ -5205,7 +5135,7 @@ Define ExceptNotTurkey
        wordform_exact( {Turkin} ) WSep
        lemma_exact( {hoito} | {hoitaminen} | {laatu} | {kiilto} | {väri} | {harjaus} | {harjaaminen} | {hiha} | {kunto} |
        		    {pituus} | {leikkaaminen} | {hoitaa} | {pesu} | {harjata} | {kasvu} | {trimmaus} | {väritys} | {hilseily}
-		    {paksuus} | {likaisuus} | {kampaaminen} | {leikkuu} | {värjääminen} ) ;
+		    {paksuus} | {likaisuus} | {kampaaminen} | {leikkuu} | {värjääminen} ) EndTag(Exc004) ;
 
 !----------------
 

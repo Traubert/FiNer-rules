@@ -30,10 +30,12 @@ m4_include(`finer_defs.m4')
 !Define ProStartTag Word FSep "<" Alpha* {Pro} Alpha* ">" WSep ;
 !Define LocStartTag Word FSep "<" Alpha* {Loc} Alpha* ">" WSep ;
 
+! These rule take input with additional fields and field separataors,
+! which must be accounted when marking word boundaries.
 Define FWSep
        FSep* WSep ;
 
-Define Enclose(S)
+Define MakeTag(S)
        Word FSep "<" ("/") S ("/") ">" ;
 
 Define CompleteList1(Tag)
@@ -53,26 +55,26 @@ Define CompleteList(Tag)
        [ CompleteList1(Tag) | CompleteList2(Tag) | CompleteList3(Tag) ] ;
 
 
-Define PrsHumTag Enclose({EnamexPrsHum}) ;
-Define PrsMytTag Enclose({EnamexPrsMyt}) ;
+Define PrsHumTag MakeTag({EnamexPrsHum}) ;
+Define PrsMytTag MakeTag({EnamexPrsMyt}) ;
 
-Define LocGplTag Enclose({EnamexLocGpl}) ;
-Define LocPplTag Enclose({EnamexLocPpl}) ;
-Define LocFncTag Enclose({EnamexLocFnc}) ;
-Define LocAstTag Enclose({EnamexLocAst}) ;
-Define LocMytTag Enclose({EnamexLocMyt}) ;
+Define LocGplTag MakeTag({EnamexLocGpl}) ;
+Define LocPplTag MakeTag({EnamexLocPpl}) ;
+Define LocFncTag MakeTag({EnamexLocFnc}) ;
+Define LocAstTag MakeTag({EnamexLocAst}) ;
+Define LocMytTag MakeTag({EnamexLocMyt}) ;
 
-Define OrgCrpTag Enclose({EnamexOrgCrp}) ;
-Define OrgAthTag Enclose({EnamexOrgAth}) ;
-Define OrgPltTag Enclose({EnamexOrgPlt}) ;
-Define OrgFinTag Enclose({EnamexOrgFin}) ;
-Define OrgEduTag Enclose({EnamexOrgEdu}) ;
+Define OrgCrpTag MakeTag({EnamexOrgCrp}) ;
+Define OrgAthTag MakeTag({EnamexOrgAth}) ;
+Define OrgPltTag MakeTag({EnamexOrgPlt}) ;
+Define OrgFinTag MakeTag({EnamexOrgFin}) ;
+Define OrgEduTag MakeTag({EnamexOrgEdu}) ;
 
-Define PrsTag Enclose({EnamexPrs} Alpha*) ;
-Define LocTag Enclose({EnamexLoc} Alpha*) ;
-Define OrgTag Enclose({EnamexOrg} Alpha*) ;
-Define EvtTag Enclose({EnamexEvt} Alpha*) ;
-Define ProTag Enclose({EnamexPro} Alpha*) ;
+Define PrsTag MakeTag({EnamexPrs} Alpha*) ;
+Define LocTag MakeTag({EnamexLoc} Alpha*) ;
+Define OrgTag MakeTag({EnamexOrg} Alpha*) ;
+Define EvtTag MakeTag({EnamexEvt} Alpha*) ;
+Define ProTag MakeTag({EnamexPro} Alpha*) ;
 
 Define CompleteListPrsHum CompleteList(PrsHumTag) EndTag(EnamexPrsHum) ;
 Define CompleteListPrsMyt CompleteList(PrsMytTag) EndTag(EnamexPrsMyt) ;
@@ -159,13 +161,13 @@ Define TitleAdj
 Define PersTitle1
        ( TitleAdj FWSep )
        ( TruncPfx FWSep wordform_exact({ja}) FWSep )
-       lemma_exact_morph( PersTitleStr, Field - [ Field [{CASE=ESS}|{CASE=TRA}] Field ]) ;
+       lemma_exact_morph( PersTitleStr, [ Field {NUM=SG} Field ] - [ Field [{CASE=ESS}|{CASE=TRA}] Field ]) ;
 
 Define PersTitle2
        ( wordform_ends( AlphaDown+ [ {iikan} | {sofian} | {logian} | {tieteen} | {emian} | {tutkimuksen} | {nomian} ] ) FWSep wordform_exact({ja}) FWSep )
        ( TruncPfx FWSep wordform_exact({ja}) FWSep )
        wordform_ends( AlphaDown+ [ {iikan} | {sofian} | {logian} | {tieteen} | {emian} | {tutkimuksen} | {nomian} ] ) FWSep
-       lemma_exact_morph( {opiskelija} | {kandidaatti} | {maisteri} | {dosentti} | {tohtori} | {professori}, Field - [ Field [{CASE=ESS}|{CASE=TRA}] Field ]) ;
+       lemma_exact_morph( {opiskelija} | {kandidaatti} | {maisteri} | {dosentti} | {tohtori} | {professori}, [ Field {NUM=SG} Field ] - [ Field [{CASE=ESS}|{CASE=TRA}] Field ]) ;
 
 Define PersTitle3
        [ wordform_exact(OptCap({hallituksen}|{johtoryhmän})) FWSep lemma_exact({puheenjohtaja}) ] |

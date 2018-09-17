@@ -4,6 +4,7 @@ wordform_exact({Aston}) WSep inflect_sg({Martin}) |
 wordform_exact({BMW}) WSep inflect_sg({Alpina}) |
 wordform_exact({Beijing}) WSep inflect_sg({Jeep}) |
 wordform_exact({De}) WSep inflect_sg({Tomaso}) |
+wordform_exact({Fiat}) WSep inflect_sg({Chrysler}) |
 wordform_exact({Land}) WSep inflect_sg({Rover}) |
 wordform_exact({Range}) WSep inflect_sg({Rover}) |
 wordform_exact({Rolls}) WSep inflect_sg({Royce})

@@ -13,84 +13,95 @@ set need-separators off
 !==== Auxiliary definitions
 !======================================================================
 
-! Word separator
+! Word separator and field delimiters
+
 Define WSep "\n" ;
 Define NoWSep [ ? - WSep ] ;
 Define Word NoWSep+ ;
-Define WordBoundary [ WSep | # ];
-! Field (word feature) separator
 Define FSep "\t" ;
 Define NoFSep [ ? - [ WSep | FSep ] ] ;
 Define Field NoFSep* ;
-! Lemma variant separator (not needed when lemma disambiguator is in use)
-Define VarSep ", " ;
 
-Define AlphaUp   [ UppercaseAlpha | "Ă"|"Ắ"|"Ặ"|"Ẫ"|"Ã"|"Ȧ"|"Ā"|"Ć"|"Ĉ"|"Č"|"Ď"|"Đ"|"Ɖ"|"Ĕ"|"Ě"|"Ề"|"Ệ"|"Ė"|"Ę"|"Ē"|"Ğ"|"Ĝ"|"Ǧ"|"Ĥ"|"Ȟ"|"Ħ"|"Ĭ"|"Ī"|"I"|"Ǩ"|"Ł"|"Ń"|"Ŋ"|"Ŏ"|"Ộ"|"Ő"|"Ȯ"|"Ǫ"|"Ō"|"Ợ"|"Œ"|"Ř"|"Ŕ"|"Ś"|"Š"|"Ş"|"Ṣ"|"Ť"|"Ŧ"|"Ț"|"Ŭ"|"Ů"|"Ű"|"Ū"|"Ụ"|"Ữ"|"Ŵ"|"Ẏ"|"Ȳ"|"Ź"|"Ž"|"Ż"|"Ʒ"|"Ǯ"|"Ə" ] ;
+!======================================================================
 
-Define AlphaDown [ LowercaseAlpha | "ă"|"ắ"|"ặ"|"ẫ"|"ã"|"ȧ"|"ā"|"ć"|"ĉ"|"č"|"ď"|"đ"|"ɖ"|"ĕ"|"ě"|"ề"|"ệ"|"ė"|"ę"|"ē"|"ğ"|"ĝ"|"ǧ"|"ĥ"|"ȟ"|"ḥ"|"ħ"|"ĭ"|"ī"|"ı"|"ǰ"|"ǩ"|"ł"|"ń"|"ŋ"|"ŏ"|"ộ"|"ő"|"ȯ"|"ǫ"|"ō"|"ợ"|"ơ"|"œ"|"ř"|"ś"|"š"|"ş"|"ṣ"|"ť"|"ŧ"|"ț"|"ŭ"|"ů"|"ű"|"ū"|"ụ"|"ữ"|"ư"|"ŵ"|"ẙ"|"ẏ"|"ȳ"|"ỳ"|"ź"|"ž"|"ż"|"ʒ"|"ǯ"|"ə" ] ;
+! Alphabetic characters not covered by built-in Alpha sets
+
+Define AlphaUp
+       [ UppercaseAlpha | "Ă"|"Ắ"|"Ặ"|"Ẫ"|"Ã"|"Ȧ"|"Ā"|"Ć"|"Ĉ"|"Č"|"Ď"|"Đ"|"Ɖ"|"Ĕ"|"Ě"|"Ề"|"Ệ"|"Ė"|"Ę"|"Ē"|
+       	 		  "Ğ"|"Ĝ"|"Ǧ"|"Ĥ"|"Ȟ"|"Ħ"|"Ĭ"|"Ī"|"I"|"Ǩ"|"Ł"|"Ń"|"Ŋ"|"Ŏ"|"Ộ"|"Ő"|"Ȯ"|"Ǫ"|"Ō"|"Ợ"|
+			  "Œ"|"Ř"|"Ŕ"|"Ś"|"Š"|"Ş"|"Ṣ"|"Ť"|"Ŧ"|"Ț"|"Ŭ"|"Ů"|"Ű"|"Ū"|"Ụ"|"Ữ"|"Ŵ"|"Ẏ"|"Ȳ"|"Ź"|
+			  "Ž"|"Ż"|"Ʒ"|"Ǯ"|"Ə" ] ;
+
+Define AlphaDown
+       [ LowercaseAlpha | "ă"|"ắ"|"ặ"|"ẫ"|"ã"|"ȧ"|"ā"|"ć"|"ĉ"|"č"|"ď"|"đ"|"ɖ"|"ĕ"|"ě"|"ề"|"ệ"|"ė"|"ę"|"ē"|
+       	 		  "ğ"|"ĝ"|"ǧ"|"ĥ"|"ȟ"|"ḥ"|"ħ"|"ĭ"|"ī"|"ı"|"ǰ"|"ǩ"|"ł"|"ń"|"ŋ"|"ŏ"|"ộ"|"ő"|"ȯ"|"ǫ"|"ō"|"ợ"|"ơ"|
+			  "œ"|"ř"|"ś"|"š"|"ş"|"ṣ"|"ť"|"ŧ"|"ț"|"ŭ"|"ů"|"ű"|"ū"|"ụ"|"ữ"|"ư"|"ŵ"|"ẙ"|"ẏ"|"ȳ"|"ỳ"|"ź"|
+			  "ž"|"ż"|"ʒ"|"ǯ"|"ə" ] ;
+
+!======================================================================
+
+! Puncutation & Misc
 
 Define Comma "," ;
 Define LPar  "(" ;
 Define RPar  ")" ;
 Define LBrac "[" ;
 Define RBrac "]" ;
+
 Define Apostr      [ "'" | "´" | "’" | "ʻ" | "ʿ" ] ;
 Define DoubleQuote [ "\x22" | "”" | "“" | "„" | "»" | "«" ] ;
 Define Quote       [ Apostr | DoubleQuote ] ;
-Define Dash [ "-" ("-") | "–" | "—" | "—" | "−" ] ;
-Define SS "#" ;
+Define Dash 	   [ "-" ("-") | "–" | "—" | "—" | "−" ] ;
 
 Define 1To9 [ "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ] ;
 Define 0To9 [ "0" | 1To9 ] ;
 
 Define ParagraphTag [ {<p>} | {</p>} | {<p/>} ] ;
 
-Define SentBoundary [ # | ".#." ( WSep [ Quote | Dash ] FSep Word ) | [ WSep [ "." | "!" | "?" ] FSep Word ] ] ;
+!======================================================================
+
+! Sentence and word boundaries
+
+Define WordBoundary [ WSep | # ] ;
+Define SentBoundary [ [ ".#." ( WSep [ Quote | Dash ] FSep Word ) WSep ] |
+		      [ WSep [ "." | "!" | "?" | ParagraphTag ] FSep Word WSep ] |
+		      # ] ;
+
 Define NoSentBoundary WordBoundary [ [ [ AlphaUp | AlphaDown | Comma | 0To9 | LPar | RPar | "&" | "@" ] Word ] -
-       		      		   [ [ 0To9 (0To9) (0To9) "." | ParagraphTag ] FSep Word ] ] WSep ;
+                                   [ [ 0To9 (0To9) (0To9) "." | ParagraphTag ] FSep Word ] ] WSep ;
 
-!-----
-
-!Define these for lemma_cheat -> improves recall for foreign names
-!NB: these definitions are not exhaustive nor waterproof!
-!
+!======================================================================
 
 Define FinVowel   [ "a" | "e" | "i" | "o" | "u" | "y" | "ä" | "ö" | Apostr ] ;
-Define Vowel 	  [ FinVowel | "á" | "é" | "í" | "ó" | "ú" | "ā" | "ē" | "ī" | "ō" | "ū" ] ;
-!Define FinPhoneme [ "p" | "t" | "k" | "s" | "n" | "m" | "l" | "j" | "h" | FinVowel ] ;
-Define SuffSep ( "'" | "’" | ":" | "i" ) ;
-Define Clitic ( {han} | {hän} | {kin} | {kaan} | {kään} ) ;
+Define Vowel 	  [ "á" | "é" | "í" | "ó" | "ú" | "ā" | "ē" | "ī" | "ō" | "ū" | FinVowel ] ;
+Define SuffSep 	  ( "'" | "’" | ":" | "i" ) ;
 
-Define NomSuff ( SuffSep Ins(Clitic) ) ;
-Define GenSuff SuffSep "n" ( Ins(Clitic) ) ;
-Define ParSuff SuffSep ("t")["ä"|"a"] ( Ins(Clitic) ) ;
+Define Clitic 	  ( {han} | {hän} | {kin} | {kaan} | {kään} ) ;
+
+Define NomSuff 	  ( SuffSep Ins(Clitic) ) ;
+Define GenSuff 	  SuffSep "n" ( Ins(Clitic) ) ;
+Define ParSuff 	  SuffSep ("t")["ä"|"a"] ( Ins(Clitic) ) ;
 Define LocIntSuff SuffSep [ {iin} | ("h") FinVowel "n" | "s"["s"|"t"]["a"|"ä"] ] ( Ins(Clitic) ) ;
 Define LocExtSuff SuffSep [ "l"["l"|"t"]["a"|"ä"] | {lle} ] ( Ins(Clitic) ) ;
-!Define MiscSuff [ {ksi} | {kse} ] ( Ins(Clitic) ) ;
 
-!Define FinSuff [ NomSuff | GenSuff | ParSuff | LocIntSuff | LocExtSuff | MiscSuff ] ; 
 Define FinSuff ( SuffSep [ Ins(Clitic) | [ ( "n" | (["t"|{st}|{ss}|{lt}|{ll}])["ä"|"a"] | {lle} | {iin} | ("h") FinVowel "n" | {ks}["e"|"i"] | {na} | {nä} ) ] ( Ins(Clitic) ) ] ) ;
 
-!-----
+!======================================================================
 
 
 
-!------------------------------
-Define plural(W) [ Field FSep [W] FSep Field [{NUM=PL} ] Field FSep Field FSep ] ;
-Define lemma_exact_sg(W) [ Field FSep [W] FSep Field [{NUM=SG} ] Field FSep Field FSep ] ;
-Define lemma_exact_pl(W) [ Field FSep [W] FSep Field [{NUM=PL} ] Field FSep Field FSep ] ;
+!======================================================================
 
-Define CaseSfx [ "n" | {sta} | {stä} | {ssa} | {ssä} | {lta} | {ltä} | {lla} | {llä} | {lle} | {ksi} | {na} | {nä} ] ;
-
-!------------------------------
-! Name inflector
-! (intended for foreign names)
-!------------------------------
+!======================================================================
+! Name inflector for foreign names
+!----------------------------------------------------------------------
 
 Define Stem0 @bin"infl_stem0.hfst" ; ! Nominative stem
 Define Stem1 @bin"infl_stem1.hfst" ; ! Genitive stem
 Define Stem2 @bin"infl_stem2.hfst" ; ! Partitive stem
 Define Stem3 @bin"infl_stem3.hfst" ; ! Inessive plural stem
+
+Define CaseSfx [ "n" | {sta} | {stä} | {ssa} | {ssä} | {lta} | {ltä} | {lla} | {llä} | {lle} | {ksi} | {na} | {nä} ] ;
 
 Define infl_sg_nom(W) [ [[ W .o. Stem0 ].l Ins(Clitic) | W ] FSep Field FSep Field FSep Field FSep ] ;
 Define infl_sg_gen(W) [ [[ W .o. Stem1 ].l "n" Ins(Clitic) ] FSep Field FSep Field FSep Field FSep ] ;
@@ -108,7 +119,10 @@ Define inflect_pl(W)  [ [[ W .o. Stem1 ].l "t" Ins(Clitic) ] FSep Field FSep Fie
        		      [ [[ W .o. Stem3 ].l [ CaseSfx | {hin} ] Ins(Clitic) ] FSep Field FSep Field FSep Field FSep ] |
 		      [ [[ W .o. [ @bin"infl_pl_gen.hfst" | @bin"infl_pl_par.hfst" ] ].l Ins(Clitic) ] FSep Field FSep Field FSep Field FSep ] ;
 
-!------------------------------
+!======================================================================
+
+Define lemma_exact_sg(W) [ Field FSep [W] FSep Field [{NUM=SG} ] Field FSep Field FSep ] ;
+Define lemma_exact_pl(W) [ Field FSep [W] FSep Field [{NUM=PL} ] Field FSep Field FSep ] ;
 
 Define wordform_x2(W1, W2)	[ [W1] FSep Field FSep Field FSep Field FSep ] WSep [ [W2] FSep Field FSep Field FSep Field FSep ] ;
 Define wordform_x3(W1, W2, W3) 	[ [W1] FSep Field FSep Field FSep Field FSep ] WSep	[ [W2] FSep Field FSep Field FSep Field FSep ] WSep [ [W3] FSep Field FSep Field FSep Field FSep ] ;
@@ -118,22 +132,23 @@ Define wf_lemma_x2(W1, W2) 	[ [W1] FSep Field FSep Field FSep Field FSep ] WSep 
 Define wf_lemma_x3(W1, W2, W3) 	[ [W1] FSep Field FSep Field FSep Field FSep ] WSep [ [W2] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [W3] FSep Field FSep Field FSep ] ;
 Define lemma_sg_x2(W1, W2)	lemma_exact_sg(W1) WSep lemma_exact_sg(W2) ;
 
-!------------------------------
+!======================================================================
 ! General lemma/wordform types
+!-----------------------------------------------------------------------
 
 Define Slash [ ["/"] FSep Field FSep Field FSep Field FSep ] ;
 
 Define LowerWord [ [AlphaDown Field ] FSep Field FSep Field FSep Field FSep ] ;
-
 Define CapWord [ [Ins(AlphaUp) Field ] FSep Field FSep Field FSep Field FSep ] ;
 Define CapWordPart AlphaUp Word ;
 Define CapWordNSB LC( NoSentBoundary ) AlphaUp Word ;
 
 Define AndOfTheStr [ {for} | {by} | {of} | {the} | {and} | "&" | {to} | {with} | {against} | {at} | {in} | {de} | {för} | {vid} | {och}
        		   | {i} | {till} | {für} | {degli} | {della} | {delle} | {und} | {an} | {no} | {et} | {dei} | {di} | {des}
-		   | {la} | {y} | {e} | {est} | {non} | {pas} | {el} | {av} | ( "d" Apostr ) {un}("e") ] ;
+		   | {la} | {y} | {e} | {est} | {non} | {pas} | {el} | {av} | {os} | {as} | ( "d" Apostr ) {un}("e") ] ;
 
 Define AndOfThe [ [AndOfTheStr ] FSep Field FSep Field FSep Field FSep ] ;
+Define DeLa 	[ ["d" ( Apostr ) AlphaDown* ] FSep Field FSep Field FSep Field FSep ] ( WSep [ [Apostr] FSep Field FSep Field FSep Field FSep ] ) ( WSep LowerWord ) ;
 
 Define NumWord [ Field [0To9 Field ] FSep Field FSep Field FSep Field FSep ] ;
 Define CapNum [ Field [[ Ins(AlphaUp) | 0To9 ] ] FSep Field FSep Field FSep Field FSep ] ;
@@ -144,8 +159,7 @@ Define NumRoman ("X") ("X") [ ("V") "I" ("I")("I") | ("I") ["V"|"X"] ] ;
 Define CamelCase AlphaUp AlphaDown+ AlphaUp Field ;
 Define WebDomain Alpha+ LowercaseAlpha+ "." [ LowercaseAlpha ]^{2,3} ;
 
-Define SPunct [ "." | "?" | "!" | ":" | Dash | Quote | ParagraphTag ] ;
-Define SentencePunct [ Field FSep [SPunct ] FSep Field FSep Field FSep ] ;
+!======================================================================
 
 Define SetQuotes(W)
        [ [ [Apostr] FSep Field FSep Field FSep Field FSep ] WSep W WSep [ [Apostr] FSep Field FSep Field FSep Field FSep ] ] |
@@ -162,12 +176,6 @@ Define OptItalics(W)
 
 Define InQuotes
        SetQuotes( [ AlphaUp | 0To9 Field Alpha ] Word [ WSep [ ? - Quote ] Word ]* ) ;
-
-!Define FSTR1
-!       [ "C" | "Q" | "W" | "X" | "Z" | "Å" | "Ø" ] AlphaDown^{1,7} ;
-
-!Define FSTR2
-!       Ins(AlphaUp) AlphaDown^{0,6} [ "c" | "q" | "w" | "x" | "z" | "å" | "ø" ] AlphaDown^{0,6} ;
 
 Define ADashA
        Field [
@@ -188,8 +196,8 @@ Define AdjPcp [ {ADJECTIVE} | {PCP=} ] ;
 
 Define PosAdv [ Field FSep Field FSep Field [[{POS=ADVERB}|{POS=PARTICLE}]] Field FSep Field FSep ] ;
 Define PosAdj [ Field FSep Field FSep Field [AdjPcp] Field FSep Field FSep ] ;    !! adjectives + adjectival verb forms recognized from comparation tag
-Define PosAdjNom [ Field FSep Field FSep Field [{POS=ADJECTIVE} Field {CASE=NOM}] Field FSep Field FSep ] ;
-Define PosAdjGen [ Field FSep Field FSep Field [{POS=ADJECTIVE} Field {CASE=GEN}] Field FSep Field FSep ] ;
+Define PosAdjNom [ Field FSep Field FSep Field [AdjPcp Field {CASE=NOM}] Field FSep Field FSep ] ;
+Define PosAdjGen [ Field FSep Field FSep Field [AdjPcp Field {CASE=GEN}] Field FSep Field FSep ] ;
 
 Define PosNum [ Field FSep Field FSep Field [{POS=NUMERAL}] Field FSep Field FSep ] ;
 Define PosNumCard [ [ Field FSep Field FSep Field [{[POS=NUMERAL][SUBCAT=CARD]}] Field FSep Field FSep ] | [ Field FSep Field FSep [{[POS=NUMERAL]} ({NUM=} Field) ] FSep Field FSep ] ] ;
@@ -199,32 +207,11 @@ Define NumNom [ [0To9+ [ " " 0To9 0To9 0To9 ]* ] FSep Field FSep Field FSep Fiel
 Define CaseNom [ Field FSep Field FSep Field [{CASE=NOM}] Field FSep Field FSep ] ;
 Define CaseGen [ Field FSep Field FSep Field [{CASE=GEN}] Field FSep Field FSep ] ;
 Define CasePar [ Field FSep Field FSep Field [{CASE=PAR}] Field FSep Field FSep ] ;
-!Define CaseEss [ Field FSep Field FSep Field [{CASE=ESS}] Field FSep Field FSep ] ;
-!Define CaseNomGen [ Field FSep Field FSep Field [{CASE=}[{NOM}|{GEN}]] Field FSep Field FSep ] ;
-!Define CaseGenSg [ Field FSep Field FSep Field [{NUM=SG][CASE=GEN}] Field FSep Field FSep ] ;
 
 Define PosNoun [ Field FSep Field FSep Field [{POS=NOUN}] Field FSep Field FSep ] ;
 Define NounNom [ Field FSep Field FSep Field [{POS=NOUN} Field {CASE=NOM}] Field FSep Field FSep ] ;
 Define NounGen [ Field FSep Field FSep Field [{POS=NOUN} Field {CASE=GEN}] Field FSep Field FSep ] ;
 Define NounGenPl [ Field FSep Field FSep Field [{POS=NOUN} Field {NUM=SG} Field {CASE=GEN}] Field FSep Field FSep ] ;
-Define AdjNom [ Field FSep Field FSep Field [AdjPcp Field {CASE=NOM}] Field FSep Field FSep ] ;
-Define AdjGen [ Field FSep Field FSep Field [AdjPcp Field {CASE=GEN}] Field FSep Field FSep ] ;
-!Define AdjParPl [ Field FSep Field FSep Field [AdjPcp Field {[NUM=PL][CASE=PAR]}] Field FSep Field FSep ] ;
-!Define NumAdjGen [ Field FSep Field FSep Field [[{NUMERAL} | AdjPcp] Field {CASE=GEN}] Field FSep Field FSep ] ;
-!Define PronAdjEss [ Field FSep Field FSep Field [[{PRONOUN} | AdjPcp] Field {CASE=ESS}] Field FSep Field FSep ] ;
-!Define PronAdjAde [ Field FSep Field FSep Field [[{PRONOUN} | AdjPcp] Field {CASE=ADE}] Field FSep Field FSep ] ;
-!Define PronAdjIne [ Field FSep Field FSep Field [[{PRONOUN} | AdjPcp] Field {CASE=INE}] Field FSep Field FSep ] ;
-!Define PronAdjGen [ Field FSep Field FSep Field [[{PRONOUN} | AdjPcp] Field {CASE=GEN}] Field FSep Field FSep ] ;
-!Define PronAdjPar [ Field FSep Field FSep Field [[{PRONOUN} | AdjPcp] Field {CASE=PAR}] Field FSep Field FSep ] ;
-!Define PronAdjIll [ Field FSep Field FSep Field [[{PRONOUN} | AdjPcp] Field {CASE=ILL}] Field FSep Field FSep ] ;
-!Define PronNumAdjGen [ Field FSep Field FSep Field [[{POS=} [{PRONOUN} | {NUMERAL} | {ADJECTIVE}] | {VERB} Field {PCP=} ] Field {CASE=GEN}] Field FSep Field FSep ] ;
-
-!Define PronOAdjEss [[Field FSep [{edel}|{seura}|{kulu}] Word AdjPcp] | Word {POS=PRONOUN}] Field {CASE=ESS} Word ;
-!Define PronOAdjAde [[Field FSep [{edel}|{seura}|{kulu}] Word AdjPcp] | Word {POS=PRONOUN}] Field {CASE=ADE} Word ;
-!Define PronOAdjIne [[Field FSep [{edel}|{seura}|{kulu}] Word AdjPcp] | Word {POS=PRONOUN}] Field {CASE=INE} Word ;
-!Define PronOAdjGen [[Field FSep [{edel}|{seura}|{kulu}] Word AdjPcp] | Word {POS=PRONOUN}] Field {CASE=GEN} Word ;
-!Define PronOAdjPar [[Field FSep [{edel}|{seura}|{kulu}] Word AdjPcp] | Word {POS=PRONOUN}] Field {CASE=PAR} Word ;
-!Define PronOAdjIll [[Field FSep [{edel}|{seura}|{kulu}] Word AdjPcp] | Word {POS=PRONOUN}] Field {CASE=ILL} Word ;
 
 Define CoordConj [ Field FSep Field FSep Field [{[SUBCAT=CONJUNCTION][CONJ=COORD]}] Field FSep Field FSep ] ;
 Define NotConj [ [ [[ Ins(AlphaUp) | Ins(AlphaDown) | 0To9 ] Field ] FSep Field FSep Field FSep Field FSep ] - CoordConj ] ;
@@ -256,8 +243,6 @@ Define PropOrgNom [ Field FSep Field FSep Field [{CASE=NOM}] Field FSep Field [{
 Define PropOrgGen [ Field FSep Field FSep Field [{CASE=GEN}] Field FSep Field [{PROP=ORG}] Field FSep ] ;
 Define PropOrgPar [ Field FSep Field FSep Field [{CASE=PAR}] Field FSep Field [{PROP=ORG}] Field FSep ] ;
 
-!Define PropUnspec [ Field FSep Field FSep Field [{SUBCAT=PROPER}] Field FSep Field ["-"] Field FSep ] ;
-
 !------------------------------
 
 Define AuxVerb [ Field FSep [{ei} | {olla} ] FSep Field FSep Field FSep ] ;
@@ -275,16 +260,12 @@ Define AbbrNom [ [ Field FSep Field FSep Field [{ABBREVIATION} Field {[NUM=SG][C
 Define CapWordNom LC(WordBoundary)  [CapWordPart {[CASE=NOM]} Word]  RC(WordBoundary) ;
 Define CapWordGen LC(WordBoundary)  [CapWordPart {[CASE=GEN]} Word]  RC(WordBoundary) ;
 Define CapWordNomGen LC(WordBoundary)  [CapWordPart {[CASE=} [{NOM}|{GEN}] "]" Word]  RC(WordBoundary) ;
-!Define CapWordNomSg LC(WordBoundary)  [CapWordPart {[NUM=SG][CASE=NOM]} Word]  RC(WordBoundary) ;
-!Define CapWordGenPar LC(WordBoundary)  [CapWordPart {[CASE=} [{GEN}|{PAR}] "]" Word]  RC(WordBoundary) ;
-!Define CapWordGenSg LC(WordBoundary)  [CapWordPart {[NUM=SG][CASE=GEN]} Word]  RC(WordBoundary) ;
-!Define CapWordNomGenSg LC(WordBoundary)  [CapWordPart {[NUM=SG][CASE=} [{NOM}|{GEN}] "]" Word]  RC(WordBoundary) ;
 Define CapWordNomOrEt [ CapWordNom | [ ["&" | {and}] FSep Field FSep Field FSep Field FSep ] ] ;
 
 Define CapNounNom AlphaUp [ Field FSep Field FSep Field [{POS=NOUN} Field {[NUM=SG][CASE=NOM]}] Field FSep Field FSep ] ;
 Define CapNounGen AlphaUp [ Field FSep Field FSep Field [{POS=NOUN} Field {[NUM=SG][CASE=GEN]}] Field FSep Field FSep ] ;
 
-Define CapNounNSB LC( NoSentBoundary ) Ins(AlphaUp) [ Field FSep Field FSep Field [{POS=NOUN}] Field FSep Field FSep ] ; ! <--- New!
+Define CapNounNSB LC( NoSentBoundary ) Ins(AlphaUp) [ Field FSep Field FSep Field [{POS=NOUN}] Field FSep Field FSep ] ;
 Define CapNounNomNSB LC( NoSentBoundary ) Ins(AlphaUp) [ Field FSep Field FSep Field [{CASE=NOM}] Field FSep Field FSep ] ;
 Define CapNounGenNSB LC( NoSentBoundary ) Ins(AlphaUp) [ Field FSep Field FSep Field [{CASE=GEN}] Field FSep Field FSep ] ;
 Define CapNounIneNSB LC( NoSentBoundary ) Ins(AlphaUp) [ Field FSep Field FSep Field [{CASE=INE}] Field FSep Field FSep ] ;
@@ -310,9 +291,8 @@ Define CapNomWithN
 		| AlphaUp AlphaDown* [ AlphaDown - "a" ] {ation} ]
 		] FSep Field FSep Field FSep Field FSep ] ;
 
-Define CapForeign [ Ins(AlphaUp) [ Field FSep Field FSep Field [{SUBCAT=FOREIGN}] Field FSep Field FSep ] ] ;
-Define CapSpec	  [ Ins(AlphaUp) [ Field FSep Field [AlphaDown] FSep Field [{PROPER} Field {[NUM=SG][CASE=NOM]}] Field FSep Field FSep ] | CapForeign ] ;
-Define CapMisc	  [ CapSpec | CapNameNomNSB | CapNomWithN ] ;
+Define CapForeign   [ Ins(AlphaUp) [ Field FSep Field FSep Field [{SUBCAT=FOREIGN}] Field FSep Field FSep ] ] ;
+Define CapMisc	    [ CapSpec | CapNameNomNSB | CapNomWithN | CapForeign | Ins(AlphaUp) PropNom ] ;
 Define CapMiscFirst [ CapNameNomNSB | CapForeign | PropFirstNom ] ;
 
 !------------------------------
@@ -362,10 +342,12 @@ Define DashExt [ Dash (FSep Word WSep) | DashName1 | DashName2 | DashName3 | Das
 !Define ProStartTag Word FSep "<" Alpha* {Pro} Alpha* ">" WSep ;
 !Define LocStartTag Word FSep "<" Alpha* {Loc} Alpha* ">" WSep ;
 
+! These rule take input with additional fields and field separataors,
+! which must be accounted when marking word boundaries.
 Define FWSep
        FSep* WSep ;
 
-Define Enclose(S)
+Define MakeTag(S)
        Word FSep "<" ("/") S ("/") ">" ;
 
 Define CompleteList1(Tag)
@@ -385,26 +367,26 @@ Define CompleteList(Tag)
        [ CompleteList1(Tag) | CompleteList2(Tag) | CompleteList3(Tag) ] ;
 
 
-Define PrsHumTag Enclose({EnamexPrsHum}) ;
-Define PrsMytTag Enclose({EnamexPrsMyt}) ;
+Define PrsHumTag MakeTag({EnamexPrsHum}) ;
+Define PrsMytTag MakeTag({EnamexPrsMyt}) ;
 
-Define LocGplTag Enclose({EnamexLocGpl}) ;
-Define LocPplTag Enclose({EnamexLocPpl}) ;
-Define LocFncTag Enclose({EnamexLocFnc}) ;
-Define LocAstTag Enclose({EnamexLocAst}) ;
-Define LocMytTag Enclose({EnamexLocMyt}) ;
+Define LocGplTag MakeTag({EnamexLocGpl}) ;
+Define LocPplTag MakeTag({EnamexLocPpl}) ;
+Define LocFncTag MakeTag({EnamexLocFnc}) ;
+Define LocAstTag MakeTag({EnamexLocAst}) ;
+Define LocMytTag MakeTag({EnamexLocMyt}) ;
 
-Define OrgCrpTag Enclose({EnamexOrgCrp}) ;
-Define OrgAthTag Enclose({EnamexOrgAth}) ;
-Define OrgPltTag Enclose({EnamexOrgPlt}) ;
-Define OrgFinTag Enclose({EnamexOrgFin}) ;
-Define OrgEduTag Enclose({EnamexOrgEdu}) ;
+Define OrgCrpTag MakeTag({EnamexOrgCrp}) ;
+Define OrgAthTag MakeTag({EnamexOrgAth}) ;
+Define OrgPltTag MakeTag({EnamexOrgPlt}) ;
+Define OrgFinTag MakeTag({EnamexOrgFin}) ;
+Define OrgEduTag MakeTag({EnamexOrgEdu}) ;
 
-Define PrsTag Enclose({EnamexPrs} Alpha*) ;
-Define LocTag Enclose({EnamexLoc} Alpha*) ;
-Define OrgTag Enclose({EnamexOrg} Alpha*) ;
-Define EvtTag Enclose({EnamexEvt} Alpha*) ;
-Define ProTag Enclose({EnamexPro} Alpha*) ;
+Define PrsTag MakeTag({EnamexPrs} Alpha*) ;
+Define LocTag MakeTag({EnamexLoc} Alpha*) ;
+Define OrgTag MakeTag({EnamexOrg} Alpha*) ;
+Define EvtTag MakeTag({EnamexEvt} Alpha*) ;
+Define ProTag MakeTag({EnamexPro} Alpha*) ;
 
 Define CompleteListPrsHum CompleteList(PrsHumTag) EndTag(EnamexPrsHum) ;
 Define CompleteListPrsMyt CompleteList(PrsMytTag) EndTag(EnamexPrsMyt) ;
@@ -491,13 +473,13 @@ Define TitleAdj
 Define PersTitle1
        ( TitleAdj FWSep )
        ( TruncPfx FWSep [ [{ja}] FSep Field FSep Field FSep Field FSep ] FWSep )
-       [ Field FSep [PersTitleStr] FSep Field [Field - [ Field [{CASE=ESS}|{CASE=TRA}] Field ]] Field FSep Field FSep ] ;
+       [ Field FSep [PersTitleStr] FSep Field [[ Field {NUM=SG} Field ] - [ Field [{CASE=ESS}|{CASE=TRA}] Field ]] Field FSep Field FSep ] ;
 
 Define PersTitle2
        ( [ Field [AlphaDown+ [ {iikan} | {sofian} | {logian} | {tieteen} | {emian} | {tutkimuksen} | {nomian} ] ] FSep Field FSep Field FSep Field FSep ] FWSep [ [{ja}] FSep Field FSep Field FSep Field FSep ] FWSep )
        ( TruncPfx FWSep [ [{ja}] FSep Field FSep Field FSep Field FSep ] FWSep )
        [ Field [AlphaDown+ [ {iikan} | {sofian} | {logian} | {tieteen} | {emian} | {tutkimuksen} | {nomian} ] ] FSep Field FSep Field FSep Field FSep ] FWSep
-       [ Field FSep [{opiskelija} | {kandidaatti} | {maisteri} | {dosentti} | {tohtori} | {professori}] FSep Field [Field - [ Field [{CASE=ESS}|{CASE=TRA}] Field ]] Field FSep Field FSep ] ;
+       [ Field FSep [{opiskelija} | {kandidaatti} | {maisteri} | {dosentti} | {tohtori} | {professori}] FSep Field [[ Field {NUM=SG} Field ] - [ Field [{CASE=ESS}|{CASE=TRA}] Field ]] Field FSep Field FSep ] ;
 
 Define PersTitle3
        [ [ [OptCap({hallituksen}|{johtoryhmän})] FSep Field FSep Field FSep Field FSep ] FWSep [ Field FSep [{puheenjohtaja}] FSep Field FSep Field FSep ] ] |
