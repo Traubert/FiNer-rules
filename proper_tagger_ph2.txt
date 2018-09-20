@@ -159,6 +159,8 @@ Define NumRoman ("X") ("X") [ ("V") "I" ("I")("I") | ("I") ["V"|"X"] ] ;
 Define CamelCase AlphaUp AlphaDown+ AlphaUp Field ;
 Define WebDomain Alpha+ LowercaseAlpha+ "." [ LowercaseAlpha ]^{2,3} ;
 
+Define SentencePunct [ Field FSep ["." | "?" | "!" | ":" | Dash | Quote | ParagraphTag ] FSep Field FSep Field FSep ] ;
+
 !======================================================================
 
 Define SetQuotes(W)
@@ -227,6 +229,7 @@ Define PropGeoPar [ Field FSep Field FSep Field [{CASE=PAR}] Field FSep Field [{
 Define PropGeoIne [ Field FSep Field FSep Field [{CASE=INE}] Field FSep Field [{PROP=GEO}] Field FSep ] ;
 Define PropGeoAde [ Field FSep Field FSep Field [{CASE=ADE}] Field FSep Field [{PROP=GEO}] Field FSep ] ;
 Define PropGeoLocInt [ Field FSep Field FSep Field [{NUM=SG} Field {CASE=}[{INE}|{ILL}|{ELA}]] Field FSep Field [{PROP=GEO}] Field FSep ] ;
+Define PropGeoLocExt [ Field FSep Field FSep Field [{NUM=SG} Field {CASE=}[{ADE}|{ALL}|{ABL}]] Field FSep Field [{PROP=GEO}] Field FSep ] ;
 
 Define PropFirst [ Field FSep Field FSep Field FSep Field [{PROP=FIRST}] Field FSep ] ;
 Define PropFirstNom [ Field FSep Field FSep Field [{CASE=NOM}] Field FSep Field [{PROP=FIRST}] Field FSep ] ;
@@ -292,7 +295,7 @@ Define CapNomWithN
 		] FSep Field FSep Field FSep Field FSep ] ;
 
 Define CapForeign   [ Ins(AlphaUp) [ Field FSep Field FSep Field [{SUBCAT=FOREIGN}] Field FSep Field FSep ] ] ;
-Define CapMisc	    [ CapSpec | CapNameNomNSB | CapNomWithN | CapForeign | Ins(AlphaUp) PropNom ] ;
+Define CapMisc	    [ CapNameNomNSB | CapNomWithN | CapForeign | Ins(AlphaUp) PropNom ] ;
 Define CapMiscFirst [ CapNameNomNSB | CapForeign | PropFirstNom ] ;
 
 !------------------------------

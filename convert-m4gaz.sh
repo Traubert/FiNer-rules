@@ -35,7 +35,7 @@ python3 txt2m4.py \
 
 # EnamexLoc___
 python3 txt2m4.py gLocPolMWordMisc.txt gLocPolMWordFin.txt > gLocPolMWord.m4
-python3 txt2m4.py gLocPlace.txt > gLocPlace.m4
+python3 txt2m4.py gLocPlace.txt gLocPlaceFin.txt > gLocPlace.m4
 python3 txt2m4.py gLocGeoMWordFin.txt > gLocGeoMWord.m4
 python3 txt2m4.py \
 	gLocFictional.txt \

@@ -9,6 +9,7 @@ Ganges
 Haijoki
 Helmijoki
 Indus
+Jäämeri
 Jangtse
 Jenisei
 Kattegat
@@ -20,16 +21,15 @@ Mekong
 Niger
 Niili
 Ob
+Päijänne
 Petšora
 Pojoki
-Päijänne
 Rein
 Rhone
 Rhône
 Rio Grande
 Río Grande
 Saaristomeri
-Jäämeri
 Saimaa
 Seine
 Skagerrak

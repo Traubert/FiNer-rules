@@ -171,6 +171,8 @@ Define NumRoman ("X") ("X") [ ("V") "I" ("I")("I") | ("I") ["V"|"X"] ] ;
 Define CamelCase AlphaUp AlphaDown+ AlphaUp Field ;
 Define WebDomain Alpha+ LowercaseAlpha+ "." [ LowercaseAlpha ]^{2,3} ;
 
+Define SentencePunct lemma_exact( "." | "?" | "!" | ":" | Dash | Quote | ParagraphTag ) ;
+
 !======================================================================
 
 Define SetQuotes(W)
@@ -239,6 +241,7 @@ Define PropGeoPar morphtag_semtag({CASE=PAR}, {PROP=GEO}) ;
 Define PropGeoIne morphtag_semtag({CASE=INE}, {PROP=GEO}) ;
 Define PropGeoAde morphtag_semtag({CASE=ADE}, {PROP=GEO}) ;
 Define PropGeoLocInt morphtag_semtag({NUM=SG} Field {CASE=}[{INE}|{ILL}|{ELA}], {PROP=GEO}) ;
+Define PropGeoLocExt morphtag_semtag({NUM=SG} Field {CASE=}[{ADE}|{ALL}|{ABL}], {PROP=GEO}) ;
 
 Define PropFirst semtag({PROP=FIRST}) ;
 Define PropFirstNom morphtag_semtag({CASE=NOM}, {PROP=FIRST}) ;
@@ -305,7 +308,7 @@ Define CapNomWithN
 		) ;
 
 Define CapForeign   [ Ins(AlphaUp) morphtag({SUBCAT=FOREIGN}) ] ;
-Define CapMisc	    [ CapSpec | CapNameNomNSB | CapNomWithN | CapForeign | Ins(AlphaUp) PropNom ] ;
+Define CapMisc	    [ CapNameNomNSB | CapNomWithN | CapForeign | Ins(AlphaUp) PropNom ] ;
 Define CapMiscFirst [ CapNameNomNSB | CapForeign | PropFirstNom ] ;
 
 !------------------------------

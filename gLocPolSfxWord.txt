@@ -8,6 +8,8 @@ Bystrica
 Bystrice
 Bystřice
 City
+Country
+County
 Falls
 Feistritz
 Harbor
@@ -16,6 +18,7 @@ Hrád
 Mesto
 Město
 Polje
+Rapids
 Selo
 Springs
 Város

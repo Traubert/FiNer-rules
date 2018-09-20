@@ -1,11 +1,3 @@
-Genova
-Trieste
-Köln
-Novgorod
-Burgundi
-Kantō
-Virginia
-Toronto
 Äänekoski
 Äänislinna
 Aavasaksa
@@ -63,6 +55,7 @@ Budapest
 Bukarest
 Bundang
 Burbank
+Burgundi
 Burundir
 Calabria
 Calais
@@ -79,6 +72,7 @@ Curitiba
 Daegu
 Dallas
 Damaskos
+Davos
 Delaware
 Delhi
 Detroit
@@ -105,6 +99,7 @@ Fukuoka
 Fukushima
 Galapagos
 Ganymede
+Genova
 Grenoble
 Grönlanti
 Guadeloupe
@@ -137,6 +132,7 @@ Hyvinkää
 Illinois
 Inari
 Iowa
+Iso-Britannia
 Istanbul
 Istria
 Järvenpää
@@ -144,6 +140,7 @@ Jerevan
 Jersey
 Jerusalem
 Joensuu
+Jokohama
 Joulusaari
 Jyväskylä
 Kaartinkaupunki
@@ -152,6 +149,7 @@ Kaisaniemi
 Kajaani
 Kalifornia
 Kamppi
+Kantō
 Katajanokka
 Kioto
 Kirkkonummi
@@ -161,6 +159,7 @@ Kobe
 Kōbe
 Kökar
 Kokkola
+Köln
 Konstantinopoli
 Korso
 Kotka
@@ -189,6 +188,7 @@ Määri
 Madrid
 Malaga
 Málaga
+Malminkartano
 Malmö
 Manhattan
 Mankkaa
@@ -234,6 +234,7 @@ Nizza
 Noormarkku
 Norfolkinsaari
 Normandia
+Novgorod
 Nummela
 Nurmijärvi
 Nuuksio
@@ -260,6 +261,7 @@ Peking
 Pernaja
 Peshawar
 Petroskoi
+Phoenix
 Pietarsaari
 Piilaakso
 Pirkanmaa
@@ -318,13 +320,16 @@ Tegucigalpa
 Teisko
 Teksas
 Tennessee
+Texas
 Tokelau
 Tokio
 Töölö
+Toronto
 Toscana
 Toulouse
 Transnistria
 Trauenstein
+Trieste
 Trujillo
 Tsernobyl
 Tšernobyl
@@ -356,7 +361,9 @@ Vichyn Ranska
 Vierumäki
 Vihti
 Vilna
+Virginia
 Vöyri
+Waterloo
 Westend
 Wisconsin
 Xiamen

@@ -19,4 +19,5 @@ pohjois-Mariaani
 salomonsaari
 sandwichsaari
 seychelli
+yhdysvallat
 yhdysvalta
