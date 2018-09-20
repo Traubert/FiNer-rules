@@ -65,6 +65,13 @@ def inflect_sg(s):
 
 #--------------------
 
+def inflects(word):
+    if word.endswith('%sg') or word.endswith('%pl'):
+        return True
+    return False
+
+#--------------------
+
 def lemmas2regex(list):
     if len(list) == 0:
         return []
@@ -75,41 +82,49 @@ def wforms2regex(list):
         return []
     return [ 'inflect_sg( ' + ' | '.join([ '{'+s+'}' for s in list ]) + ' )' ]
 
+def mword2regex_f(words):
+    return ' WSep '.join([ wordform_exact(word) for word in words[:-1]] + [ lemma_exact(words[-1]) ])      
 
-def mword2regex(words, mode=None):
-    if mode in [ 'FIN', 'CONGR' ]:
-        return ' WSep '.join([ wordform_exact(word) for word in words[:-1]] + [ lemma_exact(words[-1]) ])      
-    else:
-        return ' WSep '.join([ wordform_exact(word) for word in words[:-1]] + [ inflect_sg(words[-1]) ])
+def mword2regex_0(words):
+    return ' WSep '.join([ wordform_exact(word) for word in words[:-1]] + [ inflect_sg(words[-1]) ])
 
+mword_names_f = []
+mword_names_0 = []
 
-regex_list = []
+nword_names_f = []
+nword_names_0 = []
 
 for filename in argv[1:]:
+    
+    lines = [ l for l in open(filename, 'r').read().strip().split('\n') if l != '' ]
+    
+    nword_names = [ line for line in lines if ' ' not in line and '%' not in line ]
+    mword_names = [ line.split(' ') for line in lines if ' ' in line or '%' in line ]
 
-    mode = None
-    if filename.endswith('Fin.txt'):
-        mode = 'FIN'
-    if filename.endswith('Congr.txt'):
-        mode = 'CONGR'
-
-    lines = open(filename, 'r').read().strip().split('\n')
-        
-    for words in [ line.split(' ') for line in lines if ' ' in line ]:
-        regex_list.append(mword2regex(words, mode))
-    if mode in [ 'FIN', 'CONGR' ]:
-        regex_list += lemmas2regex([ line for line in lines if line != '' and ' ' not in line and '%' not in line ])
+    if filename.endswith('Fin.txt') or filename.endswith('Congr.txt'):
+        mword_names_f += mword_names
+        nword_names_f += nword_names
     else:
-        regex_list += wforms2regex([ line for line in lines if line != '' and ' ' not in line and '%' not in line ])
+        mword_names_0 += mword_names
+        nword_names_0 += nword_names
         
-regex_list = sorted(regex_list)
-lemma1_list = sorted([ r.lstrip('" '+uppercase) for r in regex_list if r.lstrip('" '+uppercase).startswith('lemma') ])
-regex_list  = sorted([ r for r in regex_list if ( r.startswith('wordform_exact') or r.startswith('inflect_sg')) ])
+first_lemma_caps =  lemmas2regex([ name for name in nword_names_f if name[0] in uppercase])
+first_lemma_caps += [ mword2regex_f(name) for name in mword_names_f if name[0][0] in uppercase and inflects(name[0]) ]
+first_lemma_caps += [ mword2regex_0(name) for name in mword_names_0 if name[0][0] in uppercase and inflects(name[0]) ]
 
-if lemma1_list != []:
-    regex_list.append('Ins(AlphaUp) [\n '+' |\n '.join(lemma1_list) + ' ]')
+first_lemma =  lemmas2regex([ name for name in nword_names_f if name[0] not in uppercase])
+first_lemma += [ mword2regex_f(name) for name in mword_names_f if name[0][0] not in uppercase and inflects(name[0]) ]
+first_lemma += [ mword2regex_0(name) for name in mword_names_0 if name[0][0] not in uppercase and inflects(name[0]) ]
 
-if mode == 'CONGR':
-    regex_list = [ 'Ins(AlphaUp) [\n '+' |\n '.join(lemma1_list) + ' ]' ]
+first_other =  wforms2regex([ name for name in nword_names_0 ])
+first_other += [ mword2regex_0(name) for name in mword_names_0 if inflects(name[0]) == False ]
+first_other += [ mword2regex_f(name) for name in mword_names_f if inflects(name[0]) == False ]
 
-print(' |\n'.join(regex_list))
+regexes = first_other
+
+if first_lemma_caps != []:
+    regexes.append('Ins(AlphaUp) [ ' + ' |\n  '.join(first_lemma_caps) + ' ]')
+if first_lemma != []:
+    regexes.append('[ ' + ' |\n  '.join(first_lemma) + ' ]')
+
+print(' |\n'.join(regexes))
