@@ -19,6 +19,6 @@ wordform_exact({Puijon}) WSep lemma_exact({näkötorni}) |
 wordform_exact({Puijon}) WSep lemma_exact({torni}) |
 wordform_exact({Valtioneuvoston}) WSep lemma_exact({linna}) |
 Ins(AlphaUp) [ lemma_exact( {ahjola} | {aikatalo} | {ainola} | {amiraalintalo} | {autotalo} | {dipoli} | {eduskuntatalo} | {eiffel-torni} | {finlandia-talo} | {graniittitalo} | {hartwall-areena} | {helsinki-malmi} | {helsinki-vantaa} | {kaivopiha} | {kaivotalo} | {kruununmakasiini} | {kultaranta} | {kulttuuritalo} | {lasipalats} | {lasipalatsi} | {lastenlinna} | {makkaratalo} | {meritorni} | {metsätalo} | {musiikkitalo} | {muumimaailma} | {näsilinna} | {näsinneula} | {olympiastadion} | {postitalo} | {presidentinlinna} | {raatihuone} | {riemukaari} | {ritarihuone} | {ruiskumestarintalo} | {runonlaulajanpirtti} | {säätytalo} | {sampola} | {sanomatalo} | {soittokunnantalo} | {stadikka} | {steissi} | {suomenlinna} | {suurkikko} | {tennispalatsi} | {vanajanlinna} | {vanhakirkko} | {viapori} | {ylioppilastalo} | {ympyrätalo} ) |
-  "U" lemma_exact_morph({uusi}, {NUM=SG}) WSep lemma_exact({ylioppilastalo}) |
-  "V" lemma_exact_morph({vanha}, {NUM=SG}) WSep lemma_exact({ylioppilastalo}) ] |
+  lemma_exact_morph({uusi}, {NUM=SG}) WSep lemma_exact({ylioppilastalo}) |
+  lemma_exact_morph({vanha}, {NUM=SG}) WSep lemma_exact({ylioppilastalo}) ] |
 [ lemma_exact( {inventaariokamari} | {itämerentorni} ) ]

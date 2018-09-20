@@ -123,7 +123,8 @@ first_other += [ mword2regex_f(name) for name in mword_names_f if inflects(name[
 regexes = first_other
 
 if first_lemma_caps != []:
-    regexes.append('Ins(AlphaUp) [ ' + ' |\n  '.join(first_lemma_caps) + ' ]')
+    flc = [ r.lstrip(' "'+uppercase) for r in first_lemma_caps ]
+    regexes.append('Ins(AlphaUp) [ ' + ' |\n  '.join(flc) + ' ]')
 if first_lemma != []:
     regexes.append('[ ' + ' |\n  '.join(first_lemma) + ' ]')
 
