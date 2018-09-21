@@ -1,4 +1,3 @@
-
 Afrodite
 Akhilles
 Akhilleus
@@ -50,6 +49,7 @@ Koopa
 Krishna
 Krišna
 Lakshmi
+Leviathan
 Lucario
 Magikarp
 Meowth

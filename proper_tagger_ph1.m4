@@ -451,6 +451,23 @@ Define PersHuman
 !! Animals, ?mythical beasts (see also below)
 !!----------------------------------------------------------------------
 
+Define AnimalType
+       [ [ AlphaDown* [ @txt"gDogBreedSfx.txt" | {kissa} | {papukaija} | {kakadu} | {hevonen} | {poni} | {lisko} |
+      		      	{lehmä} | {sonni} | {vasikka} | {lammas} ] ] - {tamponi} ] | {ori} | {ruuna} ;
+
+Define AnimalNameHyphen1
+       AlphaUp AlphaDown+ Dash lemma_exact_sg( Field Dash Ins(AnimalType) )::0.20 ;
+
+Define AnimalNameHyphen2
+       ( CapMisc WSep )
+       CapName WSep
+       ( CapName WSep )
+       DashExt lemma_exact_sg( (Dash) Ins(AnimalType) )::0.20 ;
+
+Define AnimalNameHyphen3
+       AlphaUp lemma_exact_sg( Field AlphaDown Dash {niminen} ) WSep
+       lemma_exact_sg( Ins(AnimalType) ) ;
+
 Define AnimalNameColloc1
        [ PropFirstLastGen::0.20 | PropGen::0.60 | CapNameGenNSB::0.60 ]
        RC( WSep AlphaDown lemma_ends( {turkki} | {pyrstö} | {häntä} | {tassu} | {käpälä} | {sorkka} | {kavio} | {kuono} | {poikanen} |
@@ -463,6 +480,11 @@ Define AnimalNameColloc2
        	     WSep lemma_exact_morph( {naukua} | {ammua} | {nelistää} | {naukaista} | {haukahtaa} | {luimistella} | {vinkaista} | {kehrätä} |
 	     	  		     {murista} | {ulvahtaa} | {kiekua} | {kiekaista} | {poikia} | {varsoa}, {VOICE=ACT} ) ) ;
 
+Define AnimalNameColloc3
+       LC( lemma_exact_sg(AnimalType) ( WSep wordform_exact({nimeltä} ({än}|{nsä})) ) WSep )
+       ( CapMisc::0.30 WSep )
+       [ CapName::0.60 | PropFirstLast::0.20 ] ;
+
 Define AnimalNameGaz1
        Ins(AlphaUp) lemma_exact_morph( DownCase( {Heluna} | {Mansikki} | {Musti} | {Fifi} | {Asteri} | {Tessu} | {Peni} | {Ressu} |
        		      		       		 {Rekku} | {Turre} | {Muppe} ), {NUM=SG} )::0.20 ;
@@ -472,8 +494,12 @@ Define AnimalNameGaz2
        Ins(AlphaUp) lemma_exact_morph( DownCase( {Musti} | {Ystävä} | {Ruusu} | {Omena} | {Kielo} | {Kirjo} | {Lemmikki} ), {NUM=SG} )::0.30 ;
 
 Define AnimalName
-       [ Ins(AnimalNameColloc1)
+       [ Ins(AnimalNameHyphen1)
+       | Ins(AnimalNameHyphen2)
+       | Ins(AnimalNameHyphen3)
+       | Ins(AnimalNameColloc1)
        | Ins(AnimalNameColloc2)
+       | Ins(AnimalNameColloc3)
        | Ins(AnimalNameGaz1)
        | Ins(AnimalNameGaz2)
        ] EndTag(EnamexPrsAnm) ;
@@ -2937,7 +2963,8 @@ Define OrgSocietySuffixed2
        Ins(NpoSuffixAbbr) ;
 
 Define OrgSociety
-       [ Ins(OrgSociety1) | Ins(OrgSociety2) | Ins(OrgSociety3) | Ins(OrgSociety4) | Ins(OrgSociety5) |
+       [ Ins(OrgSociety1) | Ins(OrgSociety2) | Ins(OrgSociety3) |
+       	 Ins(OrgSociety4) | Ins(OrgSociety5) | Ins(OrgSociety6) |
        	 Ins(OrgSocietyPrefixed) | Ins(OrgSocietySuffixed1) | Ins(OrgSocietySuffixed2) ]::0.25 ;
 
 !-----------------------------------------------------------------------
@@ -3467,8 +3494,85 @@ Define Organization
        ] ;
 
 !!----------------------------------------------------------------------
-!! <EnamexProXxx>: Products (mainly software, electronics, and social
-!! media platforms)
+!! <EnamexProXxx>: Products
+!!----------------------------------------------------------------------
+
+!!----------------------------------------------------------------------
+!! Groceries & other food products and beverages
+!!----------------------------------------------------------------------
+
+Define FoodDrinkOrNot [ @txt"gTentativeFoodDrink.txt" | @txt"gProdFoodDrinkBrand.txt" ] ;
+Define FoodDrinkType  [ Field @txt"gProdFoodDrinkType.txt" ] ;
+
+Define ProdFoodDrinkHyphen1
+       Field AlphaUp lemma_exact( Field Dash Ins(FoodDrinkType) )::0.20 ;
+
+Define ProdFoodDrinkHyphen2
+       ( CapMisc WSep )
+       [ CapWordNom | CapName | CapMisc ] WSep
+       ( [ CapWordNom | CapMisc ] WSep )
+       DashExt AlphaDown lemma_exact( (Dash) Ins(FoodDrinkType) )::0.20 ;
+
+Define ProdFoodDrinkHyphen3
+       Field AlphaUp lemma_exact_sg( Field AlphaDown Dash {niminen} ) WSep
+       lemma_exact_sg( Ins(FoodDrinkType) )::0.20 ;
+
+Define ProdFoodDrinkColloc1
+       LC( lemma_exact( {syödä} | {juoda} | {nauttia} | {kitata} ) WSep )
+       [ ( CapMisc::0.20 WSep ) CapNounPar::0.50 | infl_sg_par(FoodDrinkOrNot)::0.10 ] ;
+
+Define ProdFoodDrinkColloc2
+       LC( lemma_ends( {kylmä} | {kuuma} | {lämmin} | {haalea} | {makea} | {suolainen} | {kirpea} | {huurteinen} | {virkistävä} |
+       	   	       {makuinen} | {raikas} | {alkoholiton} | {pitoinen} ) WSep )
+       [ ( CapMisc::0.20 WSep ) CapName::0.50 | inflect_sg(FoodDrinkOrNot)::0.10 ] ;
+
+Define ProdFoodDrinkColloc3
+       [ ( CapMisc::0.20 WSep ) CapNameNSB::0.50 | infl_sg_nom(FoodDrinkOrNot)::0.10 ]
+       RC( WSep lemma_exact( {maistua} | {sisältää} | {maistuu} | {ravitsee} | {virkistää} ) ) ;
+
+Define ProdFoodDrinkGaz [ m4_include(`gProdFoodDrink.m4') ]::0.20 ;
+
+Define ProdFoodDrink
+       [ Ins(ProdFoodDrinkHyphen1)
+       | Ins(ProdFoodDrinkHyphen2)
+       | Ins(ProdFoodDrinkHyphen3)
+       | Ins(ProdFoodDrinkColloc1)
+       | Ins(ProdFoodDrinkColloc2)
+       | Ins(ProdFoodDrinkColloc3)
+       | Ins(ProdFoodDrinkGaz)
+       ] EndTag(EnamexProXxx) ;
+
+!!----------------------------------------------------------------------
+!! Fruit and vegetable cultivars
+!! (mostly grapes)
+!!----------------------------------------------------------------------
+
+Define CultivarType [ ({viini}) {rypäle} ({lajike}) | {lajike} ] ;
+
+Define ProdCultivarHyphen1
+       AlphaUp AlphaDown+ Dash lemma_exact_sg( Field Dash CultivarType )::0.20 ;
+
+Define ProdCultivarHyphen2
+       ( CapMisc WSep )
+       ( CapName WSep )
+       CapName WSep
+       DashExt lemma_exact_sg( (Dash) CultivarType )::0.20 ;
+
+Define ProdCultivarHyphen3
+       AlphaUp lemma_exact_sg( Field AlphaDown Dash {niminen} ) WSep
+       lemma_exact_sg( CultivarType )::0.20 ;
+
+Define ProdCultivarGaz [ m4_include(`gProdCultivar.m4') ]::0.20 ;
+
+Define ProdCultivar
+       [ Ins(ProdCultivarHyphen1)
+       | Ins(ProdCultivarHyphen2)
+       | Ins(ProdCultivarHyphen3)
+       | Ins(ProdCultivarGaz)
+       ] EndTag(EnamexProXxx) ;
+
+!!----------------------------------------------------------------------
+!! Auxiliary definitions
 !!----------------------------------------------------------------------
 
 Define VNum wordform_exact( 0To9+ ( "." [ 0To9|"X"|"x"]+ ) ( "." [ 0To9|"X"|"x"]+ ) (":" AlphaDown+ ) ) ;
@@ -3491,8 +3595,9 @@ Define ProBrowser @txt"gProdBrowser.txt" ;
 !* Video games
 !------------------------------------------------------------------------
 
-Define GameSfx [ {3D} | {DX} | {Plus} | {Deluxe} | {64} ] ;
-Define GameType lemma_ends( [ {peli}({sarja}) | {räiskintä} | {taso}[{hyppely}|{loikka}] | {seikkailu} | ["j"|{mmo}]{rpg} | {simulaattori} | {pelikokoelma} ] ) ;
+Define GameSfx  [ {3D} | {DX} | {Plus} | {Deluxe} | {64} ] ;
+Define GameType lemma_ends( [ {peli}({sarja}) | {räiskintä} | {taso}[{hyppely}|{loikka}] | {seikkailu} |
+       			      ["j"|{mmo}]{rpg} | {simulaattori} | {pelikokoelma} ] ) ;
 
 Define gazProVG [ m4_include(`gProdGame.m4') ] ;
 
@@ -4397,7 +4502,9 @@ Define Product
        | Ins(ProMiscMultiWord)::0.20
        | Ins(ProQuotesAndYear)::0.75
        | Ins(ProCapture)::0.90
-       ] EndTag(EnamexProXxx) ;
+       ] EndTag(EnamexProXxx)
+       | Ins(ProdFoodDrink)
+       | Ins(ProdCultivar) ;
 
 !!----------------------------------------------------------------------
 !! TODO: Phenomena, weather (storms, hurricanes earthquakes)
@@ -5017,7 +5124,7 @@ Define MeasureExpr
        ( PosNumCard WSep Multiply WSep )
        ( [ PosNumCard | Ins(NumFraction) ] WSep [ Multiply | lemma_exact(Dash) ] WSep )
        [ PosNumCard | Ins(NumFraction) ] [ WSep LowercaseAlpha PosNumCard ]* WSep [ UnitPhrase | MeasureUnitAcro ]
-       EndTag(NumexMsrXxx) ;   
+       EndTag(NumexMsrXxx) ;
 
 !!----------------------------------------------------------------------
 !! <Backoff>

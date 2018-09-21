@@ -267,6 +267,7 @@ Define CapWordNomOrEt [ CapWordNom | [ ["&" | {and}] FSep Field FSep Field FSep 
 
 Define CapNounNom AlphaUp [ Field FSep Field FSep Field [{POS=NOUN} Field {[NUM=SG][CASE=NOM]}] Field FSep Field FSep ] ;
 Define CapNounGen AlphaUp [ Field FSep Field FSep Field [{POS=NOUN} Field {[NUM=SG][CASE=GEN]}] Field FSep Field FSep ] ;
+Define CapNounPar AlphaUp [ Field FSep Field FSep Field [{POS=NOUN} Field {[NUM=SG][CASE=PAR]}] Field FSep Field FSep ] ;
 
 Define CapNounNSB LC( NoSentBoundary ) Ins(AlphaUp) [ Field FSep Field FSep Field [{POS=NOUN}] Field FSep Field FSep ] ;
 Define CapNounNomNSB LC( NoSentBoundary ) Ins(AlphaUp) [ Field FSep Field FSep Field [{CASE=NOM}] Field FSep Field FSep ] ;
@@ -315,7 +316,7 @@ Define DashName3
        Dash [ Field [{nimeä}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep Field FSep Field [{PCP=VA}] Field FSep Field FSep ] WSep ;
 
 Define DashName4
-       Dash AlphaDown+ Word WSep [ Field FSep [{ja} | {sekä} ] FSep Field FSep Field FSep ] WSep ( Dash ) ;
+       Dash LowerWord WSep [ Field FSep [{ja} | {sekä} ] FSep Field FSep Field FSep ] WSep Dash ;
 
 Define DashExt [ Dash (FSep Word WSep) | DashName1 | DashName2 | DashName3 | DashName4 ] ;
 

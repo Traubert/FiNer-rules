@@ -49,6 +49,8 @@ python3 txt2m4string.py gProdVehicleBrand.txt > gProdVehicleBrandStr.m4
 python3 txt2m4.py gProdFilmTvMWord.txt gProdFilmTvMWordFin.txt > gProdFilmTvMWord.m4
 python3 txt2m4.py gProdLitFin.txt > gProdLitMWord.m4
 python3 txt2m4.py gProdDrug.txt > gProdDrug.m4
+python3 txt2m4.py gProdFoodDrink.txt > gProdFoodDrink.m4
+python3 txt2m4.py gProdCultivar.txt > gProdCultivar.m4
 
 # EnamexEvt___
 python3 txt2m4.py gEventMisc.txt gEventFin.txt gEventWarFin.txt > gEventMisc.m4

@@ -279,6 +279,7 @@ Define CapWordNomOrEt [ CapWordNom | wordform_exact("&" | {and}) ] ;
 
 Define CapNounNom AlphaUp morphtag({POS=NOUN} Field {[NUM=SG][CASE=NOM]}) ;
 Define CapNounGen AlphaUp morphtag({POS=NOUN} Field {[NUM=SG][CASE=GEN]}) ;
+Define CapNounPar AlphaUp morphtag({POS=NOUN} Field {[NUM=SG][CASE=PAR]}) ;
 
 Define CapNounNSB LC( NoSentBoundary ) Ins(AlphaUp) morphtag({POS=NOUN}) ;
 Define CapNounNomNSB LC( NoSentBoundary ) Ins(AlphaUp) morphtag({CASE=NOM}) ;
@@ -328,7 +329,7 @@ Define DashName3
        Dash wordform_ends({nimeä}) WSep morphtag({PCP=VA}) WSep ;
 
 Define DashName4
-       Dash AlphaDown+ Word WSep lemma_exact( {ja} | {sekä} ) WSep ( Dash ) ;
+       Dash LowerWord WSep lemma_exact( {ja} | {sekä} ) WSep Dash ;
 
 Define DashExt [ Dash (FSep Word WSep) | DashName1 | DashName2 | DashName3 | DashName4 ] ;
 

@@ -1,0 +1,27 @@
+Merlot
+Malbec
+Bonarda
+Cabernet Sauvignon
+Syrah
+Shiraz
+Chardonnay
+Riesling
+Pinot Noir
+Pinot
+Muscadelle
+Pinot Grigio
+Pinot Gris
+Sauvignon
+Sauvignon Blanc
+Pinot Blanc
+Pinot Bianco
+Sauvignon vert
+Grauburgunder
+Weissburgunder
+Weißburgunder
+Sauvignon gris
+Grenache
+Granny Smith
+Red Delicious
+Golden Delicious
+Gala

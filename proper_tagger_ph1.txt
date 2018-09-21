@@ -271,6 +271,7 @@ Define CapWordNomOrEt [ CapWordNom | [ ["&" | {and}] FSep Field FSep Field FSep 
  
 Define CapNounNom AlphaUp [ Field FSep Field FSep Field [{POS=NOUN} Field {[NUM=SG][CASE=NOM]}] Field FSep Field FSep ] ; 
 Define CapNounGen AlphaUp [ Field FSep Field FSep Field [{POS=NOUN} Field {[NUM=SG][CASE=GEN]}] Field FSep Field FSep ] ; 
+Define CapNounPar AlphaUp [ Field FSep Field FSep Field [{POS=NOUN} Field {[NUM=SG][CASE=PAR]}] Field FSep Field FSep ] ; 
  
 Define CapNounNSB LC( NoSentBoundary ) Ins(AlphaUp) [ Field FSep Field FSep Field [{POS=NOUN}] Field FSep Field FSep ] ; 
 Define CapNounNomNSB LC( NoSentBoundary ) Ins(AlphaUp) [ Field FSep Field FSep Field [{CASE=NOM}] Field FSep Field FSep ] ; 
@@ -319,7 +320,7 @@ Define DashName3
  Dash [ Field [{nimeä}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep Field FSep Field [{PCP=VA}] Field FSep Field FSep ] WSep ; 
  
 Define DashName4 
- Dash AlphaDown+ Word WSep [ Field FSep [{ja} | {sekä} ] FSep Field FSep Field FSep ] WSep ( Dash ) ; 
+ Dash LowerWord WSep [ Field FSep [{ja} | {sekä} ] FSep Field FSep Field FSep ] WSep Dash ; 
  
 Define DashExt [ Dash (FSep Word WSep) | DashName1 | DashName2 | DashName3 | DashName4 ] ; 
  
@@ -1400,6 +1401,23 @@ Define PersHuman
 !! Animals, ?mythical beasts (see also below) 
 !!---------------------------------------------------------------------- 
  
+Define AnimalType 
+ [ [ AlphaDown* [ @txt"gDogBreedSfx.txt" | {kissa} | {papukaija} | {kakadu} | {hevonen} | {poni} | {lisko} | 
+ {lehmä} | {sonni} | {vasikka} | {lammas} ] ] - {tamponi} ] | {ori} | {ruuna} ; 
+ 
+Define AnimalNameHyphen1 
+ AlphaUp AlphaDown+ Dash lemma_exact_sg( Field Dash Ins(AnimalType) )::0.20 ; 
+ 
+Define AnimalNameHyphen2 
+ ( Ins(CapMisc) WSep ) 
+ CapName WSep 
+ ( Ins(CapName) WSep ) 
+ DashExt lemma_exact_sg( (Dash) Ins(AnimalType) )::0.20 ; 
+ 
+Define AnimalNameHyphen3 
+ AlphaUp lemma_exact_sg( Field AlphaDown Dash {niminen} ) WSep 
+ lemma_exact_sg( Ins(AnimalType) ) ; 
+ 
 Define AnimalNameColloc1 
  [ PropFirstLastGen::0.20 | PropGen::0.60 | CapNameGenNSB::0.60 ] 
  RC( WSep AlphaDown [ Field FSep Field [{turkki} | {pyrstö} | {häntä} | {tassu} | {käpälä} | {sorkka} | {kavio} | {kuono} | {poikanen} | 
@@ -1412,6 +1430,11 @@ Define AnimalNameColloc2
  WSep [ Field FSep [{naukua} | {ammua} | {nelistää} | {naukaista} | {haukahtaa} | {luimistella} | {vinkaista} | {kehrätä} | 
  {murista} | {ulvahtaa} | {kiekua} | {kiekaista} | {poikia} | {varsoa}] FSep Field [{VOICE=ACT} ] Field FSep Field FSep ] ) ; 
  
+Define AnimalNameColloc3 
+ LC( lemma_exact_sg(AnimalType) ( WSep [ [{nimeltä} ({än}|{nsä})] FSep Field FSep Field FSep Field FSep ] ) WSep ) 
+ ( CapMisc::0.30 WSep ) 
+ [ CapName::0.60 | PropFirstLast::0.20 ] ; 
+ 
 Define AnimalNameGaz1 
  Ins(AlphaUp) [ Field FSep [DownCase( {Heluna} | {Mansikki} | {Musti} | {Fifi} | {Asteri} | {Tessu} | {Peni} | {Ressu} | 
  {Rekku} | {Turre} | {Muppe} )] FSep Field [{NUM=SG} ] Field FSep Field FSep ]::0.20 ; 
@@ -1421,8 +1444,12 @@ Define AnimalNameGaz2
  Ins(AlphaUp) [ Field FSep [DownCase( {Musti} | {Ystävä} | {Ruusu} | {Omena} | {Kielo} | {Kirjo} | {Lemmikki} )] FSep Field [{NUM=SG} ] Field FSep Field FSep ]::0.30 ; 
  
 Define AnimalName 
- [ Ins(AnimalNameColloc1) 
+ [ Ins(AnimalNameHyphen1) 
+ | Ins(AnimalNameHyphen2) 
+ | Ins(AnimalNameHyphen3) 
+ | Ins(AnimalNameColloc1) 
  | Ins(AnimalNameColloc2) 
+ | Ins(AnimalNameColloc3) 
  | Ins(AnimalNameGaz1) 
  | Ins(AnimalNameGaz2) 
  ] EndTag(EnamexPrsAnm) ; 
@@ -2193,15 +2220,15 @@ Define LocPolMultiPart [
 [ [{Sao}] FSep Field FSep Field FSep Field FSep ] WSep "T" [ Field FSep [{tome}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ [{ja}] FSep Field FSep Field FSep Field FSep ] WSep "P" [ Field FSep [{principe}] FSep Field FSep Field FSep ] | 
 [ [{São}] FSep Field FSep Field FSep Field FSep ] WSep "T" [ Field FSep [{tomé}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ [{ja}] FSep Field FSep Field FSep Field FSep ] WSep "P" [ Field FSep [{príncipe}] FSep Field FSep Field FSep ] | 
 Ins(AlphaUp) [ [ Field FSep [{usa} ] FSep Field FSep Field FSep ] | 
- "A" [ Field FSep [{antigua}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ [{ja}] FSep Field FSep Field FSep Field FSep ] WSep "B" [ Field FSep [{barbuda}] FSep Field FSep Field FSep ] | 
- "B" [ Field FSep [{bosnia}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ [{ja}] FSep Field FSep Field FSep Field FSep ] WSep "H" [ Field FSep [{hertsegovina}] FSep Field FSep Field FSep ] | 
- "D" [ Field FSep [{dominikaaninen}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{tasavalta}] FSep Field FSep Field FSep ] | 
- "K" [ Field FSep [{kolmas}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{valtakunta}] FSep Field FSep Field FSep ] | 
- "K" [ Field FSep [{kultainen}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{orda}] FSep Field FSep Field FSep ] | 
- "P" [ Field FSep [{pyhä}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{saksalais-roomalainen}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{keisarikunta}] FSep Field FSep Field FSep ] | 
- "P" [ Field FSep [{pyhä}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{saksalais-roomalainen}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{valtakunta}] FSep Field FSep Field FSep ] | 
- "T" [ Field FSep [{trinidad}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ [{ja}] FSep Field FSep Field FSep Field FSep ] WSep "T" [ Field FSep [{tobago}] FSep Field FSep Field FSep ] | 
- "W" [ Field FSep [{wallis}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ [{ja}] FSep Field FSep Field FSep Field FSep ] WSep "F" [ Field FSep [{futuna}] FSep Field FSep Field FSep ] ] | 
+ [ Field FSep [{antigua}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ [{ja}] FSep Field FSep Field FSep Field FSep ] WSep "B" [ Field FSep [{barbuda}] FSep Field FSep Field FSep ] | 
+ [ Field FSep [{bosnia}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ [{ja}] FSep Field FSep Field FSep Field FSep ] WSep "H" [ Field FSep [{hertsegovina}] FSep Field FSep Field FSep ] | 
+ [ Field FSep [{dominikaaninen}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{tasavalta}] FSep Field FSep Field FSep ] | 
+ [ Field FSep [{kolmas}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{valtakunta}] FSep Field FSep Field FSep ] | 
+ [ Field FSep [{kultainen}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{orda}] FSep Field FSep Field FSep ] | 
+ [ Field FSep [{pyhä}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{saksalais-roomalainen}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{keisarikunta}] FSep Field FSep Field FSep ] | 
+ [ Field FSep [{pyhä}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{saksalais-roomalainen}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{valtakunta}] FSep Field FSep Field FSep ] | 
+ [ Field FSep [{trinidad}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ [{ja}] FSep Field FSep Field FSep Field FSep ] WSep "T" [ Field FSep [{tobago}] FSep Field FSep Field FSep ] | 
+ [ Field FSep [{wallis}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ [{ja}] FSep Field FSep Field FSep Field FSep ] WSep "F" [ Field FSep [{futuna}] FSep Field FSep Field FSep ] ] | 
 [ [ Field FSep [{yhdistyä}] FSep Field [{[VOICE=ACT][PCP=NUT]} Field {NUM=PL}] Field FSep Field FSep ] WSep [ Field FSep [{arabiemiirikunta}] FSep Field FSep Field FSep ] | 
  [ Field FSep [{yhdistyä}] FSep Field [{[VOICE=ACT][PCP=NUT]} Field {NUM=PL}] Field FSep Field FSep ] WSep [ Field FSep [{arabiemiraatti}] FSep Field FSep Field FSep ] | 
  [ Field FSep [{yhdistyä}] FSep Field [{[VOICE=ACT][PCP=NUT]}] Field FSep Field FSep ] WSep [ Field FSep [{kuningaskunta}] FSep Field FSep Field FSep ] ] 
@@ -2595,8 +2622,8 @@ Define LocPlaceGaz
 [ [{Puijon}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{torni}] FSep Field FSep Field FSep ] | 
 [ [{Valtioneuvoston}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{linna}] FSep Field FSep Field FSep ] | 
 Ins(AlphaUp) [ [ Field FSep [{ahjola} | {aikatalo} | {ainola} | {amiraalintalo} | {autotalo} | {dipoli} | {eduskuntatalo} | {eiffel-torni} | {finlandia-talo} | {graniittitalo} | {hartwall-areena} | {helsinki-malmi} | {helsinki-vantaa} | {kaivopiha} | {kaivotalo} | {kruununmakasiini} | {kultaranta} | {kulttuuritalo} | {lasipalats} | {lasipalatsi} | {lastenlinna} | {makkaratalo} | {meritorni} | {metsätalo} | {musiikkitalo} | {muumimaailma} | {näsilinna} | {näsinneula} | {olympiastadion} | {postitalo} | {presidentinlinna} | {raatihuone} | {riemukaari} | {ritarihuone} | {ruiskumestarintalo} | {runonlaulajanpirtti} | {säätytalo} | {sampola} | {sanomatalo} | {soittokunnantalo} | {stadikka} | {steissi} | {suomenlinna} | {suurkikko} | {tennispalatsi} | {vanajanlinna} | {vanhakirkko} | {viapori} | {ylioppilastalo} | {ympyrätalo} ] FSep Field FSep Field FSep ] | 
- "U" [ Field FSep [{uusi}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{ylioppilastalo}] FSep Field FSep Field FSep ] | 
- "V" [ Field FSep [{vanha}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{ylioppilastalo}] FSep Field FSep Field FSep ] ] | 
+ [ Field FSep [{uusi}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{ylioppilastalo}] FSep Field FSep Field FSep ] | 
+ [ Field FSep [{vanha}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{ylioppilastalo}] FSep Field FSep Field FSep ] ] | 
 [ [ Field FSep [{inventaariokamari} | {itämerentorni} ] FSep Field FSep Field FSep ] ] 
  ] ; 
  
@@ -3309,65 +3336,65 @@ Define CultGazMacro1
 [ [{Trio}] FSep Field FSep Field FSep Field FSep ] WSep "T" [ Field FSep [{töykeä}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
 [ [{Wienin}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{filharmonikko}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
 Ins(AlphaUp) [ [ Field FSep [{alivaltiosihteeri} | {apulanta} | {egotrippi} | {elonkerjuu} | {happoradio} | {huvitutti} | {kipparikvartetti} | {kotiteollisuus} | {miljoonasade} | {taikapeili} | {teräsbetoni} | {uniklubi} ] FSep Field FSep Field FSep ] | 
- "A" [ Field FSep [{aikamies}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
- "H" [ Field FSep [{hevisaurus}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- "J" [ Field FSep [{järjestyshäiriö}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- "J" [ Field FSep [{jytäjyrisijä}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
- "K" [ Field FSep [{kari}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep "P" [ Field FSep [{peitsamo}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ [{&}] FSep Field FSep Field FSep Field FSep ] WSep "H" [ Field FSep [{hirttämätön}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
- "K" [ Field FSep [{kari}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep "P" [ Field FSep [{peitsamo}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ [{ja}] FSep Field FSep Field FSep Field FSep ] WSep "A" [ Field FSep [{ankkuli}] FSep Field FSep Field FSep ] | 
- "K" [ Field FSep [{kitkerä}] FSep Field [{NUM=PL}] Field FSep Field FSep ] WSep "N" [ Field FSep [{neitsyt}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
- "K" [ Field FSep [{kuunkuiskaaja}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
- "L" [ Field FSep [{lauri}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep "T" [ Field FSep [{tähkä}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ [{ja}] FSep Field FSep Field FSep Field FSep ] WSep "E" [ Field FSep [{elonkerjuu}] FSep Field FSep Field FSep ] | 
- "L" [ Field FSep [{leijonamieli}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ [{&}] FSep Field FSep Field FSep Field FSep ] WSep "P" [ Field FSep [{putkimies}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
- "M" [ Field FSep [{mariska}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ [{ja}] FSep Field FSep Field FSep Field FSep ] WSep "P" [ Field FSep [{paha}] FSep Field [{NUM=PL}] Field FSep Field FSep ] WSep "S" [ Field FSep [{susi}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
- "M" [ Field FSep [{metro-tyttö}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
- "N" [ Field FSep [{neljä}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{baritoni}] FSep Field FSep Field FSep ] | 
- "N" [ Field FSep [{neljä}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep "R" [ Field FSep [{ruusu}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- "R" [ Field FSep [{rajaton}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- "R" [ Field FSep [{raptori}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- "S" [ Field FSep [{suurlähettiläs}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
- "T" [ Field FSep [{tehosekoitin}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- "V" [ Field FSep [{valonkantaja}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
- "V" [ Field FSep [{värttinä}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- "Y" [ Field FSep [{yö}] FSep Field [{NUM=SG}] Field FSep Field FSep ] ] 
+ [ Field FSep [{aikamies}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
+ [ Field FSep [{hevisaurus}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{järjestyshäiriö}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{jytäjyrisijä}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
+ [ Field FSep [{kari}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep "P" [ Field FSep [{peitsamo}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ [{&}] FSep Field FSep Field FSep Field FSep ] WSep "H" [ Field FSep [{hirttämätön}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
+ [ Field FSep [{kari}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep "P" [ Field FSep [{peitsamo}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ [{ja}] FSep Field FSep Field FSep Field FSep ] WSep "A" [ Field FSep [{ankkuli}] FSep Field FSep Field FSep ] | 
+ [ Field FSep [{kitkerä}] FSep Field [{NUM=PL}] Field FSep Field FSep ] WSep "N" [ Field FSep [{neitsyt}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
+ [ Field FSep [{kuunkuiskaaja}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
+ [ Field FSep [{lauri}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep "T" [ Field FSep [{tähkä}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ [{ja}] FSep Field FSep Field FSep Field FSep ] WSep "E" [ Field FSep [{elonkerjuu}] FSep Field FSep Field FSep ] | 
+ [ Field FSep [{leijonamieli}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ [{&}] FSep Field FSep Field FSep Field FSep ] WSep "P" [ Field FSep [{putkimies}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
+ [ Field FSep [{mariska}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ [{ja}] FSep Field FSep Field FSep Field FSep ] WSep "P" [ Field FSep [{paha}] FSep Field [{NUM=PL}] Field FSep Field FSep ] WSep "S" [ Field FSep [{susi}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
+ [ Field FSep [{metro-tyttö}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
+ [ Field FSep [{neljä}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{baritoni}] FSep Field FSep Field FSep ] | 
+ [ Field FSep [{neljä}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep "R" [ Field FSep [{ruusu}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{rajaton}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{raptori}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{suurlähettiläs}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
+ [ Field FSep [{tehosekoitin}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{valonkantaja}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
+ [ Field FSep [{värttinä}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{yö}] FSep Field [{NUM=SG}] Field FSep Field FSep ] ] 
  ] ; 
  
 Define CultGazMacro2 
  [ Ins(AlphaUp) [ [ Field FSep [{alivaltiosihteeri} | {apulanta} | {egotrippi} | {elonkerjuu} | {happoradio} | {huvitutti} | {kipparikvartetti} | {kotiteollisuus} | {miljoonasade} | {taikapeili} | {teräsbetoni} | {uniklubi} ] FSep Field FSep Field FSep ] | 
- "A" [ Field FSep [{aikamies}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
- "H" [ Field FSep [{hevisaurus}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- "J" [ Field FSep [{järjestyshäiriö}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- "J" [ Field FSep [{jytäjyrisijä}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
- "K" [ Field FSep [{kari}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep "P" [ Field FSep [{peitsamo}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ [{&}] FSep Field FSep Field FSep Field FSep ] WSep "H" [ Field FSep [{hirttämätön}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
- "K" [ Field FSep [{kari}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep "P" [ Field FSep [{peitsamo}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ [{ja}] FSep Field FSep Field FSep Field FSep ] WSep "A" [ Field FSep [{ankkuli}] FSep Field FSep Field FSep ] | 
- "K" [ Field FSep [{kitkerä}] FSep Field [{NUM=PL}] Field FSep Field FSep ] WSep "N" [ Field FSep [{neitsyt}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
- "K" [ Field FSep [{kuunkuiskaaja}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
- "L" [ Field FSep [{lauri}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep "T" [ Field FSep [{tähkä}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ [{ja}] FSep Field FSep Field FSep Field FSep ] WSep "E" [ Field FSep [{elonkerjuu}] FSep Field FSep Field FSep ] | 
- "L" [ Field FSep [{leijonamieli}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ [{&}] FSep Field FSep Field FSep Field FSep ] WSep "P" [ Field FSep [{putkimies}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
- "M" [ Field FSep [{mariska}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ [{ja}] FSep Field FSep Field FSep Field FSep ] WSep "P" [ Field FSep [{paha}] FSep Field [{NUM=PL}] Field FSep Field FSep ] WSep "S" [ Field FSep [{susi}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
- "M" [ Field FSep [{metro-tyttö}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
- "N" [ Field FSep [{neljä}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{baritoni}] FSep Field FSep Field FSep ] | 
- "N" [ Field FSep [{neljä}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep "R" [ Field FSep [{ruusu}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- "R" [ Field FSep [{rajaton}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- "R" [ Field FSep [{raptori}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- "S" [ Field FSep [{suurlähettiläs}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
- "T" [ Field FSep [{tehosekoitin}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- "V" [ Field FSep [{valonkantaja}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
- "V" [ Field FSep [{värttinä}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- "Y" [ Field FSep [{yö}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- "A" [ Field FSep [{aikamies}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
- "H" [ Field FSep [{hevisaurus}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- "J" [ Field FSep [{järjestyshäiriö}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- "J" [ Field FSep [{jytäjyrisijä}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
- "K" [ Field FSep [{kuunkuiskaaja}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
- "M" [ Field FSep [{metro-tyttö}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
- "R" [ Field FSep [{rajaton}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- "R" [ Field FSep [{raptori}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- "S" [ Field FSep [{suurlähettiläs}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
- "T" [ Field FSep [{tehosekoitin}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- "V" [ Field FSep [{valonkantaja}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
- "V" [ Field FSep [{värttinä}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- "Y" [ Field FSep [{yö}] FSep Field [{NUM=SG}] Field FSep Field FSep ] ] 
+ [ Field FSep [{aikamies}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
+ [ Field FSep [{hevisaurus}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{järjestyshäiriö}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{jytäjyrisijä}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
+ [ Field FSep [{kari}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep "P" [ Field FSep [{peitsamo}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ [{&}] FSep Field FSep Field FSep Field FSep ] WSep "H" [ Field FSep [{hirttämätön}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
+ [ Field FSep [{kari}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep "P" [ Field FSep [{peitsamo}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ [{ja}] FSep Field FSep Field FSep Field FSep ] WSep "A" [ Field FSep [{ankkuli}] FSep Field FSep Field FSep ] | 
+ [ Field FSep [{kitkerä}] FSep Field [{NUM=PL}] Field FSep Field FSep ] WSep "N" [ Field FSep [{neitsyt}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
+ [ Field FSep [{kuunkuiskaaja}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
+ [ Field FSep [{lauri}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep "T" [ Field FSep [{tähkä}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ [{ja}] FSep Field FSep Field FSep Field FSep ] WSep "E" [ Field FSep [{elonkerjuu}] FSep Field FSep Field FSep ] | 
+ [ Field FSep [{leijonamieli}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ [{&}] FSep Field FSep Field FSep Field FSep ] WSep "P" [ Field FSep [{putkimies}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
+ [ Field FSep [{mariska}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ [{ja}] FSep Field FSep Field FSep Field FSep ] WSep "P" [ Field FSep [{paha}] FSep Field [{NUM=PL}] Field FSep Field FSep ] WSep "S" [ Field FSep [{susi}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
+ [ Field FSep [{metro-tyttö}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
+ [ Field FSep [{neljä}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{baritoni}] FSep Field FSep Field FSep ] | 
+ [ Field FSep [{neljä}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep "R" [ Field FSep [{ruusu}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{rajaton}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{raptori}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{suurlähettiläs}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
+ [ Field FSep [{tehosekoitin}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{valonkantaja}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
+ [ Field FSep [{värttinä}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{yö}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{aikamies}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
+ [ Field FSep [{hevisaurus}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{järjestyshäiriö}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{jytäjyrisijä}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
+ [ Field FSep [{kuunkuiskaaja}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
+ [ Field FSep [{metro-tyttö}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
+ [ Field FSep [{rajaton}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{raptori}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{suurlähettiläs}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
+ [ Field FSep [{tehosekoitin}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{valonkantaja}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
+ [ Field FSep [{värttinä}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{yö}] FSep Field [{NUM=SG}] Field FSep Field FSep ] ] 
  ] ; 
  
 Define CultSemtag 
@@ -3719,13 +3746,13 @@ Define Media1PartListB
  Ins(AlphaUp) [ Field FSep [DownCase(@txt"gMedia1PartFin.txt")] FSep Field [{NUM=SG}] Field FSep Field FSep ] ; 
  
 Define gazMediaMWordCongr OptQuotes([ 
- Ins(AlphaUp) [ "T" [ Field FSep [{tekniikka}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ [{ja}] FSep Field FSep Field FSep Field FSep ] WSep "T" [ Field FSep [{talous}] FSep Field FSep Field FSep ] | 
- "T" [ Field FSep [{tekniikka}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ [{&}] FSep Field FSep Field FSep Field FSep ] WSep "T" [ Field FSep [{talous}] FSep Field FSep Field FSep ] | 
- "U" [ Field FSep [{uusi}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep "A" [ Field FSep [{aika}] FSep Field FSep Field FSep ] | 
- "U" [ Field FSep [{uusi}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep "K" [ Field FSep [{kuvalehti}] FSep Field FSep Field FSep ] | 
- "U" [ Field FSep [{uusi}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep "L" [ Field FSep [{laulu}] FSep Field FSep Field FSep ] | 
- "U" [ Field FSep [{uusi}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep "S" [ Field FSep [{suomi}] FSep Field FSep Field FSep ] | 
- "V" [ Field FSep [{valittu}] FSep Field [{NUM=PL}] Field FSep Field FSep ] WSep "P" [ Field FSep [{pala}] FSep Field [{NUM=PL}] Field FSep Field FSep ] ] | 
+ Ins(AlphaUp) [ [ Field FSep [{tekniikka}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ [{ja}] FSep Field FSep Field FSep Field FSep ] WSep "T" [ Field FSep [{talous}] FSep Field FSep Field FSep ] | 
+ [ Field FSep [{tekniikka}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ [{&}] FSep Field FSep Field FSep Field FSep ] WSep "T" [ Field FSep [{talous}] FSep Field FSep Field FSep ] | 
+ [ Field FSep [{uusi}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep "A" [ Field FSep [{aika}] FSep Field FSep Field FSep ] | 
+ [ Field FSep [{uusi}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep "K" [ Field FSep [{kuvalehti}] FSep Field FSep Field FSep ] | 
+ [ Field FSep [{uusi}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep "L" [ Field FSep [{laulu}] FSep Field FSep Field FSep ] | 
+ [ Field FSep [{uusi}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep "S" [ Field FSep [{suomi}] FSep Field FSep Field FSep ] | 
+ [ Field FSep [{valittu}] FSep Field [{NUM=PL}] Field FSep Field FSep ] WSep "P" [ Field FSep [{pala}] FSep Field [{NUM=PL}] Field FSep Field FSep ] ] | 
 [ [ Field FSep [{iso}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep "N" [ Field FSep [{numero}] FSep Field FSep Field FSep ] ] 
  
  ]) ; 
@@ -4913,14 +4940,14 @@ Define CorpListMWord
 [ [{Pan}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Am}) | 
 [ [{Dolce}] FSep Field FSep Field FSep Field FSep ] WSep [ [{&}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Gabbana}) | 
 [ [{Fred}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Perry}) | 
-Ins(AlphaUp) [ "E" [ Field FSep [{eurokangas}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- "G" [ Field FSep [{gigantti}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- "K" [ Field FSep [{kaivokukka}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- "K" [ Field FSep [{karakukka}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- "K" [ Field FSep [{k-rauta}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- "K" [ Field FSep [{k-rauta}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- "K" [ Field FSep [{kruunukaluste}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- "M" [ Field FSep [{marimekko}] FSep Field [{NUM=SG}] Field FSep Field FSep ] ] 
+Ins(AlphaUp) [ [ Field FSep [{eurokangas}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{gigantti}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{kaivokukka}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{karakukka}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{k-rauta}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{k-rauta}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{kruunukaluste}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{marimekko}] FSep Field [{NUM=SG}] Field FSep Field FSep ] ] 
  ] ; 
  
 !* Category HEAD 
@@ -5180,7 +5207,8 @@ Define OrgSocietySuffixed2
  Ins(NpoSuffixAbbr) ; 
  
 Define OrgSociety 
- [ Ins(OrgSociety1) | Ins(OrgSociety2) | Ins(OrgSociety3) | Ins(OrgSociety4) | Ins(OrgSociety5) | 
+ [ Ins(OrgSociety1) | Ins(OrgSociety2) | Ins(OrgSociety3) | 
+ Ins(OrgSociety4) | Ins(OrgSociety5) | Ins(OrgSociety6) | 
  Ins(OrgSocietyPrefixed) | Ins(OrgSocietySuffixed1) | Ins(OrgSocietySuffixed2) ]::0.25 ; 
  
 !----------------------------------------------------------------------- 
@@ -5639,13 +5667,13 @@ Define OrgMiscGaz [ [ [{Euroopan}] FSep Field FSep Field FSep Field FSep ] WSep 
 [ [{Valtion}] FSep Field FSep Field FSep Field FSep ] WSep [ [{teknillinen}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{tutkimuskeskus}] FSep Field FSep Field FSep ] | 
 [ [{Yhdysvaltain}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{avaruushallinto}] FSep Field FSep Field FSep ] | 
 Ins(AlphaUp) [ [ Field FSep [{alko} | {arava} | {asuntohallitus} | {cia} | {eduskunta} | {eu-komissio} | {eu-parlamentti} | {eu-tuomioistuin} | {evira} | {faa} | {fbi} | {fcc} | {fimea} | {ftc} | {gchq} | {gummerus} | {hkl} | {hsl} | {jsn} | {kansainyhteisö} | {kansaneläkelaitos} | {kela} | {kesko} | {keskuskauppakamari} | {keskusrikospoliisi} | {kho} | {kko} | {kyberturvallisuuskeskus} | {maahanmuuttovirasto} | {metsähallitus} | {migri} | {muslimiveljeskunta} | {nsa} | {pentagon} | {poliisihallitus} | {s-ryhmä} | {taloustutkimus} | {ttvk} | {väestörekisterikeskus} | {valtiokonttori} | {valvira} | {verohallinto} | {viestintävirasto} ] FSep Field FSep Field FSep ] | 
- "K" [ Field FSep [{kansainvälinen}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{tähtitieteellinen}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{unioni}] FSep Field FSep Field FSep ] | 
- "L" [ Field FSep [{liikkuva}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{poliisi}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- "P" [ Field FSep [{pohjoismainen}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{vastarintaliike}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- "P" [ Field FSep [{punainen}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep "R" [ Field FSep [{ristiä}] FSep Field FSep Field FSep ] | 
- "P" [ Field FSep [{punainen}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep "R" [ Field FSep [{risti}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- "P" [ Field FSep [{pyhä}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{istuin}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- "S" [ Field FSep [{salainen}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{palvelu}] FSep Field [{NUM=SG}] Field FSep Field FSep ] ] | 
+ [ Field FSep [{kansainvälinen}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{tähtitieteellinen}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{unioni}] FSep Field FSep Field FSep ] | 
+ [ Field FSep [{liikkuva}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{poliisi}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{pohjoismainen}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{vastarintaliike}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{punainen}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep "R" [ Field FSep [{ristiä}] FSep Field FSep Field FSep ] | 
+ [ Field FSep [{punainen}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep "R" [ Field FSep [{risti}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{pyhä}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{istuin}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{salainen}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{palvelu}] FSep Field [{NUM=SG}] Field FSep Field FSep ] ] | 
 [ [ Field FSep [{yhdistyä}] FSep Field [{[VOICE=ACT][PCP=NUT]} Field {NUM=PL}] Field FSep Field FSep ] WSep [ Field FSep [{kansakunta}] FSep Field [{NUM=PL}] Field FSep Field FSep ] ] 
  ] ; 
  
@@ -5727,8 +5755,141 @@ Define Organization
  ] ; 
  
 !!---------------------------------------------------------------------- 
-!! <EnamexProXxx>: Products (mainly software, electronics, and social 
-!! media platforms) 
+!! <EnamexProXxx>: Products 
+!!---------------------------------------------------------------------- 
+ 
+!!---------------------------------------------------------------------- 
+!! Groceries & other food products and beverages 
+!!---------------------------------------------------------------------- 
+ 
+Define FoodDrinkOrNot [ @txt"gTentativeFoodDrink.txt" | @txt"gProdFoodDrinkBrand.txt" ] ; 
+Define FoodDrinkType [ Field @txt"gProdFoodDrinkType.txt" ] ; 
+ 
+Define ProdFoodDrinkHyphen1 
+ Field AlphaUp [ Field FSep [Field Dash Ins(FoodDrinkType) ] FSep Field FSep Field FSep ]::0.20 ; 
+ 
+Define ProdFoodDrinkHyphen2 
+ ( Ins(CapMisc) WSep ) 
+ [ CapWordNom | Ins(CapName) | Ins(CapMisc) ] WSep 
+ ( [ CapWordNom | Ins(CapMisc) ] WSep ) 
+ DashExt AlphaDown [ Field FSep [(Dash) Ins(FoodDrinkType) ] FSep Field FSep Field FSep ]::0.20 ; 
+ 
+Define ProdFoodDrinkHyphen3 
+ Field AlphaUp lemma_exact_sg( Field AlphaDown Dash {niminen} ) WSep 
+ lemma_exact_sg( Ins(FoodDrinkType) )::0.20 ; 
+ 
+Define ProdFoodDrinkColloc1 
+ LC( [ Field FSep [{syödä} | {juoda} | {nauttia} | {kitata} ] FSep Field FSep Field FSep ] WSep ) 
+ [ ( CapMisc::0.20 WSep ) CapNounPar::0.50 | infl_sg_par(FoodDrinkOrNot)::0.10 ] ; 
+ 
+Define ProdFoodDrinkColloc2 
+ LC( [ Field FSep Field [{kylmä} | {kuuma} | {lämmin} | {haalea} | {makea} | {suolainen} | {kirpea} | {huurteinen} | {virkistävä} | 
+ {makuinen} | {raikas} | {alkoholiton} | {pitoinen} ] FSep Field FSep Field FSep ] WSep ) 
+ [ ( CapMisc::0.20 WSep ) CapName::0.50 | inflect_sg(FoodDrinkOrNot)::0.10 ] ; 
+ 
+Define ProdFoodDrinkColloc3 
+ [ ( CapMisc::0.20 WSep ) CapNameNSB::0.50 | infl_sg_nom(FoodDrinkOrNot)::0.10 ] 
+ RC( WSep [ Field FSep [{maistua} | {sisältää} | {maistuu} | {ravitsee} | {virkistää} ] FSep Field FSep Field FSep ] ) ; 
+ 
+Define ProdFoodDrinkGaz [ inflect_sg( {7Up} | {Battery} | {Benecol} | {Bollinger} | {Bonaqua} | {Budweiser} | {Coca-Cola} | {Cointreau} | {Crisco} | {Crowmoor} | {Fanta} | {Jägermeister} | {Jallu} | {Juissi} | {Koff} | {Koskenkorva} | {Kossu} | {Lappari} | {L&M} | {Mynthon} | {Nobelaner} | {Oboy} | {O'boy} | {Oltermanni} | {Oreo} | {Oreos} | {Pepsi} | {Perlenbacher} | {Perrier} | {Pommac} | {Pople} | {Saludo} | {Sandels} | {Sorbus} | {Sprite} | {Stolichnaya} | {Suomi-viina} | {Västerbottensost} ) | 
+[ [{7}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Up}) | 
+[ [{Big}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Mac}) | 
+[ [{Black}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Tower}) | 
+[ [{Coca}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Cola}) | 
+[ [{Creme}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Bonjour}) | 
+[ [{Crème}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Bonjour}) | 
+[ [{Dom}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Perignon}) | 
+[ [{Dr.}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Pepper}) | 
+[ [{Egri}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Bikaver}) | 
+[ [{Egri}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Bikavér}) | 
+[ [{Gato}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Negro}) | 
+[ [{Hartwall}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Jaffa}) | 
+[ [{Johnnie}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Walker}) | 
+[ [{J.}] FSep Field FSep Field FSep Field FSep ] WSep [ [{P.}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Chenet}) | 
+[ [{Kulta}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Katriina}) | 
+[ [{Magyar}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Fehér}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Bor}) | 
+[ [{Mountain}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Dew}) | 
+[ [{Two}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Oceans}) | 
+[ [{Veuve}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Clicquot}) | 
+[ [{Juhla}] FSep Field FSep Field FSep Field FSep ] WSep "M" [ Field FSep [{mokka}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+[ [{Kulta}] FSep Field FSep Field FSep Field FSep ] WSep "K" [ Field FSep [{katriina}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+[ [{Lapin}] FSep Field FSep Field FSep Field FSep ] WSep "K" [ Field FSep [{kulta}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+[ [{Salmiakki}] FSep Field FSep Field FSep Field FSep ] WSep "K" [ Field FSep [{koskenkorva}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+Ins(AlphaUp) [ [ Field FSep [{aura-juusto}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{jaloviina}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{karhu}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{koskenkorva}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{koskenlaskija}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{koulunäkki}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{mustaleima}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{oivariini}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{ruispala}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
+ [ Field FSep [{salaneuvos}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{salmiakkikossu}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{sisuviina}] FSep Field [{NUM=SG}] Field FSep Field FSep ] ] | 
+[ [ Field FSep [{kossu}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{hirvilimu}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{salmari}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{kokis}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{cokis}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{smurffilimu}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{muumilimu}] FSep Field [{NUM=SG}] Field FSep Field FSep ] ] 
+ ]::0.20 ; 
+ 
+Define ProdFoodDrink 
+ [ Ins(ProdFoodDrinkHyphen1) 
+ | Ins(ProdFoodDrinkHyphen2) 
+ | Ins(ProdFoodDrinkHyphen3) 
+ | Ins(ProdFoodDrinkColloc1) 
+ | Ins(ProdFoodDrinkColloc2) 
+ | Ins(ProdFoodDrinkColloc3) 
+ | Ins(ProdFoodDrinkGaz) 
+ ] EndTag(EnamexProXxx) ; 
+ 
+!!---------------------------------------------------------------------- 
+!! Fruit and vegetable cultivars 
+!! (mostly grapes) 
+!!---------------------------------------------------------------------- 
+ 
+Define CultivarType [ ({viini}) {rypäle} ({lajike}) | {lajike} ] ; 
+ 
+Define ProdCultivarHyphen1 
+ AlphaUp AlphaDown+ Dash lemma_exact_sg( Field Dash CultivarType )::0.20 ; 
+ 
+Define ProdCultivarHyphen2 
+ ( Ins(CapMisc) WSep ) 
+ ( Ins(CapName) WSep ) 
+ CapName WSep 
+ DashExt lemma_exact_sg( (Dash) CultivarType )::0.20 ; 
+ 
+Define ProdCultivarHyphen3 
+ AlphaUp lemma_exact_sg( Field AlphaDown Dash {niminen} ) WSep 
+ lemma_exact_sg( CultivarType )::0.20 ; 
+ 
+Define ProdCultivarGaz [ inflect_sg( {Merlot} | {Malbec} | {Bonarda} | {Syrah} | {Shiraz} | {Chardonnay} | {Riesling} | {Pinot} | {Muscadelle} | {Sauvignon} | {Grauburgunder} | {Weissburgunder} | {Weißburgunder} | {Grenache} | {Gala} ) | 
+[ [{Cabernet}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Sauvignon}) | 
+[ [{Pinot}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Noir}) | 
+[ [{Pinot}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Grigio}) | 
+[ [{Pinot}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Gris}) | 
+[ [{Sauvignon}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Blanc}) | 
+[ [{Pinot}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Blanc}) | 
+[ [{Pinot}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Bianco}) | 
+[ [{Sauvignon}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({vert}) | 
+[ [{Sauvignon}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({gris}) | 
+[ [{Granny}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Smith}) | 
+[ [{Red}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Delicious}) | 
+[ [{Golden}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Delicious}) 
+ ]::0.20 ; 
+ 
+Define ProdCultivar 
+ [ Ins(ProdCultivarHyphen1) 
+ | Ins(ProdCultivarHyphen2) 
+ | Ins(ProdCultivarHyphen3) 
+ | Ins(ProdCultivarGaz) 
+ ] EndTag(EnamexProXxx) ; 
+ 
+!!---------------------------------------------------------------------- 
+!! Auxiliary definitions 
 !!---------------------------------------------------------------------- 
  
 Define VNum [ [0To9+ ( "." [ 0To9|"X"|"x"]+ ) ( "." [ 0To9|"X"|"x"]+ ) (":" AlphaDown+ ) ] FSep Field FSep Field FSep Field FSep ] ; 
@@ -5752,7 +5913,8 @@ Define ProBrowser @txt"gProdBrowser.txt" ;
 !------------------------------------------------------------------------ 
  
 Define GameSfx [ {3D} | {DX} | {Plus} | {Deluxe} | {64} ] ; 
-Define GameType [ Field FSep Field [[ {peli}({sarja}) | {räiskintä} | {taso}[{hyppely}|{loikka}] | {seikkailu} | ["j"|{mmo}]{rpg} | {simulaattori} | {pelikokoelma} ] ] FSep Field FSep Field FSep ] ; 
+Define GameType [ Field FSep Field [[ {peli}({sarja}) | {räiskintä} | {taso}[{hyppely}|{loikka}] | {seikkailu} | 
+ ["j"|{mmo}]{rpg} | {simulaattori} | {pelikokoelma} ] ] FSep Field FSep Field FSep ] ; 
  
 Define gazProVG [ inflect_sg( {A-Spec} | {Banjo-Kazooie} | {Batman} | {Battlefield} | {Bejeweled} | {BioHazard} | {BioShock} | {Bomberman} | {Castlevania} | {Contra} | {Counter-Strike} | {CS} | {Diablo} | {Divinity} | {Doom} | {Earthbound} | {EarthBound} | {Fallout} | {Fortnite} | {Frogger} | {F-Zero} | {Galaga} | {GoldenEye} | {Half-Life} | {Halo} | {Ico} | {Katamari} | {Lineage} | {LittleBigPlanet} | {Megaman} | {Metroid} | {Minecraft} | {Minesweeper} | {Nintendogs} | {Oblivion} | {Ōkami} | {OutRun} | {Overwatch} | {Pacman} | {Pac-Man} | {Persona} | {Pitfall!} | {Planescape} | {Pokemon} | {Pokémon} | {Portal} | {PUBG} | {Punch-Out!!} | {Robotron} | {R-Type} | {Runescape} | {Shenmue} | {Skyrim} | {Sonic} | {Soulcalibur} | {SoulCalibur} | {StarCraft} | {Suikoden} | {Tekken} | {Tetris} | {TLoZ} | {Torment} | {Uncharted} | {Undertale} | {Veronica} | {Warcraft} | {Witcher} | {WoW} | {Xenogears} ) | 
 [ [{Advance}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Wars}) | 
@@ -6023,12 +6185,12 @@ Define gazProFilmTV [ inflect_sg( {Sel8nne} | {007} | {Americans} | {Avatar} | {
 [ [{Yön}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{ritari}] FSep Field FSep Field FSep ] | 
 [ [{Yle}] FSep Field FSep Field FSep Field FSep ] WSep "U" [ Field FSep [{uutinen}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
 Ins(AlphaUp) [ [ Field FSep [{dokumenttiprojekti} | {huvitutti} | {kotikatu} | {pressiklubi} | {ulkolinja} | {ykkösaamu} ] FSep Field FSep Field FSep ] | 
- "A" [ Field FSep [{ajankohtainen}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{kakkonen}] FSep Field FSep Field FSep ] | 
- "E" [ Field FSep [{elävä}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{arkisto}] FSep Field FSep Field FSep ] | 
- "K" [ Field FSep [{kaunari}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
- "K" [ Field FSep [{kaunis}] FSep Field [{NUM=PL}] Field FSep Field FSep ] WSep [ [{ja}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{rohkea}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
- "S" [ Field FSep [{salattu}] FSep Field [{NUM=PL}] Field FSep Field FSep ] WSep [ Field FSep [{elämä}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
- "S" [ Field FSep [{salkkari}] FSep Field [{NUM=PL}] Field FSep Field FSep ] ] 
+ [ Field FSep [{ajankohtainen}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{kakkonen}] FSep Field FSep Field FSep ] | 
+ [ Field FSep [{elävä}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{arkisto}] FSep Field FSep Field FSep ] | 
+ [ Field FSep [{kaunari}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
+ [ Field FSep [{kaunis}] FSep Field [{NUM=PL}] Field FSep Field FSep ] WSep [ [{ja}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{rohkea}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
+ [ Field FSep [{salattu}] FSep Field [{NUM=PL}] Field FSep Field FSep ] WSep [ Field FSep [{elämä}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
+ [ Field FSep [{salkkari}] FSep Field [{NUM=PL}] Field FSep Field FSep ] ] 
  ] ; 
  
 Define ProFilmTVGaz 
@@ -6135,9 +6297,9 @@ Define ProLitGaz
 [ [{Setä}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Tuomon}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{tupa}] FSep Field FSep Field FSep ] | 
 [ [{Taru}] FSep Field FSep Field FSep Field FSep ] WSep [ [{sormusten}] FSep Field FSep Field FSep Field FSep ] WSep [ [{herrasta}] FSep Field FSep Field FSep Field FSep ] | 
 Ins(AlphaUp) [ [ Field FSep [{decamerone} | {beowulf} | {edda} | {kalevala} | {koraani} | {raamattu} | {runousoppi} | {toora} ] FSep Field FSep Field FSep ] | 
- "E" [ Field FSep [{edda}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
- "U" [ Field FSep [{uusi}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{testamentti}] FSep Field FSep Field FSep ] | 
- "V" [ Field FSep [{vanha}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{testamentti}] FSep Field FSep Field FSep ] ] 
+ [ Field FSep [{edda}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
+ [ Field FSep [{uusi}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{testamentti}] FSep Field FSep Field FSep ] | 
+ [ Field FSep [{vanha}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{testamentti}] FSep Field FSep Field FSep ] ] 
  ] ; 
  
 Define ProLiterature 
@@ -7025,12 +7187,12 @@ Define gazProdMWordNoCongr [
 [ [{Pandoran}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{ruukku}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
 [ [{Kaaban}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{musta}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{kivi}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
 [ [{DNA}] FSep Field FSep Field FSep Field FSep ] WSep "K" [ Field FSep [{kauppa}] FSep Field FSep Field FSep ] | 
-Ins(AlphaUp) [ "K" [ Field FSep [{kesäkatu}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- "L" [ Field FSep [{liitonarkki}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- "L" [ Field FSep [{liitonarkku}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- "S" [ Field FSep [{sampo}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- "M" [ Field FSep [{mahtisormus}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- "K" [ Field FSep [{kultainen}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{talja}] FSep Field [{NUM=SG}] Field FSep Field FSep ] ] 
+Ins(AlphaUp) [ [ Field FSep [{kesäkatu}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{liitonarkki}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{liitonarkku}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{sampo}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{mahtisormus}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{kultainen}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{talja}] FSep Field [{NUM=SG}] Field FSep Field FSep ] ] 
  
  ] ; 
  
@@ -7086,7 +7248,9 @@ Define Product
  | Ins(ProMiscMultiWord)::0.20 
  | Ins(ProQuotesAndYear)::0.75 
  | Ins(ProCapture)::0.90 
- ] EndTag(EnamexProXxx) ; 
+ ] EndTag(EnamexProXxx) 
+ | Ins(ProdFoodDrink) 
+ | Ins(ProdCultivar) ; 
  
 !!---------------------------------------------------------------------- 
 !! TODO: Phenomena, weather (storms, hurricanes earthquakes) 
@@ -7288,7 +7452,7 @@ Define EvtChampionsLeague3
  "E" [ Field FSep [{eurooppa} Dash {liiga} ] FSep Field FSep Field FSep ] ; 
  
 Define EvtSocialGaz 
- [ inflect_sg( {Gamescom} | {9/11} | {A-con} | {Animecon} | {Ankkarock} | {Assembly} | {Bakacon} | {brexit} | {Brexit} | {CES} | {Chibicon} | {Comiccon} | {CosplayGaala} | {Desucon} | {DocPoint} | {Etnosoi} | {Eurovision} | {Finncon} | {Flow} | {Hypecon} | {Ilosaarirock} | {Jysäri} | {Kawacon} | {Kirsikankukkacon} | {Kitacon} | {Kokkocon} | {Lolicon} | {Melodifestivalen} | {Mimicon} | {MWC} | {Nekocon} | {Oktoberfest} | {Provinssirock} | {Qstock} | {R&A} | {Ropecon} | {Ruisrock} | {Sakuracon} | {Sexhibition} | {Shirocon} | {Skábmagovat} | {Slush} | {Sonisphere} | {Tracon} | {Tsukicon} | {Tubecon} | {UMK} | {Vinokino} | {Woodstock} | {WWDC} | {Yukicon} ) | 
+ [ inflect_sg( {Gamescom} | {9/11} | {A-con} | {Animecon} | {Ankkarock} | {Assembly} | {Bakacon} | {brexit} | {Brexit} | {CES} | {Chibicon} | {Comiccon} | {CosplayGaala} | {Desucon} | {DocPoint} | {Etnosoi} | {Eurovision} | {Finncon} | {Flow} | {Hypecon} | {Ilosaarirock} | {Jysäri} | {Kawacon} | {Kirsikankukkacon} | {Kitacon} | {Kokkocon} | {Lolicon} | {Melodifestivalen} | {Mimicon} | {MWC} | {Nekocon} | {Oktoberfest} | {Provinssirock} | {Qstock} | {R&A} | {Ragnarök} | {Ropecon} | {Ruisrock} | {Sakuracon} | {Sexhibition} | {Shirocon} | {Skábmagovat} | {Slush} | {Sonisphere} | {Tracon} | {Tsukicon} | {Tubecon} | {UMK} | {Vinokino} | {Woodstock} | {WWDC} | {Yukicon} ) | 
 [ [{9}] FSep Field FSep Field FSep Field FSep ] WSep [ [{/}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({11}) | 
 [ [{Allsång}] FSep Field FSep Field FSep Field FSep ] WSep [ [{på}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Skansen}) | 
 [ [{Burning}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Man}) | 
@@ -7330,9 +7494,9 @@ Define EvtSocialGaz
 [ [{Satavuotinen}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{sota}] FSep Field FSep Field FSep ] | 
 [ [{30-vuotinen}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{sota}] FSep Field FSep Field FSep ] | 
 Ins(AlphaUp) [ [ Field FSep [{nenäpäivä} | {provinssi} | {ravintolapäivä} | {tuska} | {wtc-isku} | {puunisota} ] FSep Field FSep Field FSep ] | 
- "E" [ Field FSep [{euroviisu}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
- "K" [ Field FSep [{kuninkuusravi}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
- "T" [ Field FSep [{tangomarkkina}] FSep Field [{NUM=PL}] Field FSep Field FSep ] ] | 
+ [ Field FSep [{euroviisu}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
+ [ Field FSep [{kuninkuusravi}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
+ [ Field FSep [{tangomarkkina}] FSep Field [{NUM=PL}] Field FSep Field FSep ] ] | 
 [ [ Field FSep [{itä-länsi} | {itä-länsi-ottelu} ] FSep Field FSep Field FSep ] ] 
  ] 
  ( Ins(DashExt) Ins(EvtType) ) ; 
