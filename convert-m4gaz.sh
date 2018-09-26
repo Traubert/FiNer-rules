@@ -42,7 +42,7 @@ python3 txt2m4.py \
 	gLocMythical.txt > gLocFictional.m4
 
 # EnamexPro___
-python3 txt2m4.py gProdMWord.txt gProdMWordFin.txt gProdMusic.txt gArtifact.txt > gProdMWord.m4
+python3 txt2m4.py gProdMusic.txt gArtifact.txt > gProdMWord.m4
 python3 txt2m4.py gProdGame.txt > gProdGame.m4
 python3 txt2m4.py gProdVehicleBrand.txt > gProdVehicleBrand.m4
 python3 txt2m4string.py gProdVehicleBrand.txt > gProdVehicleBrandStr.m4
@@ -51,6 +51,13 @@ python3 txt2m4.py gProdLitFin.txt > gProdLitMWord.m4
 python3 txt2m4.py gProdDrug.txt > gProdDrug.m4
 python3 txt2m4.py gProdFoodDrink.txt > gProdFoodDrink.m4
 python3 txt2m4.py gProdCultivar.txt > gProdCultivar.m4
+
+python3 txt2m4string.py hProdDevice.txt > hProdDevice.m4
+python3 txt2m4string.py hProdOS.txt > hProdOS.m4
+python3 txt2m4string.py hProdAppStore.txt > hProdAppStore.m4
+python3 txt2m4string.py hProdSearchEngine.txt > hProdSearchEngine.m4
+python3 txt2m4string.py hProdBrowser.txt > hProdBrowser.m4
+python3 txt2m4string.py hProdTechMisc.txt > hProdTechMisc.m4
 
 # EnamexEvt___
 python3 txt2m4.py gEventMisc.txt gEventFin.txt gEventWarFin.txt > gEventMisc.m4

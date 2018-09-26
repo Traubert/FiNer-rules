@@ -1,24 +1,3 @@
-Aikamies%pl
-Hevisaurus%sg
-Järjestyshäiriö%sg
-Jytäjyrisijä%pl
-Kari%sg Peitsamo%sg & Hirttämätön%pl
-Kari%sg Peitsamo%sg ja Ankkuli
-Kitkerä%pl Neitsyt%pl
-Kuunkuiskaaja%pl
-Lauri%sg Tähkä%sg ja Elonkerjuu
-Leijonamieli%sg & Putkimies%pl
-Mariska%sg ja Paha%pl Susi%pl
-Metro-tyttö%pl
-Neljä%sg baritoni
-Neljä%sg Ruusu%sg
-Rajaton%sg
-Raptori%sg
-Suurlähettiläs%pl
-Tehosekoitin%sg
-Valonkantaja%pl
-Värttinä%sg
-Yö%sg
 Alivaltiosihteeri
 Apulanta
 Egotrippi
@@ -35,8 +14,16 @@ Aikamies%pl
 Hevisaurus%sg
 Järjestyshäiriö%sg
 Jytäjyrisijä%pl
+Kari%sg Peitsamo%sg & Hirttämätön%pl
+Kari%sg Peitsamo%sg ja Ankkuli
+Kitkerä%pl Neitsyt%pl
 Kuunkuiskaaja%pl
+Lauri%sg Tähkä%sg ja Elonkerjuu
+Leijonamieli%sg & Putkimies%pl
+Mariska%sg ja Paha%pl Susi%pl
 Metro-tyttö%pl
+Neljä%sg baritoni
+Neljä%sg Ruusu%sg
 Rajaton%sg
 Raptori%sg
 Suurlähettiläs%pl

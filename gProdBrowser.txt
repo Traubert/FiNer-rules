@@ -1,7 +1,0 @@
-Explorer
-Firefox
-Netscape
-Opera
-PhantomJS
-Safari
-Vivaldi

@@ -1,15 +1,15 @@
+Caliburn
+Cullinan
+Excalibur
+Koh-i-Noor
+Mandilion
+Mandylion
 Graalin malja%sg
+Kaaban musta%sg kivi%sg
+Kultainen%sg talja%sg
 Liitonarkki%sg
 Liitonarkku%sg
-Mandylion
-Mandilion
-Sampo%sg
 Mahtisormus%sg
 Pandoran lipas%sg
 Pandoran ruukku%sg
-Koh-i-Noor
-Cullinan
-Kultainen%sg talja%sg
-Excalibur
-Caliburn
-Kaaban musta%sg kivi%sg
+Sampo%sg

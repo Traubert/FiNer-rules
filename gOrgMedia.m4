@@ -1,8 +1,3 @@
-wordform_exact({La}) WSep inflect_sg({Razon}) |
-wordform_exact({La}) WSep inflect_sg({Razón}) |
-wordform_exact({Rolling}) WSep inflect_sg({Stone}) |
-wordform_exact({El}) WSep inflect_sg({País}) |
-wordform_exact({El}) WSep inflect_sg({Pais}) |
 wordform_exact({ABC}) WSep inflect_sg({News}) |
 wordform_exact({Åbo}) WSep inflect_sg({Underrättelser}) |
 wordform_exact({Advertising}) WSep inflect_sg({Age}) |
@@ -36,6 +31,8 @@ wordform_exact({Der}) WSep inflect_sg({Spiegel}) |
 wordform_exact({Digital}) WSep inflect_sg({Spy}) |
 wordform_exact({Economic}) WSep wordform_exact({Daily}) WSep inflect_sg({News}) |
 wordform_exact({Eesti}) WSep inflect_sg({Päevaleht}) |
+wordform_exact({El}) WSep inflect_sg({Pais}) |
+wordform_exact({El}) WSep inflect_sg({País}) |
 wordform_exact({Extreme}) WSep inflect_sg({Tech}) |
 wordform_exact({Fierce}) WSep inflect_sg({Wireless}) |
 wordform_exact({Financial}) WSep inflect_sg({Times}) |
@@ -49,6 +46,8 @@ wordform_exact({Japan}) WSep inflect_sg({Times}) |
 wordform_exact({Japan}) WSep inflect_sg({Today}) |
 wordform_exact({Korea}) WSep inflect_sg({Herald}) |
 wordform_exact({Korea}) WSep inflect_sg({Times}) |
+wordform_exact({La}) WSep inflect_sg({Razon}) |
+wordform_exact({La}) WSep inflect_sg({Razón}) |
 wordform_exact({La}) WSep inflect_sg({Repubblica}) |
 wordform_exact({LA}) WSep inflect_sg({Times}) |
 wordform_exact({Latin}) WSep inflect_sg({Post}) |
@@ -73,6 +72,7 @@ wordform_exact({Östra}) WSep inflect_sg({Nyland}) |
 wordform_exact({PC}) WSep inflect_sg({Magazine}) |
 wordform_exact({PC}) WSep inflect_sg({World}) |
 wordform_exact({Popular}) WSep inflect_sg({Science}) |
+wordform_exact({Rolling}) WSep inflect_sg({Stone}) |
 wordform_exact({Ságaid}) WSep inflect_sg({Muitaleaddji}) |
 wordform_exact({Saǥai}) WSep inflect_sg({Muittalægje}) |
 wordform_exact({Sam}) WSep inflect_sg({Mobile}) |

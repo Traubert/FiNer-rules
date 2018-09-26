@@ -33,7 +33,6 @@ Andreessen Horowitz
 Android Authority
 Android Central
 Android Community
-Reliance Communications
 Anunak Group
 AP Graphics Bank
 Archer Daniels Midland
@@ -365,7 +364,6 @@ Mozilla Corporation
 Mozilla Foundation
 Mr Max
 Mt. Gox
-Reliance Jio Infocomm
 Multimedia Research Group
 Musiikki-Fazer
 MWL TV
@@ -461,6 +459,7 @@ Redpoint Ventures
 Reebok-CCM Hockey
 Reed Elsevier
 Reliance Communications
+Reliance Jio Infocomm
 RF Benchmark
 R.J. Reynolds
 Robert Bosch

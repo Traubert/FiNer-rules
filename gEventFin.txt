@@ -1,4 +1,3 @@
-Wienin kongressi
 Eurovision laulukilpailu
 Itä-Länsi
 Itä-Länsi-ottelu
@@ -14,6 +13,7 @@ Tuska
 Uuden musiikin festivaali
 Uuden musiikin kilpailu
 Uuden Musiikin kilpailu
+Wienin kongressi
 WTC-isku
 Euroviisu%pl
 Kalevan kisa%pl

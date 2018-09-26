@@ -74,11 +74,11 @@ Define Clitic 	  ( {han} | {hän} | {kin} | {kaan} | {kään} ) ;
 
 Define NomSuff 	  ( SuffSep Ins(Clitic) ) ;
 Define GenSuff 	  SuffSep "n" ( Ins(Clitic) ) ;
-Define ParSuff 	  SuffSep ("t")["ä"|"a"] ( Ins(Clitic) ) ;
+Define ParSuff 	  SuffSep [ ("t")["ä"|"a"] | {ää} ] ( Ins(Clitic) ) ;
 Define LocIntSuff SuffSep [ {iin} | ("h") FinVowel "n" | "s"["s"|"t"]["a"|"ä"] ] ( Ins(Clitic) ) ;
 Define LocExtSuff SuffSep [ "l"["l"|"t"]["a"|"ä"] | {lle} ] ( Ins(Clitic) ) ;
 
-Define FinSuff ( SuffSep [ Ins(Clitic) | [ ( "n" | (["t"|{st}|{ss}|{lt}|{ll}])["ä"|"a"] | {lle} | {iin} | ("h") FinVowel "n" | {ks}["e"|"i"] | {na} | {nä} ) ] ( Ins(Clitic) ) ] ) ;
+Define FinSuff ( SuffSep [ Ins(Clitic) | [ ( "n" | (["t"|{st}|{ss}|{lt}|{ll}])["ä"|"a"] | {ää} | {lle} | {iin} | ("h") FinVowel "n" | {ks}["e"|"i"] | {na} | {nä} ) ] ( Ins(Clitic) ) ] ) ;
 
 !======================================================================
 
@@ -229,6 +229,7 @@ Define NounGenPl morphtag({POS=NOUN} Field {NUM=SG} Field {CASE=GEN}) ;
 
 Define CoordConj morphtag({[SUBCAT=CONJUNCTION][CONJ=COORD]}) ;
 Define NotConj [ wordform_exact( [ Ins(AlphaUp) | Ins(AlphaDown) | 0To9 ] Field ) - CoordConj ] ;
+Define Coord   [ lemma_exact( {ja} | Comma ) ] ;
 
 Define Prop morphtag({PROPER}) ;
 Define PropNom morphtag({PROPER} Field {[NUM=SG][CASE=NOM]}) ;
@@ -277,6 +278,8 @@ Define CapWordGen whole_word(`CapWordPart {[CASE=GEN]} Word') ;
 Define CapWordNomGen whole_word(`CapWordPart {[CASE=} [{NOM}|{GEN}] "]" Word') ;
 Define CapWordNomOrEt [ CapWordNom | wordform_exact("&" | {and}) ] ;
 
+Define CapWordNomNSB LC( NoSentBoundary ) CapWordNom ;
+
 Define CapNounNom AlphaUp morphtag({POS=NOUN} Field {[NUM=SG][CASE=NOM]}) ;
 Define CapNounGen AlphaUp morphtag({POS=NOUN} Field {[NUM=SG][CASE=GEN]}) ;
 Define CapNounPar AlphaUp morphtag({POS=NOUN} Field {[NUM=SG][CASE=PAR]}) ;
@@ -295,7 +298,7 @@ Define CapNameNSB LC( NoSentBoundary ) CapName ;
 Define CapNameNomNSB LC( NoSentBoundary ) CapNameNom ;
 Define CapNameGenNSB LC( NoSentBoundary ) CapNameGen ;
 
-Define TruncPfx wordform_ends( AlphaDown Dash ) ;
+Define TruncPfx wordform_ends( [ Alpha | 0To9 ] Dash ) ;
 
 Define CapNomWithN
        wordform_exact(
@@ -303,14 +306,19 @@ Define CapNomWithN
 		| {Union} | {Western} | {Falcon} | {Debian} | {Captain} | {Human} | {Emotion} | {Pan} | {Education} | {Canon} | {Christian}
 		| {Women} | {Men} | {Nation} | {Motion} | {Time} | {Queen} | {Champion} | {Indian} | {Norwegian} | {Australian} | {Ten}
 		| {An} | {Milton} | {Hilton} | {Titan} | {Aryan} | {Austrian} | {German} | {Silicon} | {Icon} | {Falcon} | {Recon}
-		| {Lexicon} | {In} | {Teen} | {Canadian} | {Min} | {Don} | {Photon} | {Neutron} | {Hadron} | {Un} | {Den} | {Great}
-		| {Independent} | {Ålands} | {Malaysian} | {Golden} | {Japan} | {Golden} | {Collection} | {Operation}
+		| {Lexicon} | {In} | {Teen} | {Canadian} | {Min} | {Don} | {Photon} | {Proton} | {Neutron} | {Electron}
+		| {Hadron} | {Un} | {Den} | {Great} | {Invasion} | {Within} | {Revolution} 
+		| {Independent} | {Ålands} | {Malaysian} | {Golden} | {Japan} | {Golden} | {Collection} | {Operation} | {Dragon}
+		| {Edition} | {Fusion} | {Mission} | {Horizon} | {Caravan} | {Titan} | {Mr.} | {Dr.} | {Million} | {Billion}
 		| AlphaUp AlphaDown* [ AlphaDown - "a" ] {ation} ]
 		) ;
 
 Define CapForeign   [ Ins(AlphaUp) morphtag({SUBCAT=FOREIGN}) ] ;
 Define CapMisc	    [ CapNameNomNSB | CapNomWithN | CapForeign | Ins(AlphaUp) PropNom ] ;
 Define CapMiscFirst [ CapNameNomNSB | CapForeign | PropFirstNom ] ;
+
+Define Serial [ wordform_exact( Field AlphaUp | Field Alpha Field 0To9 | Field 0To9 Alpha (Alpha) ) |
+       	      	[ Alpha | 0To9 ] Field CapNameNom ] ;
 
 !------------------------------
 

@@ -1,4 +1,4 @@
-inflect_sg( {Sel8nne} | {007} | {Americans} | {Avatar} | {Avengers} | {Batman} | {Blackadder} | {CSI} | {Deadwood} | {Fargo} | {Frasier} | {Frozen} | {Idols} | {Lost} | {Minions} | {Oz} | {Seinfeld} | {Shrek} | {Simpsons} | {Skyfall} | {Sopranos} | {Spectre} | {Spider-Man} | {Strömsö} | {Superman} | {Transformers} | {Twilight} | {X-Factor} | {X-Files} | {X-Men} | {Zootopia} ) |
+inflect_sg( {007} | {Americans} | {Avatar} | {Avengers} | {Batman} | {Blackadder} | {CSI} | {Deadwood} | {Fargo} | {Frasier} | {Frozen} | {Idols} | {Lost} | {Minions} | {Oz} | {Seinfeld} | {Sel8nne} | {Shrek} | {Simpsons} | {Skyfall} | {Sopranos} | {Spectre} | {Spider-Man} | {Strömsö} | {Superman} | {Transformers} | {Twilight} | {X-Factor} | {X-Files} | {X-Men} | {Zootopia} ) |
 wordform_exact({American}) WSep inflect_sg({Idol}) |
 wordform_exact({Battlestar}) WSep inflect_sg({Galactica}) |
 wordform_exact({Breaking}) WSep inflect_sg({Bad}) |
@@ -53,10 +53,10 @@ wordform_exact({Twin}) WSep inflect_sg({Peaks}) |
 wordform_exact({West}) WSep inflect_sg({Wing}) |
 wordform_exact({Will}) WSep wordform_exact({&}) WSep inflect_sg({Grace}) |
 wordform_exact({X}) WSep inflect_sg({Factor}) |
-wordform_exact({Panssarilaiva}) WSep "P" lemma_exact({potemkin}) |
 wordform_exact({Ihmisten}) WSep lemma_exact({puolue}) |
 wordform_exact({Linnunradan}) WSep lemma_exact({pianobaari}) |
 wordform_exact({Myrskyluodon}) WSep "M" lemma_exact({maija}) |
+wordform_exact({Panssarilaiva}) WSep "P" lemma_exact({potemkin}) |
 wordform_exact({Pikku}) WSep lemma_exact({kakkonen}) |
 wordform_exact({Pikku}) WSep "K" lemma_exact({kakkonen}) |
 wordform_exact({Tähtien}) WSep lemma_exact({sota}) |

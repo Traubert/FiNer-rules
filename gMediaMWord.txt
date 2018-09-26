@@ -1,8 +1,3 @@
-La Razon
-La Razón
-Rolling Stone
-El País
-El Pais
 ABC News
 Åbo Underrättelser
 Advertising Age
@@ -36,6 +31,8 @@ Der Spiegel
 Digital Spy
 Economic Daily News
 Eesti Päevaleht
+El Pais
+El País
 Extreme Tech
 Fierce Wireless
 Financial Times
@@ -49,6 +46,8 @@ Japan Times
 Japan Today
 Korea Herald
 Korea Times
+La Razon
+La Razón
 La Repubblica
 LA Times
 Latin Post
@@ -73,6 +72,7 @@ Official Xbox Magazine
 PC Magazine
 PC World
 Popular Science
+Rolling Stone
 Ságaid Muitaleaddji
 Saǥai Muittalægje
 Sam Mobile

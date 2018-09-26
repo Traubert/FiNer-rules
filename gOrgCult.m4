@@ -1,10 +1,8 @@
-inflect_sg( {Ateneum} | {Belvedere} | {Dikseli} | {EMMA} | {Eremitaasi} | {Fotografiska} | {Kiasma} | {Louvre} | {MCA} | {MoMA} | {Siida} | {Abba} | {ABBA} | {ACDC} | {AC/DC} | {Aerosmith} | {Agents} | {A-ha} | {AKB48} | {Aknestik} | {Amorphis} | {Anthrax} | {Apocalyptica} | {Avanti} | {Bananarama} | {Beatles} | {Candomino} | {Cascada} | {Chippendales} | {Clifters} | {CMX} | {Coldplay} | {Dallape} | {Dallapé} | {Doors} | {Eagles} | {Erasure} | {Eurythmics} | {Fintelligens} | {Folkswagen} | {Genialistid} | {Gimmel} | {Gjallarhorn} | {Glasvegas} | {Hearthill} | {Hellacopters} | {HIM} | {H.I.M.} | {Hunks} | {Hurriganes} | {Iconcrash} | {Indica} | {JMKE} | {JVG} | {KAJ} | {Kazaky} | {Kemmuru} | {Kemopetrol} | {Kiss} | {KISS} | {Klamydia} | {Kwan} | {Laibach} | {Lamourettes} | {LCMDF} | {Lemonator} | {Lovex} | {Mamba} | {Menudo} | {Metallica} | {Movetron} | {Mukaralla} | {Muse} | {Nickelback} | {Nickleback} | {Nightwish} | {Nirvana} | {NSYNC} | {PMMP} | {Popeda} | {Poropetra} | {Queen} | {Quintessence} | {Ramblers} | {Rehupiikles} | {Roxette} | {RSO} | {Salt-N-Pepa} | {Sarcofagus} | {SIG} | {SMG} | {Softengine} | {Stam1na} | {Stratovarius} | {Supremes} | {t.A.T.u} | {T.A.T.u.} | {Teleks} | {Teräsbetoni} | {Tiktak} | {TikTak} | {Tundramatiks} | {UMO} | {Vennaskond} | {Westlife} | {Wham} | {U2} | {XL5} | {YUP} | {Y.U.P.} ) |
+inflect_sg( {Ateneum} | {Belvedere} | {Dikseli} | {EMMA} | {Eremitaasi} | {Fotografiska} | {Kiasma} | {Louvre} | {MCA} | {MoMA} | {Siida} | {Abba} | {ABBA} | {ACDC} | {AC/DC} | {Aerosmith} | {Agents} | {A-ha} | {AKB48} | {Aknestik} | {Amorphis} | {Anthrax} | {Apocalyptica} | {Avanti} | {Bananarama} | {Beatles} | {Candomino} | {Cascada} | {Chippendales} | {Clifters} | {CMX} | {Coldplay} | {Dallape} | {Dallapé} | {Doors} | {Eagles} | {Erasure} | {Eurythmics} | {Fintelligens} | {Folkswagen} | {Genialistid} | {Gimmel} | {Gjallarhorn} | {Glasvegas} | {Hearthill} | {Hellacopters} | {HIM} | {H.I.M.} | {Hunks} | {Hurriganes} | {Iconcrash} | {Indica} | {JMKE} | {JVG} | {KAJ} | {Kazaky} | {Kemmuru} | {Kemopetrol} | {Kiss} | {KISS} | {Klamydia} | {Kwan} | {Laibach} | {Lamourettes} | {LCMDF} | {Lemonator} | {Lovex} | {Mamba} | {Menudo} | {Metallica} | {Movetron} | {Mukaralla} | {Muse} | {Nickelback} | {Nickleback} | {Nightwish} | {Nirvana} | {NSYNC} | {PMMP} | {Popeda} | {Poropetra} | {Queen} | {Quintessence} | {Ramblers} | {Rehupiikles} | {Roxette} | {RSO} | {Salt-N-Pepa} | {Sarcofagus} | {SIG} | {SMG} | {Softengine} | {Stam1na} | {Stratovarius} | {Supremes} | {t.A.T.u} | {T.A.T.u.} | {Teleks} | {Teräsbetoni} | {Tiktak} | {TikTak} | {Tundramatiks} | {U2} | {UMO} | {Vennaskond} | {Westlife} | {Wham} | {XL5} | {YUP} | {Y.U.P.} ) |
 wordform_exact({Forum}) WSep inflect_sg({Marinum}) |
 wordform_exact({La}) WSep inflect_sg({Fenice}) |
 wordform_exact({La}) WSep inflect_sg({Scala}) |
 wordform_exact({Modernin}) WSep wordform_exact({taiteen}) WSep inflect_sg({museo}) |
-wordform_exact({Matti}) WSep lemma_exact_morph({servo}, {NUM=SG}) WSep wordform_exact({ja}) WSep inflect_sg({Napander}) |
-wordform_exact({Matti}) WSep lemma_exact_morph({servo}, {NUM=SG}) WSep wordform_exact({&}) WSep inflect_sg({Napander}) |
 wordform_exact({30}) WSep wordform_exact({Seconds}) WSep wordform_exact(OptCap({to})) WSep inflect_sg({Mars}) |
 wordform_exact({69}) WSep inflect_sg({Eyes}) |
 wordform_exact({Ace}) WSep wordform_exact(OptCap({of})) WSep inflect_sg({Base}) |
@@ -68,8 +66,8 @@ wordform_exact({GG}) WSep inflect_sg({Caravan}) |
 wordform_exact({Green}) WSep inflect_sg({Day}) |
 wordform_exact({Grex}) WSep inflect_sg({Musicus}) |
 wordform_exact({Guerra}) WSep inflect_sg({Norte}) |
-wordform_exact({Guns}) WSep wordform_exact({'N}) WSep inflect_sg({Roses}) |
 wordform_exact({Guns}) WSep wordform_exact(Apostr) WSep wordform_exact({N}) WSep inflect_sg({Roses}) |
+wordform_exact({Guns}) WSep wordform_exact({'N}) WSep inflect_sg({Roses}) |
 wordform_exact({Guns}) WSep wordform_exact({N}) WSep wordform_exact(Apostr) WSep inflect_sg({Roses}) |
 wordform_exact({Guns}) WSep wordform_exact({N'}) WSep inflect_sg({Roses}) |
 wordform_exact({Hanoi}) WSep inflect_sg({Rocks}) |
@@ -242,6 +240,8 @@ wordform_exact({Zen}) WSep inflect_sg({Cafe}) |
 wordform_exact({Zen}) WSep inflect_sg({Café}) |
 wordform_exact({Ziggy}) WSep wordform_exact({Marley}) WSep wordform_exact(OptCap({and})) WSep wordform_exact(OptCap({the})) WSep wordform_exact({Melody}) WSep inflect_sg({Makers}) |
 wordform_exact({ZZ}) WSep inflect_sg({Top}) |
+wordform_exact({Matti}) WSep lemma_exact_morph({servo}, {NUM=SG}) WSep wordform_exact({ja}) WSep inflect_sg({Napander}) |
+wordform_exact({Matti}) WSep lemma_exact_morph({servo}, {NUM=SG}) WSep wordform_exact({&}) WSep inflect_sg({Napander}) |
 wordform_exact({Alwari}) WSep "T" lemma_exact({tuohitorvi}) |
 wordform_exact({Don}) WSep "H" lemma_exact({huono}) |
 wordform_exact({Eppu}) WSep "N" lemma_exact({normaali}) |

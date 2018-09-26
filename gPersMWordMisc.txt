@@ -1,20 +1,8 @@
-Psy
-Napoleon
-Oprah
-Oprah Winfrey
-Akihito
-Hirohito
-Stalin
-Murasaki Shikibu
-Oda Nobunaga
-Nobunaga
-Tokugawa Ieyasu
-Shinzō Abe
-Shinzo Abe
 50 Cent
 Abdul Fattah al-Sis
 Adele
 Agricola
+Akihito
 Alejandro González Iñárritu
 Alexandra Stan
 Alfonso Cuarón
@@ -199,6 +187,7 @@ Heath Ledger
 Henriette Wendt
 Henrique de Castro
 Hillary Clinton
+Hirohito
 Hiroshi Yamauchi
 Ho Chi Minh
 Hồ Chí Minh
@@ -363,8 +352,10 @@ Ming Chi Kuo
 Mohammed bin Nayef
 Moisés Naímin
 Mona Hanna-Attisha
+Murasaki Shikibu
 Mussie Zerai
 Nadia Murad
+Napoleon
 Natalie Imbruglia
 Nate Swanner
 Naveen Jamal
@@ -379,9 +370,13 @@ Nicole Scherzinger
 Nikki Haley
 Niklas Savander
 Nikola Tesla
+Nobunaga
+Oda Nobunaga
 OJ Simpson
 Oleg Artemjev
 Olivia Newton-John
+Oprah
+Oprah Winfrey
 Örjan Westman
 Oscar Isaac
 Paleface
@@ -409,6 +404,7 @@ Pope Francis
 Priscilla Chan
 Priyanka Chopra
 Proklos
+Psy
 Pythagoras
 Queen Máxima
 Raghuram Rajan
@@ -469,11 +465,14 @@ Seth Rogen
 Shakira
 Shawn Corey Carter
 Shelley Hwang
+Shinzo Abe
+Shinzō Abe
 Shirley Temple
 Siddhartha Gautama
 Signmark
 Sridhar Ramaswamy
 Stacy Wood
+Stalin
 Stefani Germanotta
 Stefan Weitz
 Stephen Curry
@@ -500,6 +499,7 @@ Terence Eden
 Terry Myerson
 Tim Bajarin
 Tim Cook
+Tokugawa Ieyasu
 Tom Preston-Werner
 Tsai Ing-wen
 Tu Youyou

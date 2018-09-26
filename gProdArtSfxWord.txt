@@ -23,6 +23,7 @@ Dragons
 Dream
 DS
 Edition
+Elegy
 Evil
 Fantasy
 Fighters
@@ -32,6 +33,7 @@ Gods
 Hero
 Heroes
 Hits
+Hymn
 Invaders
 Invasion
 Kingdom

@@ -1,10 +1,4 @@
-inflect_sg( {Psy} | {Napoleon} | {Oprah} | {Akihito} | {Hirohito} | {Stalin} | {Nobunaga} | {Adele} | {Agricola} | {Amoc} | {Aristoteles} | {Badding} | {Beyonce} | {Beyoncé} | {Blondie} | {Botticelli} | {Brena} | {Buddha} | {Caravaggioe} | {Cheek} | {Cher} | {Cicciolina} | {Donatello} | {evleaks} | {@evleaks} | {Evleaks} | {Fobba} | {Ghirlandaio} | {Kirka} | {Masaccio} | {Masolino} | {Michaelangelo} | {Michelangelo} | {Neseus} | {Paleface} | {Palestrina} | {Perugino} | {Pewdiepie} | {PewDiePie} | {Pinturicchio} | {Pitbull} | {Platon} | {Plinius} | {Plutarkhos} | {Proklos} | {Pythagoras} | {Rihanna} | {Runeberg} | {Ruudolf} | {Shakira} | {Signmark} | {Vickan} | {Weev} | {will.i.am} | {Will.i.am} | {Yazka} | {Zeuksis} | {Zizou} ) |
-wordform_exact({Oprah}) WSep inflect_sg({Winfrey}) |
-wordform_exact({Murasaki}) WSep inflect_sg({Shikibu}) |
-wordform_exact({Oda}) WSep inflect_sg({Nobunaga}) |
-wordform_exact({Tokugawa}) WSep inflect_sg({Ieyasu}) |
-wordform_exact({Shinzō}) WSep inflect_sg({Abe}) |
-wordform_exact({Shinzo}) WSep inflect_sg({Abe}) |
+inflect_sg( {Adele} | {Agricola} | {Akihito} | {Amoc} | {Aristoteles} | {Badding} | {Beyonce} | {Beyoncé} | {Blondie} | {Botticelli} | {Brena} | {Buddha} | {Caravaggioe} | {Cheek} | {Cher} | {Cicciolina} | {Donatello} | {evleaks} | {@evleaks} | {Evleaks} | {Fobba} | {Ghirlandaio} | {Hirohito} | {Kirka} | {Masaccio} | {Masolino} | {Michaelangelo} | {Michelangelo} | {Napoleon} | {Neseus} | {Nobunaga} | {Oprah} | {Paleface} | {Palestrina} | {Perugino} | {Pewdiepie} | {PewDiePie} | {Pinturicchio} | {Pitbull} | {Platon} | {Plinius} | {Plutarkhos} | {Proklos} | {Psy} | {Pythagoras} | {Rihanna} | {Runeberg} | {Ruudolf} | {Shakira} | {Signmark} | {Stalin} | {Vickan} | {Weev} | {will.i.am} | {Will.i.am} | {Yazka} | {Zeuksis} | {Zizou} ) |
 wordform_exact({50}) WSep inflect_sg({Cent}) |
 wordform_exact({Abdul}) WSep wordform_exact({Fattah}) WSep inflect_sg({al-Sis}) |
 wordform_exact({Alejandro}) WSep wordform_exact({González}) WSep inflect_sg({Iñárritu}) |
@@ -331,6 +325,7 @@ wordform_exact({Ming}) WSep wordform_exact({Chi}) WSep inflect_sg({Kuo}) |
 wordform_exact({Mohammed}) WSep wordform_exact({bin}) WSep inflect_sg({Nayef}) |
 wordform_exact({Moisés}) WSep inflect_sg({Naímin}) |
 wordform_exact({Mona}) WSep inflect_sg({Hanna-Attisha}) |
+wordform_exact({Murasaki}) WSep inflect_sg({Shikibu}) |
 wordform_exact({Mussie}) WSep inflect_sg({Zerai}) |
 wordform_exact({Nadia}) WSep inflect_sg({Murad}) |
 wordform_exact({Natalie}) WSep inflect_sg({Imbruglia}) |
@@ -346,9 +341,11 @@ wordform_exact({Nicole}) WSep inflect_sg({Scherzinger}) |
 wordform_exact({Nikki}) WSep inflect_sg({Haley}) |
 wordform_exact({Niklas}) WSep inflect_sg({Savander}) |
 wordform_exact({Nikola}) WSep inflect_sg({Tesla}) |
+wordform_exact({Oda}) WSep inflect_sg({Nobunaga}) |
 wordform_exact({OJ}) WSep inflect_sg({Simpson}) |
 wordform_exact({Oleg}) WSep inflect_sg({Artemjev}) |
 wordform_exact({Olivia}) WSep inflect_sg({Newton-John}) |
+wordform_exact({Oprah}) WSep inflect_sg({Winfrey}) |
 wordform_exact({Örjan}) WSep inflect_sg({Westman}) |
 wordform_exact({Oscar}) WSep inflect_sg({Isaac}) |
 wordform_exact({Palmer}) WSep inflect_sg({Luckey}) |
@@ -420,6 +417,8 @@ wordform_exact({Seth}) WSep inflect_sg({Lloydin}) |
 wordform_exact({Seth}) WSep inflect_sg({Rogen}) |
 wordform_exact({Shawn}) WSep wordform_exact({Corey}) WSep inflect_sg({Carter}) |
 wordform_exact({Shelley}) WSep inflect_sg({Hwang}) |
+wordform_exact({Shinzo}) WSep inflect_sg({Abe}) |
+wordform_exact({Shinzō}) WSep inflect_sg({Abe}) |
 wordform_exact({Shirley}) WSep inflect_sg({Temple}) |
 wordform_exact({Siddhartha}) WSep inflect_sg({Gautama}) |
 wordform_exact({Sridhar}) WSep inflect_sg({Ramaswamy}) |
@@ -450,6 +449,7 @@ wordform_exact({Terence}) WSep inflect_sg({Eden}) |
 wordform_exact({Terry}) WSep inflect_sg({Myerson}) |
 wordform_exact({Tim}) WSep inflect_sg({Bajarin}) |
 wordform_exact({Tim}) WSep inflect_sg({Cook}) |
+wordform_exact({Tokugawa}) WSep inflect_sg({Ieyasu}) |
 wordform_exact({Tom}) WSep inflect_sg({Preston-Werner}) |
 wordform_exact({Tsai}) WSep inflect_sg({Ing-wen}) |
 wordform_exact({Tu}) WSep inflect_sg({Youyou}) |

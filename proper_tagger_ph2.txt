@@ -80,11 +80,11 @@ Define Clitic 	  ( {han} | {hän} | {kin} | {kaan} | {kään} ) ;
 
 Define NomSuff 	  ( SuffSep Ins(Clitic) ) ;
 Define GenSuff 	  SuffSep "n" ( Ins(Clitic) ) ;
-Define ParSuff 	  SuffSep ("t")["ä"|"a"] ( Ins(Clitic) ) ;
+Define ParSuff 	  SuffSep [ ("t")["ä"|"a"] | {ää} ] ( Ins(Clitic) ) ;
 Define LocIntSuff SuffSep [ {iin} | ("h") FinVowel "n" | "s"["s"|"t"]["a"|"ä"] ] ( Ins(Clitic) ) ;
 Define LocExtSuff SuffSep [ "l"["l"|"t"]["a"|"ä"] | {lle} ] ( Ins(Clitic) ) ;
 
-Define FinSuff ( SuffSep [ Ins(Clitic) | [ ( "n" | (["t"|{st}|{ss}|{lt}|{ll}])["ä"|"a"] | {lle} | {iin} | ("h") FinVowel "n" | {ks}["e"|"i"] | {na} | {nä} ) ] ( Ins(Clitic) ) ] ) ;
+Define FinSuff ( SuffSep [ Ins(Clitic) | [ ( "n" | (["t"|{st}|{ss}|{lt}|{ll}])["ä"|"a"] | {ää} | {lle} | {iin} | ("h") FinVowel "n" | {ks}["e"|"i"] | {na} | {nä} ) ] ( Ins(Clitic) ) ] ) ;
 
 !======================================================================
 
@@ -217,6 +217,7 @@ Define NounGenPl [ Field FSep Field FSep Field [{POS=NOUN} Field {NUM=SG} Field 
 
 Define CoordConj [ Field FSep Field FSep Field [{[SUBCAT=CONJUNCTION][CONJ=COORD]}] Field FSep Field FSep ] ;
 Define NotConj [ [ [[ Ins(AlphaUp) | Ins(AlphaDown) | 0To9 ] Field ] FSep Field FSep Field FSep Field FSep ] - CoordConj ] ;
+Define Coord   [ [ Field FSep [{ja} | Comma ] FSep Field FSep Field FSep ] ] ;
 
 Define Prop [ Field FSep Field FSep Field [{PROPER}] Field FSep Field FSep ] ;
 Define PropNom [ Field FSep Field FSep Field [{PROPER} Field {[NUM=SG][CASE=NOM]}] Field FSep Field FSep ] ;
@@ -265,6 +266,8 @@ Define CapWordGen LC(WordBoundary)  [CapWordPart {[CASE=GEN]} Word]  RC(WordBoun
 Define CapWordNomGen LC(WordBoundary)  [CapWordPart {[CASE=} [{NOM}|{GEN}] "]" Word]  RC(WordBoundary) ;
 Define CapWordNomOrEt [ CapWordNom | [ ["&" | {and}] FSep Field FSep Field FSep Field FSep ] ] ;
 
+Define CapWordNomNSB LC( NoSentBoundary ) CapWordNom ;
+
 Define CapNounNom AlphaUp [ Field FSep Field FSep Field [{POS=NOUN} Field {[NUM=SG][CASE=NOM]}] Field FSep Field FSep ] ;
 Define CapNounGen AlphaUp [ Field FSep Field FSep Field [{POS=NOUN} Field {[NUM=SG][CASE=GEN]}] Field FSep Field FSep ] ;
 Define CapNounPar AlphaUp [ Field FSep Field FSep Field [{POS=NOUN} Field {[NUM=SG][CASE=PAR]}] Field FSep Field FSep ] ;
@@ -283,21 +286,26 @@ Define CapNameNSB LC( NoSentBoundary ) CapName ;
 Define CapNameNomNSB LC( NoSentBoundary ) CapNameNom ;
 Define CapNameGenNSB LC( NoSentBoundary ) CapNameGen ;
 
-Define TruncPfx [ Field [AlphaDown Dash ] FSep Field FSep Field FSep Field FSep ] ;
+Define TruncPfx [ Field [[ Alpha | 0To9 ] Dash ] FSep Field FSep Field FSep Field FSep ] ;
 
 Define CapNomWithN
        [ [[ {Domain} | {Open} | {European} | {American} | {African} | {Asian} | {Main} | {Syrian} | {London} | {Station} | {San}
 		| {Union} | {Western} | {Falcon} | {Debian} | {Captain} | {Human} | {Emotion} | {Pan} | {Education} | {Canon} | {Christian}
 		| {Women} | {Men} | {Nation} | {Motion} | {Time} | {Queen} | {Champion} | {Indian} | {Norwegian} | {Australian} | {Ten}
 		| {An} | {Milton} | {Hilton} | {Titan} | {Aryan} | {Austrian} | {German} | {Silicon} | {Icon} | {Falcon} | {Recon}
-		| {Lexicon} | {In} | {Teen} | {Canadian} | {Min} | {Don} | {Photon} | {Neutron} | {Hadron} | {Un} | {Den} | {Great}
-		| {Independent} | {Ålands} | {Malaysian} | {Golden} | {Japan} | {Golden} | {Collection} | {Operation}
+		| {Lexicon} | {In} | {Teen} | {Canadian} | {Min} | {Don} | {Photon} | {Proton} | {Neutron} | {Electron}
+		| {Hadron} | {Un} | {Den} | {Great} | {Invasion} | {Within} | {Revolution} 
+		| {Independent} | {Ålands} | {Malaysian} | {Golden} | {Japan} | {Golden} | {Collection} | {Operation} | {Dragon}
+		| {Edition} | {Fusion} | {Mission} | {Horizon} | {Caravan} | {Titan} | {Mr.} | {Dr.} | {Million} | {Billion}
 		| AlphaUp AlphaDown* [ AlphaDown - "a" ] {ation} ]
 		] FSep Field FSep Field FSep Field FSep ] ;
 
 Define CapForeign   [ Ins(AlphaUp) [ Field FSep Field FSep Field [{SUBCAT=FOREIGN}] Field FSep Field FSep ] ] ;
 Define CapMisc	    [ CapNameNomNSB | CapNomWithN | CapForeign | Ins(AlphaUp) PropNom ] ;
 Define CapMiscFirst [ CapNameNomNSB | CapForeign | PropFirstNom ] ;
+
+Define Serial [ [ [Field AlphaUp | Field Alpha Field 0To9 | Field 0To9 Alpha (Alpha) ] FSep Field FSep Field FSep Field FSep ] |
+       	      	[ Alpha | 0To9 ] Field CapNameNom ] ;
 
 !------------------------------
 

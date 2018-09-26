@@ -56,25 +56,25 @@ Two Oceans
 Västerbottensost
 Veuve Clicquot
 Aura-juusto%sg
+cokis%sg
+hirvilimu%sg
 Jaloviina%sg
 Juhla Mokka%sg
 Karhu%sg
+kokis%sg
 Koskenkorva%sg
 Koskenlaskija%sg
+kossu%sg
 Koulunäkki%sg
 Kulta Katriina%sg
 Lapin Kulta%sg
 Mustaleima%sg
+muumilimu%sg
 Oivariini%sg
 Ruispala%pl
 Salaneuvos%sg
+salmari%sg
 Salmiakki Koskenkorva%sg
 Salmiakkikossu%sg
 Sisuviina%sg
-kossu%sg
-hirvilimu%sg
-salmari%sg
-kokis%sg
-cokis%sg
 smurffilimu%sg
-muumilimu%sg

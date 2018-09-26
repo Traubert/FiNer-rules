@@ -1,4 +1,3 @@
-DuckDuckGo
 3GPP
 AC-300
 AccuWeather
@@ -75,6 +74,7 @@ Download.com
 Dreamcast
 DSCOVR
 DSiWare
+DuckDuckGo
 Duqu
 Duqun
 EasyPC

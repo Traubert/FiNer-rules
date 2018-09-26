@@ -1,6 +1,6 @@
-Predators
 Aces
 Angels
+Avalanche
 Bears
 Blues
 Bruins
@@ -17,8 +17,8 @@ Colts
 Comets
 Coyotes
 Crocodiles
-Ducks
 Devils
+Ducks
 Dynamo
 Falcons
 Firebirds
@@ -30,13 +30,12 @@ Hawks
 Hornets
 Hurricanes
 Huskies
-Jets
-Avalanche
 Icehawks
 Indians
 Islanders
-Knicks
+Jets
 Kings
+Knicks
 Knights
 Lakers
 Lancers
@@ -47,9 +46,10 @@ Nailers
 Oilers
 Otters
 Panthers
-Penguins
 Pelicans
+Penguins
 Pirates
+Predators
 Raiders
 Rangers
 Raptors

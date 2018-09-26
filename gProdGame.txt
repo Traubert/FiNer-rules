@@ -45,6 +45,7 @@ Diablo
 Divinity
 Donkey Kong
 Doom
+Dota
 Double Dragon
 Dragon Quest
 Duck Hunt
@@ -57,6 +58,7 @@ Fifa 15
 FIFA 15
 Final Fantasy
 Fire Emblem
+Flappy Bird
 Fortnite
 Frogger
 F-Zero

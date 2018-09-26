@@ -2,6 +2,7 @@ ajoneuvo
 alus
 asuntovaunu
 auto
+avaruusasema
 cabriolet
 dsonkki
 dzonkki

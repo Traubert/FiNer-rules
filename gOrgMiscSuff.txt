@@ -23,8 +23,6 @@ institut
 institutet
 klubb
 klubben
-tjänst
-tjänsten
 rådet
 rörelse
 röselsen
@@ -34,4 +32,6 @@ samfund
 samfundet
 schaft
 styrelse
+tjänst
+tjänsten
 verket

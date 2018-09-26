@@ -1,27 +1,27 @@
-Merlot
-Malbec
 Bonarda
 Cabernet Sauvignon
-Syrah
-Shiraz
 Chardonnay
-Riesling
-Pinot Noir
-Pinot
+Gala
+Golden Delicious
+Granny Smith
+Grauburgunder
+Grenache
+Malbec
+Merlot
 Muscadelle
+Pinot
+Pinot Bianco
+Pinot Blanc
 Pinot Grigio
 Pinot Gris
+Pinot Noir
+Red Delicious
+Riesling
 Sauvignon
 Sauvignon Blanc
-Pinot Blanc
-Pinot Bianco
+Sauvignon gris
 Sauvignon vert
-Grauburgunder
+Shiraz
+Syrah
 Weissburgunder
 Weißburgunder
-Sauvignon gris
-Grenache
-Granny Smith
-Red Delicious
-Golden Delicious
-Gala

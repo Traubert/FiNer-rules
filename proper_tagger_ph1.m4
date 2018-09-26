@@ -65,7 +65,7 @@ Define SurnameSuffixedFin
        [ {lainen} | {läinen} | {skanen} | {skinen} | {kainen} | {käinen}
        | {kkanen} | {kkonen} | {kkönen} | {pponen} | {ppönen} | {ttönen}
        | {ttinen} | {ttunen} | {kkinen} | {kangas} | {lenius} | {nheimo}
-       | {nsalo} ]::0.05
+       | {nsalo}  | {a-aho}  ]::0.05
        , {NUM=SG} ) ;
 
 Define PersonMiscMultiPart [
@@ -373,7 +373,7 @@ Define PersonWithPossession
        [ PropFirstLastGen ]
        RC( WSep lemma_ends(
        	   	{sormi} | {kasvo} ("t") | {parta} | {hius} | {vatsa} | {elämä} | {luo}({kse}) | {luota} | {syntymäpäivä} | {hautakivi} |
-       	   	{maalaus} | {sävellys} | {teos} | {romaani} | {novelli} | {runo} | {elokuva} | {kotona} | {luona} |
+       	   	{maalaus} | {sävellys} | {teos} | {romaani} | {novelli} | {runo} | {elokuva} | {ruumis} | {kotona} | {luona} |
 		{kuolinvuode} | {mausoleumi} | {kuolinpesä} | {työsopimus} | {työpanos} | {työsuhde} ) ) ;
 		!! NB: excluded "käsi" and "kirja" due to frequent methaphorical usage
 
@@ -1458,7 +1458,7 @@ Define LocPlaceSuffixed
        		   {Church}::0.25 | {Stadion} | {House}::0.25 | {Temple} | {Arena} | {Areena} | {Hall} | {Studio} | {Place} | {Plaza} |
 		   {Ranch} | {Center}::0.25 | {Zoo} | {Speedway} | {Cemetery} | {Statehouse} | {Bridge} | {Kerk} | {Dom} | {Minster} |
 		   {Memorial} | {Monument} | {Capitol} | {Tower}("s") | {Arch} | {Gate} | {Circuit} | {Aquarium} | {Münster} |
-		   OptCap({most}) | {Shrine} | {Fountain} | {Lodge} | {Zamok} ) ;
+		   OptCap({most}) | {Shrine} | {Fountain} | {Lodge} | {Zamok} | {Complex} ) ;
 
 
 Define LocPlacePrefixed1
@@ -2219,7 +2219,7 @@ Define MediaSuffixed3
 Define MediaSuffixed4
        [ CapMisc WSep ]*
        inflect_sg( AlphaUp Field OptCap( {bladet} | {blad} | {pressen} | {avisen} | {tidende} | {tidningen} | {posten} | {leht} | {kuriren} |
-       		   	   	 	 {zeitung} | {spiegel} | {bladid} | {blaðið} ) ) ;
+       		   	   	 	 {zeitung} | {spiegel} | {bladid} | {blaðið} | {news} | {times} ) ) ;
 
 !* "Fanni & Kaneli -ruokablogi", "Days of Old -lehti", "Rise of the Phoenix -blogi"
 Define MediaSuffixed5
@@ -2978,7 +2978,6 @@ Define OrgUnion
        lemma_exact( {liitto} ) WSep
        Ins(NpoSuffixAbbr) ;
 
-
 !** Kuopion Yrittäjät       
 
 !-----------------------------------------------------------------------
@@ -3377,7 +3376,7 @@ Define OrgDisamb2
 Define OrgDisamb3
        [ wordform_exact( [ Ins(CorpOrPro) | Ins(CorpOrLoc) ] GenSuff ) | Ins(PropOrgGen) | Ins(WhiteHouseGen) ]
        RC( WSep lemma_ends(
-       	   {edustaja} | {perustaja} | {työtekijä} | {johtaja} | {omistaja} | {konttori} | {osake} | {liikevaihto} |
+       	   {edustaja} | {perustaja} | {työntekijä} | {johtaja} | {omistaja} | {konttori} | {osake} | {liikevaihto} |
        	   {mies} | {kurssi} | {liikevaihto} | {liiketappio} | {markkinaosuus} | {listautuminen} | {palvelus} | {sijoittaja} | {blogi} |
 	   {raportti} | {tiedote} | [{lehdistö}|{tiedotus}]{tilaisuus} | {suhtautuminen} | {lausunto} | {syyte} | {anteeksipyyntö} | {reaktio} | {omaisuus} | {hallitus} | {suunnitelma} | {insinööri} | {asiakaspalvelu} )
 	   ) ;
@@ -3389,7 +3388,8 @@ Define OrgDisamb4
 
 Define OrgDisamb5
        [ wordform_exact( [ Ins(CorpOrPro) ] ParSuff ) | Ins(PropOrgPar) ]
-       RC( WSep wordform_exact( [ {syyttäv} | {uhkailev} | {moittiv} | {arvostelev} | {rahoittav} | {sponsoroiv} ] Alpha+ ) ) ;
+       RC( WSep wordform_exact( [ {syyttäv} | {uhkailev} | {moittiv} | {arvostelev} | {rahoittav} | {sponsoroiv} ] Alpha+ |
+       	   			{vastaan} ) ) ;
 
 !**
 Define MunicipalityNom
@@ -3505,7 +3505,7 @@ Define FoodDrinkOrNot [ @txt"gTentativeFoodDrink.txt" | @txt"gProdFoodDrinkBrand
 Define FoodDrinkType  [ Field @txt"gProdFoodDrinkType.txt" ] ;
 
 Define ProdFoodDrinkHyphen1
-       Field AlphaUp lemma_exact( Field Dash Ins(FoodDrinkType) )::0.20 ;
+       Field AlphaUp Field Capture(FoodCpt1) Dash lemma_exact( Field Dash Ins(FoodDrinkType) )::0.20 ;
 
 Define ProdFoodDrinkHyphen2
        ( CapMisc WSep )
@@ -3514,7 +3514,7 @@ Define ProdFoodDrinkHyphen2
        DashExt AlphaDown lemma_exact( (Dash) Ins(FoodDrinkType) )::0.20 ;
 
 Define ProdFoodDrinkHyphen3
-       Field AlphaUp lemma_exact_sg( Field AlphaDown Dash {niminen} ) WSep
+       Field AlphaUp Field Capture(FoodCpt2) Dash lemma_exact_sg( Field AlphaDown Dash {niminen} ) WSep
        lemma_exact_sg( Ins(FoodDrinkType) )::0.20 ;
 
 Define ProdFoodDrinkColloc1
@@ -3522,13 +3522,21 @@ Define ProdFoodDrinkColloc1
        [ ( CapMisc::0.20 WSep ) CapNounPar::0.50 | infl_sg_par(FoodDrinkOrNot)::0.10 ] ;
 
 Define ProdFoodDrinkColloc2
-       LC( lemma_ends( {kylmä} | {kuuma} | {lämmin} | {haalea} | {makea} | {suolainen} | {kirpea} | {huurteinen} | {virkistävä} |
+       LC( lemma_ends( {kylmä} | {kuuma} | {lämmin} | {haalea} | {makea} | {suolainen} | {kirpeä} | {hapan} | {huurteinen} | {virkistävä} |
        	   	       {makuinen} | {raikas} | {alkoholiton} | {pitoinen} ) WSep )
        [ ( CapMisc::0.20 WSep ) CapName::0.50 | inflect_sg(FoodDrinkOrNot)::0.10 ] ;
 
 Define ProdFoodDrinkColloc3
-       [ ( CapMisc::0.20 WSep ) CapNameNSB::0.50 | infl_sg_nom(FoodDrinkOrNot)::0.10 ]
+       [ ( CapMisc::0.20 WSep ) CapMisc::0.50 | infl_sg_nom(FoodDrinkOrNot)::0.10 ]
        RC( WSep lemma_exact( {maistua} | {sisältää} | {maistuu} | {ravitsee} | {virkistää} ) ) ;
+
+Define ProdFoodDrinkColloc4
+        [ ( CapMisc::0.20 WSep ) CapNameGenNSB::0.50 | PropGen::0.50 | infl_sg_gen(FoodDrinkOrNot)::0.10 ]
+	RC( WSep ( PosAdj WSep ) lemma_exact( {maku} | {sivumaku} | {ainesosa} | {koostumus} | {makeus} | {resepti} | {aromi} | {hapokkuus} |
+	    AlphaDown+ {pitoituus} | {ph} | {keksijä} | {valmistaja} | {suutuntuma} | {puhtaus} | {rasva} | {rasvaisuus} ) ) ;
+
+Define ProdFoodDrinkCaptured
+       wordform_exact([ FoodCpt1 | FoodCpt2 ] FinSuff )::0.60 ;
 
 Define ProdFoodDrinkGaz [ m4_include(`gProdFoodDrink.m4') ]::0.20 ;
 
@@ -3539,28 +3547,32 @@ Define ProdFoodDrink
        | Ins(ProdFoodDrinkColloc1)
        | Ins(ProdFoodDrinkColloc2)
        | Ins(ProdFoodDrinkColloc3)
+       | Ins(ProdFoodDrinkColloc4)
+       | Ins(ProdFoodDrinkCaptured)
        | Ins(ProdFoodDrinkGaz)
        ] EndTag(EnamexProXxx) ;
 
 !!----------------------------------------------------------------------
-!! Fruit and vegetable cultivars
-!! (mostly grapes)
+!! Fruit and vegetable cultivars (mostly grapes)
 !!----------------------------------------------------------------------
 
 Define CultivarType [ ({viini}) {rypäle} ({lajike}) | {lajike} ] ;
 
 Define ProdCultivarHyphen1
-       AlphaUp AlphaDown+ Dash lemma_exact_sg( Field Dash CultivarType )::0.20 ;
+       AlphaUp AlphaDown+ Capture(CtivCpt1) Dash lemma_exact( Field Dash CultivarType )::0.20 ;
 
 Define ProdCultivarHyphen2
        ( CapMisc WSep )
-       ( CapName WSep )
        CapName WSep
-       DashExt lemma_exact_sg( (Dash) CultivarType )::0.20 ;
+       ( [ CapName | LowerWord ] WSep )
+       DashExt lemma_exact( (Dash) CultivarType )::0.20 ;
 
 Define ProdCultivarHyphen3
-       AlphaUp lemma_exact_sg( Field AlphaDown Dash {niminen} ) WSep
+       AlphaUp Field Capture(CtivCpt2) Dash lemma_exact_sg( Field AlphaDown Dash {niminen} ) WSep
        lemma_exact_sg( CultivarType )::0.20 ;
+
+Define ProdCultivarCaptured
+       wordform_exact([ CtivCpt1 | CtivCpt2 ] FinSuff )::0.60 ;
 
 Define ProdCultivarGaz [ m4_include(`gProdCultivar.m4') ]::0.20 ;
 
@@ -3568,28 +3580,9 @@ Define ProdCultivar
        [ Ins(ProdCultivarHyphen1)
        | Ins(ProdCultivarHyphen2)
        | Ins(ProdCultivarHyphen3)
+       | Ins(ProdCultivarCaptured)
        | Ins(ProdCultivarGaz)
        ] EndTag(EnamexProXxx) ;
-
-!!----------------------------------------------------------------------
-!! Auxiliary definitions
-!!----------------------------------------------------------------------
-
-Define VNum wordform_exact( 0To9+ ( "." [ 0To9|"X"|"x"]+ ) ( "." [ 0To9|"X"|"x"]+ ) (":" AlphaDown+ ) ) ;
-Define VersionSeq
-       ( lemma_ends({versio}) WSep )
-       ( [ VNum WSep wordform_exact(Comma) WSep ]* VNum WSep wordform_exact( {ja} | {sekä} | {että} | "&" | Comma ) WSep ) VNum ;
-
-Define VersionSeqX
-       ( [ VNum WSep wordform_exact(Comma) WSep ]* VNum WSep wordform_exact( {ja} | {sekä} | {että} | "&" | Comma ) WSep ) VNum ;
-
-Define ProTypeStr @txt"gProdType.txt" ;
-Define ProType lemma_ends( ProTypeStr ) ;
-Define ProMfac @txt"gProdMfac.txt" ;
-Define ProSuff @txt"gProdSuff.txt" ;
-Define ProSeries @txt"gProdSeries.txt" ;
-Define ProOS @txt"gProdOS.txt" ;
-Define ProBrowser @txt"gProdBrowser.txt" ;
 
 !------------------------------------------------------------------------
 !* Video games
@@ -3599,27 +3592,27 @@ Define GameSfx  [ {3D} | {DX} | {Plus} | {Deluxe} | {64} ] ;
 Define GameType lemma_ends( [ {peli}({sarja}) | {räiskintä} | {taso}[{hyppely}|{loikka}] | {seikkailu} |
        			      ["j"|{mmo}]{rpg} | {simulaattori} | {pelikokoelma} ] ) ;
 
-Define gazProVG [ m4_include(`gProdGame.m4') ] ;
+Define gazProGame [ m4_include(`gProdGame.m4') ] ;
 
-Define ProVG1
-       AlphaUp Field Capture(ProCpt01) Dash Ins(GameType) ;
+Define ProGame1
+       AlphaUp Field Capture(GameCpt1) Dash Ins(GameType) ;
 
-Define ProVG2
+Define ProGame2
        ( [ CapMisc WSep ]*
        	 [ AlphaUp | 0To9 ] Word WSep lemma_exact(":") WSep )
        [ [ AlphaUp AbbrNom | AlphaUp PunctWord | CapMisc ] WSep ]*
        ( CapWord WSep [ AndOfThe WSep ]+ [ CapWord WSep ]* )
        Field AlphaUp ( Word WSep )
-       [ NoFSep - SentencePunct ] Field Capture(ProCpt02) FSep Word WSep
+       [ NoFSep - SentencePunct ] Field Capture(GameCpt2) FSep Word WSep
        DashExt Ins(GameType) ;
 
-Define ProVG4
+Define ProGame4
        InQuotes WSep
        DashExt Ins(GameType) ;
 
-Define ProVG3
+Define ProGame3
        ( CapMisc WSep )
-       gazProVG
+       gazProGame
        ( WSep AlphaUp AlphaDown+ FSep Word )
        ( WSep wordform_exact([ Ins(NumRoman) | Ins(GameSfx) | 0To9 ]) )
        ( WSep wordform_exact([ Ins(NumRoman) | Ins(GameSfx) | 0To9 ](":" AlphaDown+)) )
@@ -3629,12 +3622,16 @@ Define ProVG3
        ( WSep Dash Ins(GameType) )
        NRC( WSep Dash Word ) ;
 
+Define ProGameCaptured
+       wordform_exact([ GameCpt1 | GameCpt2 ] FinSuff )::0.60 ;
+
 Define ProVideoGame
-       [ Ins(ProVG1)::0.50
-       | Ins(ProVG2)::0.50
-       | OptQuotes(Ins(ProVG3))::0.25
-       | Ins(ProVG4)::0.25
-       ] ;
+       [ Ins(ProGame1)::0.50
+       | Ins(ProGame2)::0.50
+       | OptQuotes(Ins(ProGame3))::0.25
+       | Ins(ProGame4)::0.25
+       | Ins(ProGameCaptured)
+       ] EndTag(EnamexProXxx) ;
 
 !------------------------------------------------------------------------
 !* Film & Television
@@ -3662,7 +3659,7 @@ Define ProFilmTVGaz
        NRC( WSep Dash AlphaDown ) ;
 
 Define ProFilmTVSuffixed1
-       AlphaUp Field Capture(ProCpt03) Dash lemma_ends( Ins(FilmTVType) ) ;
+       AlphaUp Field Capture(FilmCpt1) Dash lemma_ends( Ins(FilmTVType) ) ;
 
 Define ProFilmTVSuffixed2
        ( [ CapMisc WSep ]*
@@ -3670,7 +3667,7 @@ Define ProFilmTVSuffixed2
        [ CapMisc WSep ]*
        ( CapWord WSep [ AndOfThe WSep ]+ [ CapWord WSep ]* )
        [ CapMisc WSep ]*
-       [ AlphaUp | 0To9 ] Field Capture(ProCpt04) FSep Word WSep
+       [ AlphaUp | 0To9 ] Field Capture(FilmCpt2) FSep Word WSep
        ( ( LowerWord WSep ) ( LowerWord WSep )
        NotConj WSep )
        DashExt Ins(FilmTVType ) ;
@@ -3690,14 +3687,18 @@ Define ProFilmColloc
        LC( WSep [ ? - Dash ] [ FilmTVType | lemma_ends( {ohjelma} ) ] WSep ( wordform_exact({nimeltä}) WSep ) )
        [ [ CapMisc WSep ]* CapName ( ( WSep CapWord ) WSep [ AndOfThe WSep ]+ CapWord )::0.75 | InQuotes ] ;
 
+Define ProFilmTvCaptured
+       wordform_exact([ FilmCpt1 | FilmCpt2 ] FinSuff )::0.60 ;
+
 Define ProFilmTV
        [ Ins(ProFilmTVSuffixed1)::0.25
        | Ins(ProFilmTVSuffixed2)::0.25
        | Ins(ProFilmTVSuffixed3)::0.25
        | OptQuotes(Ins(ProFilmTVGaz))::0.25
        | Ins(ProFilmTVWith)::0.60
-       | Ins(ProFilmColloc)::0.20 
-       ] ;
+       | Ins(ProFilmColloc)::0.20
+       | Ins(ProFilmTvCaptured)
+       ] EndTag(EnamexProXxx) ;
 
 !------------------------------------------------------------------------
 !* Books & Literature
@@ -3717,7 +3718,7 @@ Define ProLitSuffixed1
 
 Define ProLitSuffixed2
        LC( NoSentBoundary )
-       AlphaUp Field Capture(ProCpt06) lemma_exact( Field Dash Ins(LitType) ) ;
+       AlphaUp Field Capture(LitCpt1) lemma_exact( Field Dash Ins(LitType) ) ;
 
 Define ProLitSuffixed3
        InQuotes WSep
@@ -3742,6 +3743,9 @@ Define ProLitQuoted
        LC( lemma_exact(LitType) WSep ( wordform_exact({nimeltä}) WSep ) )
        InQuotes ;
 
+Define ProLitCaptured
+       wordform_exact([ LitCpt1 ] FinSuff )::0.60 ;
+
 Define ProLitGaz
        [ m4_include(`gProdLitMWord.m4') ] ;
 
@@ -3751,13 +3755,10 @@ Define ProLiterature
        | Ins(ProLitSuffixed3)::0.250
        | Ins(ProLitSuffixed4)::0.250
        | Ins(ProLitQuoted)::0.500
+       | Ins(ProLitCaptured)
        | Ins(ProLitWithAuthor)::0.750
        | OptQuotes(Ins(ProLitGaz))::0.100
-       ] ;
-
-!------------------------------------------------------------------------
-!TODO: rukoukset yms.
-!------------------------------------------------------------------------
+       ] EndTag(EnamexProXxx) ;
 
 !------------------------------------------------------------------------
 !* Artwork, Paintings
@@ -3793,7 +3794,7 @@ Define ProArtwork
        | ProArtSuffixed3::0.25
        | ProArtSemtag::0.50
        | ProArtWithArtist::0.75
-       ] ;
+       ] EndTag(EnamexProXxx) ;
 
 !------------------------------------------------------------------------
 !* Vehicles & Vessels
@@ -3805,17 +3806,23 @@ Define ProArtwork
 ! - space shuttles
 !------------------------------------------------------------------------
 
-Define VehicleBrandNom wordform_exact(VehicleBrand) ;
+Define VehicleBrandNom wordform_exact(Ins(VehicleBrand)) ;
 Define VehicleType lemma_ends( @txt"gProdVehicleType.txt" ) ;
 
-Define ProVehicleSuffixed1
+Define ProVehicleSuffixed1A
        LC( NoSentBoundary )
-       [ AlphaUp | 0To9 ] Field Capture(ProCptV01) Dash Ins(VehicleType) ;
+       [ AlphaUp | 0To9 ] Field Capture(VehicCpt1) Dash Ins(VehicleType) ;
+
+Define ProVehicleSuffixed1B
+       [ [ AlphaUp Field Capture(VehicCpt2) Dash AlphaDown ] - ADashA ] Ins(VehicleType) ;
+
+Define ProVehicleSuffixed1
+       [ Ins(ProVehicleSuffixed1A) | Ins(ProVehicleSuffixed1B) ] ;
 
 Define ProVehicleSuffixed2
        [[ CapMisc | AcrNom ] WSep ]*
        ( [ AlphaUp | 0To9 ] Word WSep )
-       [ NoFSep - SentencePunct ] Field Capture(ProCptV02) FSep Word WSep
+       [ NoFSep - SentencePunct ] Field Capture(VehicCpt3) FSep Word WSep
        DashExt Ins(VehicleType) ;
 
 Define ProVehicleSuffixed3
@@ -3848,6 +3855,14 @@ Define ProVehicleColloc1
 			     {bensatankki} | {polttoainetankki} | {takaveto} | {takavalo} | {vaihdelaatikko} | {varoitusvalo} |
 			     {merkkivalo} | {runko} | {keula} | {huoltaminen} | {vuosihuolto} | {katsastus} | {vilkku} | {ohjaamo} ) ) ;
 
+Define ProVehicleColloc2
+       LC( lemma_exact( {uusi} | {punainen} | {musta} | {valkoinen} | {hopeinen} | {kiiltävä} | {tuliterä} ) WSep )
+       inflect_sg(VehicleBrand) ;
+
+Define ProVehicleColloc3
+       LC( lemma_exact( {tankata} | {virittää} | {huoltaa} | {pestä} | {katsastaa} ) WSep )
+       [ ( CapMisc WSep ) CapWord | wordform_exact( Ins(VehicleBrand) [ GenSuff | NomSuff | ParSuff ] ) ] ;
+
 ! "USS Enterprise", "HMS Victory", "USCGC Eagle (WIX-327)", "MS Allure of the Seas"
 Define ProVehicleShipNameA
        wordform_exact( ["M"|"S"]("/")["S"|"V"] | {RMS} | {GTS} | {USS} | {USF} | {HMS} | {USCGC} | {HMAS} | {FS} ) WSep
@@ -3864,11 +3879,15 @@ Define ProVehicleShipSpecial
        LC( lemma_morph( {miinalaiva}, {CASE=NOM} ) WSep )
        OptQuotes( AlphaUp lemma_ends( {nmaa} ) ) ;
 
+Define ProVehicleCaptured
+       wordform_exact([ VehicCpt1 | VehicCpt2 | VehicCpt3 ] FinSuff )::0.60 ;
+
 Define ProVehicle
        [ Ins(ProVehicleSuffixed1)::0.25
        | Ins(ProVehicleSuffixed2)::0.25
        | Ins(ProVehicleSuffixed3)::0.25
        | Ins(ProVehicleColloc1)::0.00
+       | Ins(ProVehicleColloc2)::0.00
        | OptQuotes(Ins(ProVehiclePrefixed1)::0.60)
        | OptQuotes(Ins(ProVehicleMisc1)::0.30)
        | OptQuotes(Ins(ProVehicleShipNameA)::0.25)
@@ -3876,7 +3895,8 @@ Define ProVehicle
        | Ins(ProVehicleShipSpecial)::0.20
        | Ins(ProVehicleQuotes)::0.75
        | Ins(ProVehicleBrandPl)::0.20
-       ] ;
+       | Ins(ProVehicleCaptured)
+       ] EndTag(EnamexProXxx) ;
 
 !------------------------------------------------------------------------
 !* Music
@@ -3884,12 +3904,12 @@ Define ProVehicle
 
 Define MusicType
        lemma_exact( Field [ {laulu} | {kappale} | {biisi} | {single} | {sinkku} | {albumi} | {cd} | {pitkäsoitto} | {älppäri} | {levy}
-       		    	  | {tango} | {valssi} | {vinyyli} | {hitti} | {renkutus} ] | {ep} | {trilogia} | {sinfonia} | {tetralogia}
-			  | {konsertto} | {menuetti} | {aaria} | {avausraita} | {lopetusraita} | {päätösraita} ) ;
+       		    	  | {tango} | {valssi} | {vinyyli} | {hitti} | {renkutus} ] | (Dash) [ {ep} | {trilogia} | {sinfonia} | {tetralogia}
+			  | {konsertto} | {menuetti} | {aaria} | {avausraita} | {lopetusraita} | {päätösraita} ] ) ;
 
 Define ProMusicSuffixed1
-       ( wordform_exact( {A} | {The} | {Of} | {From} | {In} ) WSep ) 
-       [ CapMisc WSep ]*
+       ( wordform_exact( {A} | {The} | {Of} | {From} | {In} ) WSep )
+       [ [ CapMisc | ( CapName WSep ) AndOfThe ] WSep ]*
        CapWord WSep
        ( ( LowerWord WSep ) ( LowerWord WSep )
        NotConj WSep )
@@ -3907,12 +3927,16 @@ Define ProMusicColloc
        [ CapMisc WSep ]*
        [ CapName ( ( WSep CapWord ) WSep [ AndOfThe WSep ]+ CapWord ) | InQuotes ] ;
 
+Define ProMiscMWord
+       [ m4_include(`gProdMWord.m4') ] ;
+
 Define ProMusic
        [ Ins(ProMusicSuffixed1)::0.25
        | Ins(ProMusicSuffixed2)::0.25
        | Ins(ProMusicSuffixed3)::0.25
        | Ins(ProMusicColloc)::0.70
-       ] ;
+       | OptQuotes(Ins(ProMiscMWord))::0.20
+       ] EndTag(EnamexProXxx) ;
 
 !------------------------------------------------------------------------
 !* Awards, Prizes, Scholarships
@@ -3928,7 +3952,7 @@ Define ProAwardSuffixed2
        [ CapMisc WSep ]*
        ( CapWord WSep [ AndOfThe WSep ]+ (CapWord WSep) )
        [ CapMisc WSep ]*
-       AlphaUp Field FSep Capture(ProCptL01) Word WSep
+       CapName WSep
        ( ( LowerWord WSep ) ( LowerWord WSep )
        NotConj WSep )
        Dash lemma_ends( Ins(AwardType) ) ;
@@ -3975,7 +3999,7 @@ Define ProAward
        | Ins(ProAwardMisc1)
        | Ins(ProAwardMisc2)
        | Ins(ProAwardMWord)
-       ] ;
+       ] EndTag(EnamexProXxx) ;
 
 !------------------------------------------------------------------------
 !* Pharmaceuticals & narcotics
@@ -3985,10 +4009,10 @@ Define ProDrugType lemma_ends( @txt"gProdDrugType.txt" ) ;
 
 Define ProDrugSuffixed1A
        LC( NoSentBoundary )
-       AlphaUp Field Dash Field Ins(ProDrugType) ;
+       AlphaUp Field Capture(DrugCpt1) Dash Field Ins(ProDrugType) ;
 
 Define ProDrugSuffixed1B
-       [ [ AlphaUp Field Dash AlphaDown Field Ins(ProDrugType) ] - ADashA ] ;
+       [ [ AlphaUp Field Capture(DrugCpt2) Dash AlphaDown Field Ins(ProDrugType) ] - ADashA ] ;
 
 Define ProDrugSuffixed2
        ( CapMisc WSep )
@@ -3999,6 +4023,9 @@ Define ProDrugSuffixed2
 
 !Define ProDrugColloc
 ! X:n sivuvaikutus/vaikuttava aine/väärinkäyttäjä/pakkaus
+
+Define ProDrugCaptured
+       wordform_exact([ DrugCpt1 | DrugCpt2 ] FinSuff )::0.60 ;
 
 Define gazProDrug
        [ m4_include(`gProdDrug.m4') ] ;
@@ -4012,7 +4039,8 @@ Define ProDrug
        | Ins(ProDrugSuffixed1B)::0.25
        | Ins(ProDrugSuffixed2)::0.25
        | Ins(ProDrugGaz)
-       ] ;
+       | Ins(ProDrugCaptured)
+       ] EndTag(EnamexProXxx) ;
 
 !------------------------------------------------------------------------
 !* Legislation
@@ -4048,22 +4076,26 @@ Define ProLaw
        | Ins(ProLawHyphenQuote)::0.30
        | OptQuotes(Ins(ProLawPrefixed1)::0.50)
        | OptQuotes(Ins(ProLawSuffixed1)::0.30)
-       ] ;
+       ] EndTag(EnamexProXxx) ;
 
 !------------------------------------------------------------------------
-!* Projects
+!* Projects & Operations
 !------------------------------------------------------------------------
 
 Define ProProjectHyphen1
-       AlphaUp lemma_exact( Field Dash Field [ {projekti} | {hanke} | {avaruusohjelma} | {operaatio} ] ) ;
+       AlphaUp lemma_exact( Field Dash Field [ {projekti} | {hanke} | {avaruusohjelma} | {operaatio} | {kampanja} ] ) ;
 
 Define ProProjectHyphen2
        ( CapMisc WSep )
        CapName WSep
-       ( CapWord WSep
+       ( ( CapWord WSep )
        	 ( ( LowerWord WSep ) ( LowerWord WSep )
 	   NotConj WSep ) )
-       DashExt lemma_ends( {projekti} | {hanke} | [{avaruus}]{ojelma} | {operaatio} ) ;
+       DashExt lemma_ends( {projekti} | {hanke} | [{avaruus}]{ojelma} | {operaatio} | {kampanja} ) ;
+
+Define ProProjectHyphen3
+       InQuotes WSep
+       DashExt lemma_ends( {projekti} | {hanke} | [{avaruus}]{ojelma} | {operaatio} | {kampanja} ) ;
 
 Define ProProjectSuffixed
        [ CapMisc WSep ]*
@@ -4085,10 +4117,11 @@ Define ProProjectPrefixed2
 Define ProProject
        [ Ins(ProProjectHyphen1)::0.25
        | Ins(ProProjectHyphen2)::0.25
+       | Ins(ProProjectHyphen3)::0.25
        | OptQuotes(Ins(ProProjectPrefixed1)::0.50)
        | Ins(ProProjectPrefixed2)::0.50
        | OptQuotes(Ins(ProProjectSuffixed)::0.50)
-       ] ; 
+       ] EndTag(EnamexProXxx) ; 
 
 
 !------------------------------------------------------------------------
@@ -4119,350 +4152,290 @@ Define ProAgreement
        | Ins(ProAgreementSuffixed2)::0.30
        | Ins(ProAgreementHyphen1)::0.30
        | Ins(ProAgreementHyphen2)::0.30
-       ] ;
+       ] EndTag(EnamexProXxx) ;
+
 !------------------------------------------------------------------------
-!* Software, Electronics & Miscellanea
+!* Technology: Hardware, Software, Electronics, Social Media, Internet
+!* Weapons: firearms, explosives
 !------------------------------------------------------------------------
 
-!* "Xxx-sovellus"
-Define ProMiscSuffixed1A
-       [ Alpha Field | 0To9 ] [ 0To9 | AlphaUp ] Field Capture(ProCptD) Dash Ins(ProType) ;
-
-Define ProMiscSuffixed1B
-       LC( NoSentBoundary )
-       AlphaUp Field Capture(ProCptE) Dash Ins(ProType) ;
-
-Define ProMiscSuffixed1C
-       [ [ AlphaUp Field Dash AlphaDown Field ] - [ ADashA ] ] Capture(ProCptF) FSep Field Ins(ProTypeStr) FSep Word ;
-
-Define ProMiscSuffixed1D
-       Field Capture(ProCptG) lemma_ends( ? Dash [ {niminen} | {merkkinen} ] ) WSep
-       Ins(ProType) ;
-
-!Define ProMiscSuffixed1E
-!       [ AlphaUp Field Dash FSep Word WSep
-!       lemma_exact( "," ) WSep ]*
-!       AlphaUp Field Dash FSep Word WSep
-!       lemma_exact( {ja} | {sekä} ) WSep
-!       AlphaUp Field Dash Ins(ProType) ;
-
-!* "Xxx 999 -sovellus"
-Define ProMiscSuffixed2
-       [ Alpha* [ CapMisc | AcrNom ] WSep ]*
-       ( Alpha* [ AlphaUp | 0To9 ] Word WSep )
-       Alpha* [ AlphaUp | 0To9 ] Field Capture(ProCptA) FSep Word WSep
-       DashExt Ins(ProType) ;
-
-!* "The X of the Y -kirja"
-Define ProMiscSuffixed3A
-       ( wordform_exact({The}) WSep ( CapWord WSep ) ( CapWord WSep ) )
-       [ CapMisc WSep ]*
-       [ CapWord WSep [ AndOfThe WSep ]+ (CapWord WSep) ]
-       [ CapMisc WSep ]*
-       ( CapWord WSep )
-       [ NoFSep - SentencePunct ] Field Capture(ProCptB) FSep Word WSep
-       DashExt Ins(ProType) ;
-
-Define ProMiscSuffixed3B
-       ( CapMisc WSep )
-       wordform_exact({The}) WSep ( CapWord WSep ) ( CapWord WSep )
-       [ CapMisc WSep ]*
-       [ CapWord WSep [ AndOfThe WSep ]+ ( CapWord WSep ) ]*
-       [ CapMisc WSep ]*
-       [ NoFSep - SentencePunct ] Field Capture(ProCptC) FSep Word WSep
-       DashExt Ins(ProType) ;
-
-Define ProMiscSuffixed3C
-       [ InQuotes ] WSep
-       DashExt Ins(ProType) ;
-
-Define ProMiscSuffixed3D
-       CapWord WSep
-       ( ( LowerWord WSep )
-       NotConj WSep )
-       DashExt Ins(ProType) ;
-
-Define ProMiscSuffixed4A
-       ( [ Alpha* [ CapMisc | AcrNom ] WSep ]+
-       	 NumNom WSep )
-       [ Alpha* [ CapMisc | AcrNom ] WSep ]+
-       wordform_ends( ProSuff )
-       [ WSep Alpha* [ CapMisc | AcrNom | NumNom ] ]*
-       ( WSep [ VersionSeq | 0To9 Word | CapWord ] )
-       ( WSep DashExt Ins(ProType) ) ;
-
-Define ProMiscSuffixed4B
-       ( [ Alpha* [ CapMisc | AcrNom ] WSep ]+
-       	 NumNom WSep )
-       [ Alpha* [ CapMisc | AcrNom ] WSep ]+
-       inflect_sg( Field ProSuff ) ;
-
-Define ProMiscSuffixed5
-       InQuotes WSep
-       ( WSep DashExt Ins(ProType) ) ;
-
-Define ProMiscSuffixed
-       [ Ins(ProMiscSuffixed1A) | Ins(ProMiscSuffixed1B) | Ins(ProMiscSuffixed1C) | Ins(ProMiscSuffixed1D)
-       | Ins(ProMiscSuffixed2)
-       | Ins(ProMiscSuffixed3A) | Ins(ProMiscSuffixed3B) | Ins(ProMiscSuffixed3C) | Ins(ProMiscSuffixed3D)
-       | Ins(ProMiscSuffixed4A) | Ins(ProMiscSuffixed4B)
-       | Ins(ProMiscSuffixed5)
-       ] ;
-
-Define ProPfx [ wordform_exact( Ins(ProMfac) ) EndTag(EnamexOrgCrp2) | wordform_exact( Ins(CorpOrPro) | Ins(ProSeries) | Ins(ProOS) | Ins(ProBrowser) ) ] ;
-
-! "Xxx Reader", "Samsung Xxx Pro"
-Define ProMiscOther1A
-       Ins(ProPfx) WSep
-       [ [ Alpha | 0To9 ]* [ CapNameNom | CapNum ] WSep ]*
-       ( VersionSeq WSep )
-       wordform_exact( Ins(ProSeries) | Ins(ProSuff) )
-       [ WSep [ Alpha | 0To9 ]* [ CapNameNom | CapNum ] ]*
-       ( WSep VersionSeq )
-       ( WSep CapWord )
-       ( WSep DashExt Ins(ProType) ) ;
-       
-Define ProMiscOther1B
-       Ins(ProPfx) WSep
-       [ [ Alpha | 0To9 ]* [ CapNameNom | CapNum ] WSep ]*
-       ( VersionSeq WSep )
-       inflect_sg( ProSeries | ProSuff )
-       ( WSep DashExt Ins(ProType) ) ;
-
-! "Xxx 4 Yyy:ssä"
-Define ProMiscOther2A
-       ( Alpha* CapMisc WSep )
-       Ins(ProPfx)
-       [ WSep CapMisc ]*
-       WSep Alpha* 0To9 [ CapMisc | NumNom ]
-       [ WSep CapMisc ]*
-       WSep Alpha* [ CapName | 0To9 Word ]
-       ( WSep DashExt Ins(ProType) ) ;
-
-!* "Xxxx 4:ssä"
-Define ProMiscOther2B
-       ( Alpha* CapMisc WSep )
-       Ins(ProPfx)
-       [ WSep [ CapMisc | AcrNom | NumNom ] ]*
-       WSep [ Alpha* 0To9 Word | VersionSeq ]
-       ( WSep DashExt Ins(ProType) ) ;
-
-Define ProMiscOther3
-       [ Alpha* [ CapMisc | AcrNom ] WSep ]*
-       Ins(ProPfx)
-       [ WSep Alpha* [ NumNom | CapMisc | AcrNom ] ]*
-       WSep Alpha* [ 0To9 | AlphaUp ] Word
-       ( WSep DashExt Ins(ProType) ) ;
-
-!* Xxx Development Kit
-Define ProMiscOther4
-       [ Alpha* CapMisc WSep ]+
-       [ wordform_exact({App}) WSep inflect_sg({Store}) |
-         wordform_exact({Development}) inflect_sg({Kit}) |
-         wordform_exact({Live}) WSep inflect_sg({System}) |
-	 wordform_exact({Remote}) WSep lemma_exact({Desktop}) |
-         wordform_exact({Speed}) WSep inflect_sg({Test}) |
-         wordform_exact({Storage}) WSep inflect_sg({Service}) |
-         wordform_exact({Media}) WSep inflect_sg({Player}) |
-         inflect_sg( {Beta} ) ]
-       ( WSep Ins(VersionSeq) )
-       ( WSep DashExt Ins(ProType) ) ;
-
-Define ProAppStore
-       [ Alpha* CapMisc WSep ]*
-       CapWord WSep
-       wordform_ends( {Store} | {Play} )
-       WSep Dash lemma_ends({kauppa}) ;
+Define VersNum	wordform_exact( 0To9+ ["." [ 0To9 | "x" | "X" ]+ ]* ) ;
+Define VersSeq 	[ lemma_exact( {v.} | (Dash) {versio} ) WSep [ VersNum WSep wordform_exact({ja}|Comma|"&"|Dash) WSep ]* VersNum ] ;
 
 Define ModelString
-       ( [ AlphaUp | 0To9 ]+ Dash )
-       [ AlphaUp | 0To9 ]* [ AlphaUp 0To9 | 0To9 AlphaUp ] [ AlphaUp | 0To9 ]*
-       ( Dash [ AlphaUp | 0To9 ]+ ) ;
+       ([ AlphaUp | 0To9 ]+ Field) [ AlphaUp 0To9 | 0To9 AlphaUp ] (Field [ AlphaUp | 0To9 ]) ;
 
-Define ProMiscModel1A
-       [ Alpha* [ CapMisc | AcrNom ] WSep ]+
-       ( wordform_exact( ModelString ) WSep )
-       wordform_exact( ModelString )
-       [ WSep Alpha* [ CapMisc | AcrNom ] ]*
-       ( WSep DashExt Ins(ProType) ) ;
+Define MiscTechName  [ m4_include(`hProdTechMisc.m4') ] ;
+Define BrowserName   [ m4_include(`hProdBrowser.m4') ] ;
+Define DeviceName    [ m4_include(`hProdDevice.m4') ] ;
+Define OSName        [ m4_include(`hProdOS.m4') ] ;
+Define AppStoreName  [ m4_include(`hProdAppStore.m4') ] ;
+Define SearchEngineName [ m4_include(`hProdSearchEngine.m4') ] ;
 
-Define ProMiscModel1B
-       [ Alpha* [ CapMisc | AcrNom ] WSep ]+
-       ( wordform_exact( ModelString ) WSep )
-       inflect_sg( ModelString ) ;
+Define DeviceType   [ @txt"hProdDeviceType.txt" ] ;
+Define OSType	    [ {käyttöjärjestelmä} ({versio}) | {käyttis} | {ympäristö} | {alusta} ] ;
+Define SoftwareType [ @txt"hProdSoftwareType.txt" ] ;
 
-Define ProMiscVersion1
-       [ Alpha* [ CapMisc | AcrNom ] WSep ]*
-       [ Alpha* [ CapNameGenNSB | AlphaUp PropGen | CapForeign ] ] WSep
-       lemma_exact( [ Field - DownCase(ProOS) ] Dash {versio}) ;
+Define ProdTechSfx  [ @txt"hProdTechSfx.txt" ] ;
+Define ProdTechPfx  [ @txt"hProdTechPfx.txt" ] ;
 
-Define ProMiscVersion2
-       [ Alpha* [ CapMisc | AcrNom ] WSep ]*
-       [ Alpha* [ CapNameGenNSB | AlphaUp PropGen | CapForeign ] ] WSep
-       lemma_exact({versio}) WSep Ins(VersionSeqX) ;
+Define ProdTechType [ Ins(OSType) | Ins(DeviceType) | Ins(SoftwareType) | @txt"hProdTechType.txt" ] ;
 
-Define ProMiscVersion3
-       [ Alpha* [ CapMisc | AcrNom ] WSep ]*
-       wordform_exact( ProOS ) WSep
-       [ Alpha* [ CapMisc | AcrNom ] WSep ]*
-       lemma_exact({versio}) WSep Ins(VersionSeqX) ;
+Define ProdTechTentative [ @txt"hTentativeProdTech.txt" ] ;
 
-Define ProMiscOther5
-       LC( WSep [ Field - [ Field AlphaUp Field ] ] FSep Word WSep )
-       inflect_sg( Alpha* ProSuff )
-       RC( WSep [ ? - [ AlphaUp | Dash | 0To9 ] ]) ;
+!!----------------------------------------------------------------------
 
-Define ProDStr [ Ins(CorpOrPro) | CamelCase::1.00 | AlphaUp WebDomain::1.00 ] ;
+Define ProdTechHyphen1A
+       LC( NoSentBoundary )
+       UppercaseAlpha LowercaseAlpha+ Capture(TechCpt1) Dash LowercaseAlpha Field FSep Field Ins(ProdTechType) FSep Word ;
 
-!* "Facebookissa"
-Define ProDisamb1
-       wordform_exact( Ins(ProDStr) LocIntSuff ) ;
+Define ProdTechHyphen1B
+       [ [ AlphaUp Field Dash AlphaDown Field ] - [ ADashA ] ] FSep Field Ins(ProdTechType) FSep Word::0.10 ;
 
-!* "Facebookin [kautta]"
-Define ProDisamb2
-       wordform_exact( Ins(ProDStr) GenSuff )
-       RC( WSep wordform_ends(
-		{avulla} |
-		{kautta} |
-		{välityksellä} |
-		{ulkopuolella} ) ) ;
+Define ProdTechHyphen1C
+       Field [ Alpha | 0To9 ] Field [ AlphaUp ] Field Capture(TechCpt2) Dash lemma_ends( Dash Field Ins(ProdTechType) ) ;
 
-!* "Facebookin [käyttäjät]"
-Define ProDisamb3
-       wordform_exact( Ins(ProDStr) GenSuff )
-       RC( WSep lemma_ends(
-		{käyttäjä} |
-		{kehittäjä} |
-		{valmistaja} |
-		{käyttö} |
-		{käyttöehto} |
-		{asetus} |
-		{haavoittuvuus} |
-		{lähdekoodi} |
-		{sovellus} |
-		{laitteisto} |
-		{ominaisuus} |
-		{versio} |
-		{valikko} |
-		{näyttö} |
-		{näppäimistö} |
-		{päivitys} |
-		{akku} |
-		{näppäin} |
-		{kuvake} |
-		{yhteensopivuus} |
-		{estäminen} |
-		{suosio} |
-		{suoritin} |
-		{käyttöliittymä} ) ) ;
+Define ProdTechHyphen1D
+       Field Alpha Field 0To9 Field Capture(TechCpt3) Dash lemma_ends( Dash Field Ins(ProdTechType) ) ;
 
-!* "[asentaa/poistaa] WhatsApp"
-Define ProDisamb4
-       LC( lemma_exact( {asentaa} | {poistaa} | {julkaista} ) WSep ( PosAdv WSep ) )
-       wordform_exact( Ins(ProDStr) [ NomSuff | GenSuff ] ) ;
+Define ProdTechHyphen1E
+       Field Capture(TechCpt4) Dash ["n"|"m"] lemma_ends( Dash {niminen} | {merkkinen} ) WSep
+       lemma_ends( Ins(ProdTechType) ) ;
 
-!* "[käyttää/asentaa/hyödyntää/päivittää] Facebookia"
-Define ProDisamb5
-       LC( lemma_exact( {käyttää} | {asentaa} | {ladata} | {hyödyntää} | {kehittää} | {päivittää} | {poistaa} ) WSep ( PosAdv WSep ) )
-       wordform_exact( Ins(ProDStr) ParSuff ) ;
+Define ProdTechHyphen1
+       [ [ [ CapMisc | Serial ] WSep ]* TruncPfx WSep Coord WSep ]*
+       [ Ins(ProdTechHyphen1A) | Ins(ProdTechHyphen1B) | Ins(ProdTechHyphen1C) | Ins(ProdTechHyphen1D) |
+       	 Ins(ProdTechHyphen1E) ]::0.20 ;
 
-!* "Facebookia [käyttävien]"
-Define ProDisamb6
-       wordform_exact( Ins(ProDStr) ParSuff )
-       RC( WSep ( PosAdv WSep ) wordform_exact( [ {käyttäv} | {asentav} | {hyödyntäv} | {kehittäv} ] Alpha+ ) ) ;
+Define ProdTechHyphen2
+       [ [ CapMisc | Serial ] WSep ]+
+       ( VersNum WSep )
+       [ [ CapMisc | Serial ] WSep ]*
+       ( Field CapName WSep )
+       ( VersNum WSep )
+       DashExt lemma_ends( Ins(ProdTechType) )::0.20 ;
 
-Define ProCapture
-       [ ProCpt01 | ProCpt02 | ProCpt03
-       | ProCpt04 | ProCpt06 | ProCptV01 | ProCptV02
-       | ProCptA  | ProCptB  | ProCptC   | ProCptD
-       | ProCptE  | ProCptF  | ProCptG ] FinSuff FSep Word ;
+Define ProdTechHyphen3
+       [ CapMisc | Serial | Field CapName | NumNom ] WSep
+       ( [ VersNum | Serial ] WSep )
+       DashExt lemma_ends( Ins(ProdTechType) )::0.20 ;
 
-Define ProCollocSg
-       [ CapMisc WSep ( NumWord WSep ) ]*
-       [ CapNameGenNSB | AlphaUp PropGen ]
-       RC( ( WSep morphtag({ADJECTIVE}) )
-	   WSep [ ? - [ Dash | AlphaUp ] ] lemma_morph(
-       	   {sammuttaminen} |
-	   {kaatuminen} |
-	   {asennus} |
-	   {asentaminen} |
-	   {valmistaja} |
-	   {akku} |
-	   {näyttö} |
-	   {ruutu} |
-	   {varuste} |
-	   {näppäin} |
-	   {yhteensopivuus} |
-	   {anturi} |
-	   {kamera} |
-	   {laajenuus} |
-	   {näppämistö} |
-	   {tallennustila} |
-	   {suoritin} |
-	   {laitteisto} |
-	   {prosessori} |
-	   {haavoittuvuus} |
-	   {lähdekoodi} |
-	   {prototyyppi} |
-	   {versio} |
-	   {beta} |
-	   {päivitys} |
-	   {käyttöliittymä} |
-	   {käyttöjärjestelmä} |
-	   {kuvake} |
-	   {käyttöehto} |
-	   {valikko} |
-	   {käyttäjä} |
-	   {ylläpitäjä} |
-	   {julkaisu} |
-	   {lanseeraus} |
-	   {julkistus} |
-	   {julkaisija} |
-	   {lisenssi} |
-	   {hinta} |
-	   {menekki} |
-	   {myyntimäärä} |
-	   {toimitusmäärä}, {NUM=SG}) ) ;
+Define ProdTechHyphen4
+       [ CapMisc | Serial | Field CapNameNom ] WSep
+       ( [ CapMisc | Serial | Field CapName ] WSep )
+       DashExt lemma_ends( Ins(ProdTechType) )::0.20 ;
 
-Define ProCollocPl
-       [ CapMisc WSep ( NumWord WSep ) ]*
-       [ CapNameGenNSB | AlphaUp PropGen ]
-       RC( ( WSep morphtag({ADJECTIVE}) )
-           WSep [ ? - [ Dash | AlphaUp ] ] lemma_morph(
-	   {päivitys} |
-	   {käyttöehto} |
-	   {näppäin}
-	   {varuste} |
-	   {haavoittuvuus} |
-	   {kuvake} |
-	   {käyttäjä} |
-	   {myyntimäärä} |
-	   {toimitusmäärä}, {NUM=PL}) ) ;
+Define ProdTechHyphen5
+       [ [ CapMisc | ( CapName WSep ) AndOfThe ] WSep ]*
+       CapWord WSep
+       DashExt lemma_ends( Ins(ProdTechType) )::0.20 ;
 
-Define ProQuotesAndYear
-       InQuotes
-       RC( WSep wordform_exact(LPar)
-       WSep wordform_exact( ["1"|"2"] 0To9 0To9 0To9 ( Dash ( ["1"|"2"] 0To9 0To9 0To9 ) ) )
-       ( WSep wordform_exact( Dash ) )
-       WSep wordform_exact(RPar) ) ;
+Define ProdTechHyphen6
+       InQuotes WSep
+       DashExt lemma_ends( Ins(ProdTechType) )::0.20 ;
 
-Define gazProdMWordNoCongr [
-       m4_include(`gProdMWord.m4')
+Define ProdTechHyphen7
+       [ [ [ CapMisc | Serial ] WSep ]* TruncPfx WSep Coord WSep ]+
+       [ [ CapMisc | Serial | VersNum ] WSep ]+
+       DashExt lemma_ends( Ins(ProdTechType) )::0.20 ;
+
+Define ProdTechHyphenAppStore
+       Ins(AppStoreName) ( FSep Word WSep )
+       Dash lemma_ends( {kauppa} ) ;
+
+Define ProdTechPrefixed
+       ( CapMisc WSep )
+       wordform_exact( Ins(ProdTechPfx) ) EndTag(EnamexOrgCrp2) WSep
+       [ [ CapMisc | Serial ]::0.10 WSep ]* 
+       [ ( VersNum WSep ) Field CapWord |
+       	 ( CapMisc WSep ) 1To9 Word ]::0.30
+       ( DashExt lemma_ends( Ins(ProdTechType) ) ) ;
+
+Define ProdTechSuffixed1
+       [ [ CapMisc | Serial ] WSep ]+
+       wordform_exact( ( AlphaUp Field ) Ins(ProdTechSfx) FinSuff )::0.30 ;
+
+Define ProdTechSuffixed2
+       [ [ CapMisc | Serial ] WSep ]+
+       wordform_exact( ( AlphaUp Field ) Ins(ProdTechSfx) ) WSep
+       [ Serial WSep ]*
+       [ CapWord::0.10 | 1To9 Word ]::0.30 ;
+
+Define ProdTechSuffixed3
+       [ [Field CapName] - PropOrgGen] WSep
+       wordform_exact( Ins(ProdTechSfx) FinSuff )::0.30 ;
+
+Define ProdTechSuffixed4
+       [ [Field CapName] - PropOrgGen] WSep
+       wordform_exact( Ins(ProdTechSfx) ) WSep
+       lemma_exact( 0To9 0To9 0To9 (0To9) | 0To9 [ "." 0To9 ]+ )::0.30 ;
+
+Define ProdTechSuffixed5
+       ( CapMisc WSep )
+       [ CapMisc | Serial ] WSep
+       ( [ CapMisc | Serial ] WSep )
+       [ lemma_exact( 0To9 0To9 0To9 (0To9) | 0To9 [ "." 0To9 ]+ ) | wordform_exact( Ins(ModelString) (":" FinSuff)) ]::0.30 ;
+
+Define ProdTechGuessed
+       wordform_exact( Alpha+ Ins(ProdTechSfx) )::0.50 ;
+
+Define ProdTechVersion
+       [ [ CapMisc | Serial ] WSep ]*
+       [ Field CapNameGenNSB | wordform_ends( UppercaseAlpha GenSuff ) | CapMisc | Serial ] WSep
+       [ (Dash) VersSeq | VersNum Dash lemma_ends( Dash {versio} ) | lemma_exact({beta} (Dash) {versio}) ] ;
+
+Define ProdTechColloc1
+       [ ( CapMisc WSep ) [ CapNameGenNSB | AbbrGen ]::0.50 | wordform_exact(Ins(ProdTechTentative) GenSuff)::0.10 ]
+       RC( WSep ( PosAdj WSep )
+       	   AlphaDown lemma_ends( {akku} | {anturi} | {asennus} | {asentaminen} | {asetus} | {beta} | {estäminen} | {haavoittuvuus} | {hinta} |
+	   	     		 {julkaisija} | {julkaisu} | {julkistus} | {kaatuminen} | {kamera} | {käyttäjä} | {käyttäjäkunta} | {käyttö} |
+				 {käyttöehto} | {käyttöjärjestelmä} | {käyttöliittymä} | {kehittäjä} | {kuvake} | {laajenuus} | {lähdekoodi} |
+				 {laitteisto} | {lanseeraus} | {lisenssi} | {menekki} | {myyntimäärä} | {näppäimistö} | {näppäin} | {laturi} |
+				 {näppämistö} | {näyttö} | {ominaisuus} | {päivitys} | {painike} | {prosessori} | {prototyyppi} | {ruutu} |
+				 {sammuttaminen} | {sovellus} | {suoritin} | {suosio} | {tallennustila} | {toimitusmäärä} | {valikko} |
+				 {valmistaja} | {varuste} | {versio} | {yhteensopivuus} | {ylläpitäjä} ) ) ;
+
+Define ProdTechColloc2
+       [ ( CapMisc WSep ) [ CapNameGenNSB | AbbrGen ]::0.50 | wordform_exact(Ins(ProdTechTentative) GenSuff)::0.10 ]
+       RC( WSep wordform_exact( {avulla} | {välityksellä} | {kautta} ) ) ;
+
+Define ProdTechColloc3
+       LC( [ lemma_exact_morph( {käyttää} | {asentaa} | {ladata} | {hyödyntää} | {kehittää} | {päivittää} | {poistaa} | {julkaista}, {VOICE=ACT}) - morphtag({PCP=VA}) ] WSep
+       	   ( PosAdv WSep ) )
+       [ [ CapMisc WSep ]* [ Field infl_sg_par(CapNameStr) ]::0.50 | wordform_exact(Ins(ProdTechTentative) ParSuff ) ] ;
+
+Define ProdTechColloc4
+       LC( [ lemma_exact_morph( {asentaa} | {ladata} | {kehittää} | {päivittää} | {julkistaa} ) - morphtag({PCP=VA}) ] WSep
+       	   ( PosAdv WSep ) )
+       [ [ CapMisc WSep ]* [ Field CapName | Abbr ]::0.50 | wordform_exact( Ins(ProdTechTentative) [ GenSuff | NomSuff ]) ] ;
+
+Define ProdTechDisamb
+       wordform_exact( Ins(ProdTechTentative) LocIntSuff ) ;
+
+Define ProdTechCaptured
+       wordform_exact([ TechCpt1 | TechCpt2 | TechCpt3 | TechCpt4 ] FinSuff )::0.60 ;
+
+Define ProdTechGaz1
+       wordform_exact( [ Ins(DeviceName) | Ins(OSName) | Ins(BrowserName) | Ins(MiscTechName) | Ins(AppStoreName) ] ) WSep
+       ( [ CapMisc | Serial ] WSep )
+       ( VersNum::0.20 WSep )
+       [ CapWord::0.20 | ( CapMisc WSep ) 1To9 Word ]::0.20 ;
+
+Define ProdTechGaz2
+       wordform_exact( [ Ins(DeviceName) | Ins(OSName) | Ins(AppStoreName) |
+       		       	 Ins(BrowserName) | Ins(MiscTechName) | Ins(SearchEngineName)::0.10 ] FinSuff )::0.10 ;
+
+Define ProdTechGazPl
+       inflect_pl( DeviceName | OSName | BrowserName | MiscTechName )::0.10 ;
+
+Define ProdTechRules
+       [ Ins(ProdTechHyphen1)
+       | Ins(ProdTechHyphen2)
+       | Ins(ProdTechHyphen3)
+       | Ins(ProdTechHyphen4)
+       | Ins(ProdTechHyphen5)
+       | Ins(ProdTechHyphen6)
+       | Ins(ProdTechHyphen7)
+       | Ins(ProdTechHyphenAppStore)
+       | OptQuotes(Ins(ProdTechPrefixed))
+       | OptQuotes(Ins(ProdTechSuffixed1))
+       | OptQuotes(Ins(ProdTechSuffixed2))
+       | OptQuotes(Ins(ProdTechSuffixed3))
+       | OptQuotes(Ins(ProdTechSuffixed4))
+       | OptQuotes(Ins(ProdTechSuffixed5))
+       | Ins(ProdTechVersion)
+       | Ins(ProdTechGuessed)
+       | Ins(ProdTechColloc1)
+       | Ins(ProdTechColloc2)
+       | Ins(ProdTechColloc3)
+       | Ins(ProdTechColloc4)
+       | Ins(ProdTechDisamb)
+       | Ins(ProdTechCaptured)
+       | OptQuotes(Ins(ProdTechGaz1))
+       | OptQuotes(Ins(ProdTechGaz2))
+       | Ins(ProdTechGazPl)
+       ] EndTag(EnamexProXxx) ;
+
+Define ExceptionProd1
+       [ Ins(OSName) | Ins(BrowserName) ] Dash lemma_ends( Dash Field [ Ins(DeviceType) | {päivitys} ]) ;
+
+Define ExceptionProd2
+       wordform_exact( Ins(OSName) | Ins(BrowserName) ) WSep
+       ( VersNum WSep )
+       Dash lemma_ends( Ins(DeviceType) ) ;
+
+Define ExceptionProd3
+       [ Ins(DeviceName) | Ins(OSName) | Ins(AppStoreName) ]
+       Dash lemma_ends( Dash Field [ Ins(SoftwareType) | {päivitys} ]) ;
+
+Define ExceptionProd4
+       wordform_exact( Ins(OSName) ) WSep
+       ( VersNum WSep )
+       Dash lemma_ends( Ins(SoftwareType) ) ;
+
+Define ExceptionProd5
+       wordform_exact( Ins(DeviceName) | Ins(AppStoreName) ) WSep
+       Dash lemma_ends( Ins(SoftwareType) | {päivitys} ) ;
+
+Define ExceptionProd6
+       lemma_exact([{facebook}|{twitter}] Dash [{päivitys}|{sovellus}|{ryhmä}|{yhteisö}]) ;
+
+Define ExceptionProd7
+       lemma_exact([{mars}|{pluto}] Dash [{luotain}|{mönkijä}]) ;
+
+Define ExceptionProd
+       [ Ins(ExceptionProd1)
+       | Ins(ExceptionProd2)
+       | Ins(ExceptionProd3)
+       | Ins(ExceptionProd4)
+       | Ins(ExceptionProd5)
+       | Ins(ExceptionProd6)
+       | Ins(ExceptionProd7)
+       ] EndTag(Exc000) ;
+
+Define ProdTech
+       [ Ins(ProdTechRules)
+       | Ins(ExceptionProd)
        ] ;
 
-Define ProMiscMultiWord
-       OptQuotes( Ins(gazProdMWordNoCongr)
-       [ WSep [ CapMisc | CapNum | AcrNom ] ]*
-       ( WSep [ CapName | NumWord ] ) )
-       ( WSep DashExt Ins(ProType) ) ;
 
-Define ProMiscPl
-       inflect_pl( ProSeries | @txt"gProdVehicleModel.txt" | {Xperia} | {Nokia} | {Lumia} | {Tesla} ) ;
+!!-----------------------------------------------------------------------
+!! Artifacts & Miscellanea
+!!-----------------------------------------------------------------------
 
-Define ProDefault
-       inflect_sg( @txt"gStatPRO.txt" ) ;
+Define ProdMiscQuotesAndYear
+       InQuotes
+       RC( WSep wordform_exact(LPar)
+       	   WSep wordform_exact( ["1"|"2"] 0To9 0To9 0To9 ( Dash ( ["1"|"2"] 0To9 0To9 0To9 ) ) )
+	   ( WSep wordform_exact( Dash ) )
+	   WSep wordform_exact(RPar) ) ;
+
+Define ProdMiscHyphen
+       AlphaUp lemma_ends( Dash {niminen} ) WSep
+       ( PosAdj WSep )
+       lemma_ends( {tuote} | {tarvike} | {esine} | @txt"gArtifactType.txt" ) ;
+
+Define ProdMiscColloc1
+       LC( lemma_exact( {uusi} | {punainen} | {musta} | {valkoinen} | {hopeinen} | {kiiltävä} | {tuliterä} ) WSep )
+           [ [ [ [ [ Field CapNameNom | PropNom | CapMisc ] WSep ]* [ CapName | Abbr ]::0.50 ] ] |
+	       [ [ [ Field CapNameNom | PropNom | CapMisc ] WSep ]+ NumWord ] ] ;
+
+Define ProdMiscColloc2
+       LC( ( CapMisc WSep ) [ CapNameGenNSB | PropGen ] WSep ) 
+       lemma_ends( {käyttö} | {käyttäjä} | {käyttäjäkunta} | {käyttäminen} | {kahva} | {runko} | {pakkaus} | {valmistaja}
+       		   {käyttäjäystävällisyys} | {saatavuus} | {hinta} ) ;
+
+Define ProdMisc
+       [ Ins(ProdMiscQuotesAndYear)
+       | Ins(ProdMiscHyphen)
+       | Ins(ProdMiscColloc1)
+       | Ins(ProdMiscColloc2)
+       ] EndTag(EnamexProXxx) ;
+
+!!----------------------------------------------------------------------
 
 !* Category HEAD
+
 Define Product
        [ Ins(ProLaw)::0.00
        | Ins(ProAgreement)::0.00
@@ -4475,36 +4448,11 @@ Define Product
        | Ins(ProMusic)
        | Ins(ProArtwork)
        | Ins(ProDrug)
-       | Ins(ProMiscSuffixed)::0.25
-       | Ins(ProMiscOther1A)::0.50
-       | Ins(ProMiscOther1B)::0.50
-       | Ins(ProMiscOther2A)::0.50
-       | Ins(ProMiscOther2B)::0.50
-       | Ins(ProMiscOther3)::0.75
-       | Ins(ProMiscOther4)::0.75
-       | Ins(ProMiscOther5)::0.75
-       | Ins(ProMiscModel1A)::0.50
-       | Ins(ProMiscModel1B)::0.50
-       | Ins(ProMiscVersion1)::0.25
-       | Ins(ProMiscVersion2)::0.25
-       | Ins(ProMiscVersion3)::0.25
-       | Ins(ProAppStore)::0.25
-       | Ins(ProMiscPl)::0.50
-       | Ins(ProCollocSg)::0.95
-       | Ins(ProCollocPl)::0.95
-       | Ins(ProDisamb1)::0.00
-       | Ins(ProDisamb2)::0.00
-       | Ins(ProDisamb3)::0.00
-       | Ins(ProDisamb4)::0.00
-       | Ins(ProDisamb5)::0.00
-       | Ins(ProDisamb6)::0.00
-       | Ins(ProDefault)::0.25
-       | Ins(ProMiscMultiWord)::0.20
-       | Ins(ProQuotesAndYear)::0.75
-       | Ins(ProCapture)::0.90
-       ] EndTag(EnamexProXxx)
        | Ins(ProdFoodDrink)
-       | Ins(ProdCultivar) ;
+       | Ins(ProdCultivar)
+       | Ins(ProdTech)
+       | Ins(ProdMisc)
+       ] ;
 
 !!----------------------------------------------------------------------
 !! TODO: Phenomena, weather (storms, hurricanes earthquakes)
@@ -5197,6 +5145,7 @@ Define Backoff
        !| Ins(BackoffCapInternalLoc)::2.00
        ] ;
 
+
 !!----------------------------------------------------------------------
 !! <Exceptions>: Words that shouldn't get tagged by other rules
 !! (in phase 2 or by shorter matches in this rule set)
@@ -5230,7 +5179,7 @@ Define ExceptCommonNounPersName2
 		{vappu} | {taito} | {lukko} | {kärppä} | {ilves} | {mieli} | {miele} AlphaDown+ | {motti} | {mantere} | {manner} | {lehti} | {tästedes} | {vastedes} |
 		{valo} | {toimi} | {kärki} | AlphaDown+ [{lainen}|{läinen}] | {aurinko} | {ankara} | {elastinen} | {kirkas} | {blondi} | {yö} | {mamba} | {elo} |
 		{rajaton} | {onni} | {raptori} | {dingo} | {itä} | {länsi} | {rautatie} | {sisarus} | {asevoima}("t") | {kai} | {tehosekoitin} | {tuska} |
-		{provinssi} | {suurlähettiläs} | {manifesti} | {paavius} | {naiivius} | {määrä} | {miina} | {ansa} | {alanko} | {media} | {kiista} | {vuori} | {laakso} | {tori} | {areena} | {flow} (Apostr) | {pitkä} | {kylä} | {merituuli} | {hovi} | {etelä} | {kuola} | Field {bisnes} | {erikseen} | {palava} | {urakka} | {siksi} | {sitä} | {nirvana} | {provinssi} | {luola} | {runko} )
+		{provinssi} | {suurlähettiläs} | {manifesti} | {paavius} | {naiivius} | {määrä} | {miina} | {ansa} | {alanko} | {media} | {kiista} | {vuori} | {laakso} | {tori} | {areena} | {flow} (Apostr) | {pitkä} | {kylä} | {merituuli} | {hovi} | {etelä} | {kuola} | Field {bisnes} | {erikseen} | {palava} | {urakka} | {siksi} | {sitä} | {nirvana} | {provinssi} | {luola} | {runko} | {hummeri} )
        EndTag(Exc003A) ;
 
 Define ExceptMiesPoika
@@ -5285,44 +5234,14 @@ Define ExceptFilm
        		{spotify-kappale}
        ) EndTag(Exc006) ;
 
-!* "Android-puhelin" ≠ "Android-niminen puhelin"
-Define ExceptOSDevice
-       lemma_exact(
-		[ {sailfish} | {android} | {windows} | {ios} | {ubuntu} | {symbian} | {linux} | {tizen} ]
-       		Dash Field
-		[ {laite} | {puhelin} | {kännykkä} | {kone} | {tabletti} | {palvelin} | {serveri} | {televisio} | {tv} |
-		  {sovellus} | {versio} | {päivitys} | {ohjelma} | {kello} ])
-       EndTag(Exc007) ;
-
-!* "Xbox-peli", "Windows-sovellus"
-Define ExceptDeviceSoftware
-       lemma_exact(
-		[ {xbox} | {playstation} | {nintendo} | {n64} | {wii} | {switch} | ("3"){ds} | Alpha+ [{phone}|{pad}] ]
-       		Dash Field
-		[ {peli} | {sovellus} | {päivitys} | {ohjelma} ] )
-       EndTag(Exc014) ;
-
-!* "Firefox-sovellukset", "Xbox-pelit"
-Define ExceptBrowserApps
-       lemma_morph(
-		Field Dash Field [ {sovellus} | {ohjelma} | {peli} | {päivitys} | {haku} | {palvelu} | {kauppa} ], {NUM=PL} )
-       EndTag(Exc008) ;
-	
-!* "Facebook-puhelin" ≠ "Facebook-niminen puhelin"
-Define ExceptBrowserDevice
-       lemma_exact(
-		[ {firefox} | {safari} | {explorer} | {chrome} | {opera} | {facebook} | {instagram} ]
-		Dash Field [ {laite} | {puhelin} | {kännykkä} | {kone} | {tabletti} | {päivitys} ] )
-       EndTag(Exc009) ;
-
 !* "4G:n", "3G-verkko", "MP3-soitin", "Wlan-asema", "DVD-elokuva"
 Define ExceptMisc
-       [ 1To9 [ "g" | "G" ] | {4K} | {GSM} | {5K} | {HD} | {RnB} | {R&B} | {EDM} | {ATK} | {HIV} | {AIDS} | {Atk} | {IT} | {It} | {pH}
-       | {WC} | {UV} | {AU} | {LSD} | {TV} | {Tv} | {LTE} | {LVI} | {BKT} | {MP3 } | {mp3} | {jp2} | {JPG} | {JP2} | {PNG} | {DJ} | {MC} | {GIF}
-       | {SVG} | {XML} | {Xml} | {Https} | {SSH} | {PC} | {GUI} | {API} | ("X"){HTML}(1To9) | ("x"){html}(1To9) | {Dvd} | {DVD}
-       | {VHS} | {Blu-ray} | ("J"|{MMO}){RPG} | {DIY} | {VPN} | {Web} | {Tdd} | {Wlan} | {Telnet} | {Internet} | {Televisio} 
-       | [ {LGBT} | {HLBT} ] UppercaseAlpha* | {F1} | {F2} | {F3} | {Startup} | {LED} | {LP} | {GPS}
-       | {Wi}(Dash)[{fi}|{Fi}] | {IoT} ] [ Dash | ":" ] Word
+       [ 1To9 [ "g" | "G" ] | {4K} | {GSM} | {5K} | {HD} | {RnB} | {R&B} | {EDM} | {ATK} | {HIV} | {AIDS} | {Atk} | {IT} | {It} | {pH} |
+       	 {WC} | {UV} | {AU} | {LSD} | {TV} | {Tv} | {LTE} | {LVI} | {BKT} | {MP3 } | {mp3} | {jp2} | {JPG} | {JP2} | {PNG} | {DJ} | {MC} |
+	 {GIF} | {SVG} | {XML} | {Xml} | {Https} | {SSH} | {PC} | {GUI} | {API} | ("X"){HTML}(1To9) | ("x"){html}(1To9) | {Dvd} | {DVD} |
+       	 {VHS} | {3d} | {3D} | {Blu-ray} | ("J"|{MMO}){RPG} | {DIY} | {VPN} | {Web} | {Tdd} | {Wlan} | {Telnet} | {Internet} | {Televisio} 
+       	 [ {LGBT} | {HLBT} ] UppercaseAlpha* | {F1} | {F2} | {F3} | {Startup} | {LED} | {LP} | {GPS} | {Adware} |
+       	 {Wi}(Dash)[{fi}|{Fi}] | {IoT} ] [ Dash | ":" ] Word
        EndTag(Exc010) ;
 
 Define ExceptChampionship
@@ -5391,10 +5310,6 @@ Define Exceptions
        | Ins(ExceptMiesPoika)::0.00
        | Ins(ExceptChannel)::0.00
        | Ins(ExceptFilm)::0.00
-       | Ins(ExceptOSDevice)::0.00
-       | Ins(ExceptDeviceSoftware)::0.00
-       | Ins(ExceptBrowserApps)::0.00
-       | Ins(ExceptBrowserDevice)::0.00
        | Ins(ExceptMisc)::0.00
        | Ins(ExceptUnit)::0.00
        | Ins(ExceptChampionship)::0.00

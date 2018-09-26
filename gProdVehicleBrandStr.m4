@@ -92,7 +92,6 @@ wordform_exact({Rolls}) WSep {Royce} |
 {Mastretta} |
 {Maybach} |
 {Mazda} |
-{McLaren} |
 {Mercedes-Benz} |
 {MiG} |
 {Mitsubishi} |

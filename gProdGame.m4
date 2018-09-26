@@ -1,4 +1,4 @@
-inflect_sg( {A-Spec} | {Banjo-Kazooie} | {Batman} | {Battlefield} | {Bejeweled} | {BioHazard} | {BioShock} | {Bomberman} | {Castlevania} | {Contra} | {Counter-Strike} | {CS} | {Diablo} | {Divinity} | {Doom} | {Earthbound} | {EarthBound} | {Fallout} | {Fortnite} | {Frogger} | {F-Zero} | {Galaga} | {GoldenEye} | {Half-Life} | {Halo} | {Ico} | {Katamari} | {Lineage} | {LittleBigPlanet} | {Megaman} | {Metroid} | {Minecraft} | {Minesweeper} | {Nintendogs} | {Oblivion} | {Ōkami} | {OutRun} | {Overwatch} | {Pacman} | {Pac-Man} | {Persona} | {Pitfall!} | {Planescape} | {Pokemon} | {Pokémon} | {Portal} | {PUBG} | {Punch-Out!!} | {Robotron} | {R-Type} | {Runescape} | {Shenmue} | {Skyrim} | {Sonic} | {Soulcalibur} | {SoulCalibur} | {StarCraft} | {Suikoden} | {Tekken} | {Tetris} | {TLoZ} | {Torment} | {Uncharted} | {Undertale} | {Veronica} | {Warcraft} | {Witcher} | {WoW} | {Xenogears} ) |
+inflect_sg( {A-Spec} | {Banjo-Kazooie} | {Batman} | {Battlefield} | {Bejeweled} | {BioHazard} | {BioShock} | {Bomberman} | {Castlevania} | {Contra} | {Counter-Strike} | {CS} | {Diablo} | {Divinity} | {Doom} | {Dota} | {Earthbound} | {EarthBound} | {Fallout} | {Fortnite} | {Frogger} | {F-Zero} | {Galaga} | {GoldenEye} | {Half-Life} | {Halo} | {Ico} | {Katamari} | {Lineage} | {LittleBigPlanet} | {Megaman} | {Metroid} | {Minecraft} | {Minesweeper} | {Nintendogs} | {Oblivion} | {Ōkami} | {OutRun} | {Overwatch} | {Pacman} | {Pac-Man} | {Persona} | {Pitfall!} | {Planescape} | {Pokemon} | {Pokémon} | {Portal} | {PUBG} | {Punch-Out!!} | {Robotron} | {R-Type} | {Runescape} | {Shenmue} | {Skyrim} | {Sonic} | {Soulcalibur} | {SoulCalibur} | {StarCraft} | {Suikoden} | {Tekken} | {Tetris} | {TLoZ} | {Torment} | {Uncharted} | {Undertale} | {Veronica} | {Warcraft} | {Witcher} | {WoW} | {Xenogears} ) |
 wordform_exact({Advance}) WSep inflect_sg({Wars}) |
 wordform_exact({Age}) WSep wordform_exact(OptCap({of})) WSep inflect_sg({Empires}) |
 wordform_exact({Alan}) WSep inflect_sg({Wake}) |
@@ -40,6 +40,7 @@ wordform_exact({Fifa}) WSep inflect_sg({15}) |
 wordform_exact({FIFA}) WSep inflect_sg({15}) |
 wordform_exact({Final}) WSep inflect_sg({Fantasy}) |
 wordform_exact({Fire}) WSep inflect_sg({Emblem}) |
+wordform_exact({Flappy}) WSep inflect_sg({Bird}) |
 wordform_exact({Gears}) WSep wordform_exact(OptCap({of})) WSep inflect_sg({War}) |
 wordform_exact({God}) WSep wordform_exact(OptCap({of})) WSep inflect_sg({War}) |
 wordform_exact({Grand}) WSep wordform_exact({Theft}) WSep inflect_sg({Auto}) |

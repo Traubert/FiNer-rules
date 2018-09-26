@@ -11,6 +11,8 @@ gorgonzola
 gouda
 juoma
 juusto
+karkki
+keksi
 kolajuoma
 konjakki
 kuohari
@@ -18,6 +20,7 @@ lager
 likööri
 limonadi
 limuviina
+makeinen
 manchego
 mehu
 mehujuoma
@@ -26,17 +29,19 @@ mozzarella
 olut
 palautusjuoma
 pecorino
+perunalastu
 pirtelö
 punaviini
 punkku
 roquefort
+rosé
 rosee
 roseeviini
-rosé
 roséviini
 samppanja
 shampanja
 shamppanja
+sipsi
 skumppa
 tequila
 tilsiter
@@ -46,9 +51,3 @@ virvoitusjuoma
 viski
 vodka
 votka
-keksi
-konjakki
-perunalastu
-sipsi
-karkki
-makeinen

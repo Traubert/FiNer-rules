@@ -1,5 +1,3 @@
-Matti servo%sg ja Napander
-Matti servo%sg & Napander
 30 Seconds to Mars
 69 Eyes
 Abba
@@ -96,8 +94,8 @@ Glasvegas
 Green Day
 Grex Musicus
 Guerra Norte
-Guns 'N Roses
 Guns ' N Roses
+Guns 'N Roses
 Guns N ' Roses
 Guns N' Roses
 Hanoi Rocks
@@ -185,8 +183,8 @@ New Kids on the Block
 Nickelback
 Nickleback
 Nightwish
-Nirvana
 Nine Inch Nails
+Nirvana
 No Doubt
 Noitalinna Huraa
 Northern Kings
@@ -313,6 +311,7 @@ Tundramatiks
 Turo's Hevi Gee
 Twisted Sister
 Type O Negative
+U2
 Ultra Bra
 UMO
 UMO Jazz Orchestra
@@ -327,7 +326,6 @@ Weather Girls
 Westlife
 Wham
 Wham !
-U2
 XL5
 YUP
 Y. U. P.
@@ -336,3 +334,5 @@ Zen Cafe
 Zen Café
 Ziggy Marley and the Melody Makers
 ZZ Top
+Matti servo%sg ja Napander
+Matti servo%sg & Napander

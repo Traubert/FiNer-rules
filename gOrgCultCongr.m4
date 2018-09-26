@@ -19,17 +19,4 @@ Ins(AlphaUp) [ lemma_exact( {alivaltiosihteeri} | {apulanta} | {egotrippi} | {el
   lemma_exact_morph({tehosekoitin}, {NUM=SG}) |
   lemma_exact_morph({valonkantaja}, {NUM=PL}) |
   lemma_exact_morph({värttinä}, {NUM=SG}) |
-  lemma_exact_morph({yö}, {NUM=SG}) |
-  lemma_exact_morph({aikamies}, {NUM=PL}) |
-  lemma_exact_morph({hevisaurus}, {NUM=SG}) |
-  lemma_exact_morph({järjestyshäiriö}, {NUM=SG}) |
-  lemma_exact_morph({jytäjyrisijä}, {NUM=PL}) |
-  lemma_exact_morph({kuunkuiskaaja}, {NUM=PL}) |
-  lemma_exact_morph({metro-tyttö}, {NUM=PL}) |
-  lemma_exact_morph({rajaton}, {NUM=SG}) |
-  lemma_exact_morph({raptori}, {NUM=SG}) |
-  lemma_exact_morph({suurlähettiläs}, {NUM=PL}) |
-  lemma_exact_morph({tehosekoitin}, {NUM=SG}) |
-  lemma_exact_morph({valonkantaja}, {NUM=PL}) |
-  lemma_exact_morph({värttinä}, {NUM=SG}) |
   lemma_exact_morph({yö}, {NUM=SG}) ]

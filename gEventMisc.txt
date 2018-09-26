@@ -1,4 +1,3 @@
-Gamescom
 9 / 11
 9/11
 A-con
@@ -25,12 +24,14 @@ Eurovision
 Finlandia Trophy
 Finncon
 Flow
+Gamescom
 Google I/O
 Hamina Tattoo
 Helsinki City Run
 Hypecon
 Ijahis Idja
 Ilosaarirock
+International Conference on Cyber Security
 Jysäri
 Kawacon
 Kirsikankukkacon
@@ -44,7 +45,6 @@ MGP Nordic
 Mimicon
 MWC
 Nekocon
-International Conference on Cyber Security
 Oktoberfest
 Provinssirock
 Qstock

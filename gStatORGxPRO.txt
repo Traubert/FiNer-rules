@@ -1,6 +1,3 @@
-Pepsi
-Coca-Cola
-DuckDuckGo
 AccuWeather
 Aereo
 Aftonbladet
@@ -8,7 +5,9 @@ Alipay
 BGR
 Blackberry
 Bump
+Coca-Cola
 Dropbox
+DuckDuckGo
 Facebook
 FIFA
 Figma
@@ -30,6 +29,7 @@ Opera
 Otakantaa.fi
 Paypal
 PayPal
+Pepsi
 PlanetRomeo
 Reddit
 Skype

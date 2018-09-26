@@ -1,7 +1,3 @@
-Fiat Chrysler
-Suhoi
-MIG
-MiG
 Airbus
 Alfa Romeo
 Alpina
@@ -43,6 +39,7 @@ Eurofighter
 Ferguson
 Ferrari
 Fiat
+Fiat Chrysler
 Fisker
 Fokker
 Ford
@@ -91,8 +88,9 @@ Maserati
 Mastretta
 Maybach
 Mazda
-McLaren
 Mercedes-Benz
+MiG
+MIG
 Mitsubishi
 Moskvitš
 MVS
@@ -123,6 +121,7 @@ Skoda
 Spyker
 Ssangyong
 Subaru
+Suhoi
 Suzuki
 Tesla
 Toroidion

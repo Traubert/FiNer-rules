@@ -84,11 +84,11 @@ Define Clitic ( {han} | {hän} | {kin} | {kaan} | {kään} ) ;
  
 Define NomSuff ( SuffSep Ins(Clitic) ) ; 
 Define GenSuff SuffSep "n" ( Ins(Clitic) ) ; 
-Define ParSuff SuffSep ("t")["ä"|"a"] ( Ins(Clitic) ) ; 
+Define ParSuff SuffSep [ ("t")["ä"|"a"] | {ää} ] ( Ins(Clitic) ) ; 
 Define LocIntSuff SuffSep [ {iin} | ("h") FinVowel "n" | "s"["s"|"t"]["a"|"ä"] ] ( Ins(Clitic) ) ; 
 Define LocExtSuff SuffSep [ "l"["l"|"t"]["a"|"ä"] | {lle} ] ( Ins(Clitic) ) ; 
  
-Define FinSuff ( SuffSep [ Ins(Clitic) | [ ( "n" | (["t"|{st}|{ss}|{lt}|{ll}])["ä"|"a"] | {lle} | {iin} | ("h") FinVowel "n" | {ks}["e"|"i"] | {na} | {nä} ) ] ( Ins(Clitic) ) ] ) ; 
+Define FinSuff ( SuffSep [ Ins(Clitic) | [ ( "n" | (["t"|{st}|{ss}|{lt}|{ll}])["ä"|"a"] | {ää} | {lle} | {iin} | ("h") FinVowel "n" | {ks}["e"|"i"] | {na} | {nä} ) ] ( Ins(Clitic) ) ] ) ; 
  
 !====================================================================== 
  
@@ -221,6 +221,7 @@ Define NounGenPl [ Field FSep Field FSep Field [{POS=NOUN} Field {NUM=SG} Field 
  
 Define CoordConj [ Field FSep Field FSep Field [{[SUBCAT=CONJUNCTION][CONJ=COORD]}] Field FSep Field FSep ] ; 
 Define NotConj [ [ [[ Ins(AlphaUp) | Ins(AlphaDown) | 0To9 ] Field ] FSep Field FSep Field FSep Field FSep ] - CoordConj ] ; 
+Define Coord [ [ Field FSep [{ja} | Comma ] FSep Field FSep Field FSep ] ] ; 
  
 Define Prop [ Field FSep Field FSep Field [{PROPER}] Field FSep Field FSep ] ; 
 Define PropNom [ Field FSep Field FSep Field [{PROPER} Field {[NUM=SG][CASE=NOM]}] Field FSep Field FSep ] ; 
@@ -269,6 +270,8 @@ Define CapWordGen LC(WordBoundary) [CapWordPart {[CASE=GEN]} Word] RC(WordBounda
 Define CapWordNomGen LC(WordBoundary) [CapWordPart {[CASE=} [{NOM}|{GEN}] "]" Word] RC(WordBoundary) ; 
 Define CapWordNomOrEt [ CapWordNom | [ ["&" | {and}] FSep Field FSep Field FSep Field FSep ] ] ; 
  
+Define CapWordNomNSB LC( NoSentBoundary ) CapWordNom ; 
+ 
 Define CapNounNom AlphaUp [ Field FSep Field FSep Field [{POS=NOUN} Field {[NUM=SG][CASE=NOM]}] Field FSep Field FSep ] ; 
 Define CapNounGen AlphaUp [ Field FSep Field FSep Field [{POS=NOUN} Field {[NUM=SG][CASE=GEN]}] Field FSep Field FSep ] ; 
 Define CapNounPar AlphaUp [ Field FSep Field FSep Field [{POS=NOUN} Field {[NUM=SG][CASE=PAR]}] Field FSep Field FSep ] ; 
@@ -287,21 +290,26 @@ Define CapNameNSB LC( NoSentBoundary ) Ins(CapName) ;
 Define CapNameNomNSB LC( NoSentBoundary ) Ins(CapNameNom) ; 
 Define CapNameGenNSB LC( NoSentBoundary ) Ins(CapNameGen) ; 
  
-Define TruncPfx [ Field [AlphaDown Dash ] FSep Field FSep Field FSep Field FSep ] ; 
+Define TruncPfx [ Field [[ Alpha | 0To9 ] Dash ] FSep Field FSep Field FSep Field FSep ] ; 
  
 Define CapNomWithN 
  [ [[ {Domain} | {Open} | {European} | {American} | {African} | {Asian} | {Main} | {Syrian} | {London} | {Station} | {San} 
  | {Union} | {Western} | {Falcon} | {Debian} | {Captain} | {Human} | {Emotion} | {Pan} | {Education} | {Canon} | {Christian} 
  | {Women} | {Men} | {Nation} | {Motion} | {Time} | {Queen} | {Champion} | {Indian} | {Norwegian} | {Australian} | {Ten} 
  | {An} | {Milton} | {Hilton} | {Titan} | {Aryan} | {Austrian} | {German} | {Silicon} | {Icon} | {Falcon} | {Recon} 
- | {Lexicon} | {In} | {Teen} | {Canadian} | {Min} | {Don} | {Photon} | {Neutron} | {Hadron} | {Un} | {Den} | {Great} 
- | {Independent} | {Ålands} | {Malaysian} | {Golden} | {Japan} | {Golden} | {Collection} | {Operation} 
+ | {Lexicon} | {In} | {Teen} | {Canadian} | {Min} | {Don} | {Photon} | {Proton} | {Neutron} | {Electron} 
+ | {Hadron} | {Un} | {Den} | {Great} | {Invasion} | {Within} | {Revolution} 
+ | {Independent} | {Ålands} | {Malaysian} | {Golden} | {Japan} | {Golden} | {Collection} | {Operation} | {Dragon} 
+ | {Edition} | {Fusion} | {Mission} | {Horizon} | {Caravan} | {Titan} | {Mr.} | {Dr.} | {Million} | {Billion} 
  | AlphaUp AlphaDown* [ AlphaDown - "a" ] {ation} ] 
  ] FSep Field FSep Field FSep Field FSep ] ; 
  
 Define CapForeign [ Ins(AlphaUp) [ Field FSep Field FSep Field [{SUBCAT=FOREIGN}] Field FSep Field FSep ] ] ; 
 Define CapMisc [ CapNameNomNSB | CapNomWithN | CapForeign | Ins(AlphaUp) PropNom ] ; 
 Define CapMiscFirst [ CapNameNomNSB | CapForeign | Ins(PropFirstNom) ] ; 
+ 
+Define Serial [ [ [Field AlphaUp | Field Alpha Field 0To9 | Field 0To9 Alpha (Alpha) ] FSep Field FSep Field FSep Field FSep ] | 
+ [ Alpha | 0To9 ] Field Ins(CapNameNom) ] ; 
  
 !------------------------------ 
  
@@ -420,7 +428,6 @@ Define VehicleBrand [ [ [{Alfa}] FSep Field FSep Field FSep Field FSep ] WSep {R
 {Mastretta} | 
 {Maybach} | 
 {Mazda} | 
-{McLaren} | 
 {Mercedes-Benz} | 
 {MiG} | 
 {Mitsubishi} | 
@@ -525,17 +532,11 @@ Define SurnameSuffixedFin
  [ {lainen} | {läinen} | {skanen} | {skinen} | {kainen} | {käinen} 
  | {kkanen} | {kkonen} | {kkönen} | {pponen} | {ppönen} | {ttönen} 
  | {ttinen} | {ttunen} | {kkinen} | {kangas} | {lenius} | {nheimo} 
- | {nsalo} ]::0.05 
+ | {nsalo} | {a-aho} ]::0.05 
  ] FSep Field [{NUM=SG} ] Field FSep Field FSep ] ; 
  
 Define PersonMiscMultiPart [ 
- inflect_sg( {Psy} | {Napoleon} | {Oprah} | {Akihito} | {Hirohito} | {Stalin} | {Nobunaga} | {Adele} | {Agricola} | {Amoc} | {Aristoteles} | {Badding} | {Beyonce} | {Beyoncé} | {Blondie} | {Botticelli} | {Brena} | {Buddha} | {Caravaggioe} | {Cheek} | {Cher} | {Cicciolina} | {Donatello} | {evleaks} | {@evleaks} | {Evleaks} | {Fobba} | {Ghirlandaio} | {Kirka} | {Masaccio} | {Masolino} | {Michaelangelo} | {Michelangelo} | {Neseus} | {Paleface} | {Palestrina} | {Perugino} | {Pewdiepie} | {PewDiePie} | {Pinturicchio} | {Pitbull} | {Platon} | {Plinius} | {Plutarkhos} | {Proklos} | {Pythagoras} | {Rihanna} | {Runeberg} | {Ruudolf} | {Shakira} | {Signmark} | {Vickan} | {Weev} | {will.i.am} | {Will.i.am} | {Yazka} | {Zeuksis} | {Zizou} ) | 
-[ [{Oprah}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Winfrey}) | 
-[ [{Murasaki}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Shikibu}) | 
-[ [{Oda}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Nobunaga}) | 
-[ [{Tokugawa}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Ieyasu}) | 
-[ [{Shinzō}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Abe}) | 
-[ [{Shinzo}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Abe}) | 
+ inflect_sg( {Adele} | {Agricola} | {Akihito} | {Amoc} | {Aristoteles} | {Badding} | {Beyonce} | {Beyoncé} | {Blondie} | {Botticelli} | {Brena} | {Buddha} | {Caravaggioe} | {Cheek} | {Cher} | {Cicciolina} | {Donatello} | {evleaks} | {@evleaks} | {Evleaks} | {Fobba} | {Ghirlandaio} | {Hirohito} | {Kirka} | {Masaccio} | {Masolino} | {Michaelangelo} | {Michelangelo} | {Napoleon} | {Neseus} | {Nobunaga} | {Oprah} | {Paleface} | {Palestrina} | {Perugino} | {Pewdiepie} | {PewDiePie} | {Pinturicchio} | {Pitbull} | {Platon} | {Plinius} | {Plutarkhos} | {Proklos} | {Psy} | {Pythagoras} | {Rihanna} | {Runeberg} | {Ruudolf} | {Shakira} | {Signmark} | {Stalin} | {Vickan} | {Weev} | {will.i.am} | {Will.i.am} | {Yazka} | {Zeuksis} | {Zizou} ) | 
 [ [{50}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Cent}) | 
 [ [{Abdul}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Fattah}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({al-Sis}) | 
 [ [{Alejandro}] FSep Field FSep Field FSep Field FSep ] WSep [ [{González}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Iñárritu}) | 
@@ -862,6 +863,7 @@ Define PersonMiscMultiPart [
 [ [{Mohammed}] FSep Field FSep Field FSep Field FSep ] WSep [ [{bin}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Nayef}) | 
 [ [{Moisés}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Naímin}) | 
 [ [{Mona}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Hanna-Attisha}) | 
+[ [{Murasaki}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Shikibu}) | 
 [ [{Mussie}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Zerai}) | 
 [ [{Nadia}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Murad}) | 
 [ [{Natalie}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Imbruglia}) | 
@@ -877,9 +879,11 @@ Define PersonMiscMultiPart [
 [ [{Nikki}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Haley}) | 
 [ [{Niklas}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Savander}) | 
 [ [{Nikola}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Tesla}) | 
+[ [{Oda}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Nobunaga}) | 
 [ [{OJ}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Simpson}) | 
 [ [{Oleg}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Artemjev}) | 
 [ [{Olivia}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Newton-John}) | 
+[ [{Oprah}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Winfrey}) | 
 [ [{Örjan}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Westman}) | 
 [ [{Oscar}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Isaac}) | 
 [ [{Palmer}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Luckey}) | 
@@ -951,6 +955,8 @@ Define PersonMiscMultiPart [
 [ [{Seth}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Rogen}) | 
 [ [{Shawn}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Corey}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Carter}) | 
 [ [{Shelley}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Hwang}) | 
+[ [{Shinzo}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Abe}) | 
+[ [{Shinzō}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Abe}) | 
 [ [{Shirley}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Temple}) | 
 [ [{Siddhartha}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Gautama}) | 
 [ [{Sridhar}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Ramaswamy}) | 
@@ -981,6 +987,7 @@ Define PersonMiscMultiPart [
 [ [{Terry}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Myerson}) | 
 [ [{Tim}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Bajarin}) | 
 [ [{Tim}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Cook}) | 
+[ [{Tokugawa}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Ieyasu}) | 
 [ [{Tom}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Preston-Werner}) | 
 [ [{Tsai}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Ing-wen}) | 
 [ [{Tu}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Youyou}) | 
@@ -1323,7 +1330,7 @@ Define PersonWithPossession
  [ NameInitial WSep ]* 
  [ Ins(PropFirstLastGen) ] 
  RC( WSep [ Field FSep Field [{sormi} | {kasvo} ("t") | {parta} | {hius} | {vatsa} | {elämä} | {luo}({kse}) | {luota} | {syntymäpäivä} | {hautakivi} | 
- {maalaus} | {sävellys} | {teos} | {romaani} | {novelli} | {runo} | {elokuva} | {kotona} | {luona} | 
+ {maalaus} | {sävellys} | {teos} | {romaani} | {novelli} | {runo} | {elokuva} | {ruumis} | {kotona} | {luona} | 
  {kuolinvuode} | {mausoleumi} | {kuolinpesä} | {työsopimus} | {työpanos} | {työsuhde} ] FSep Field FSep Field FSep ] ) ; 
  !! NB: excluded "käsi" and "kirja" due to frequent methaphorical usage 
  
@@ -2524,7 +2531,7 @@ Define LocPlaceSuffixed
  {Church}::0.25 | {Stadion} | {House}::0.25 | {Temple} | {Arena} | {Areena} | {Hall} | {Studio} | {Place} | {Plaza} | 
  {Ranch} | {Center}::0.25 | {Zoo} | {Speedway} | {Cemetery} | {Statehouse} | {Bridge} | {Kerk} | {Dom} | {Minster} | 
  {Memorial} | {Monument} | {Capitol} | {Tower}("s") | {Arch} | {Gate} | {Circuit} | {Aquarium} | {Münster} | 
- OptCap({most}) | {Shrine} | {Fountain} | {Lodge} | {Zamok} ) ; 
+ OptCap({most}) | {Shrine} | {Fountain} | {Lodge} | {Zamok} | {Complex} ) ; 
  
  
 Define LocPlacePrefixed1 
@@ -2754,20 +2761,20 @@ Define AthleticOrgYkkonen
  
 Define AthleticOrgListGaz 
  [ inflect_sg( {Arsenal} | {Chelsea} | {Liverpool} | {Lotus} | {McLaren} | {NBA} | {Rochester} | {Salisbury} | {Sunderland} | {Swansea} | {Trabzonspor} | {Williams} ) | 
-[ [{Mighty}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Ducks}) | 
-[ [{Detroit}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Red}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Wings}) | 
 [ [{Aston}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Villa}) | 
 [ [{Atlanta}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Thrashers}) | 
 [ [{Birmingham}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({City}) | 
 [ [{Buffalo}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Sabres}) | 
 [ [{Coventry}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({City}) | 
 [ [{Dallas}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Stars}) | 
+[ [{Detroit}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Red}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Wings}) | 
 [ [{Espoo}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Blues}) | 
 [ [{Espoon}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Blues}) | 
 [ [{Force}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({India}) | 
 [ [{HC}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Slovan}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Bratislava}) | 
 [ [{Lempäälän}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Kisa}) | 
 [ [{Manchester}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({City}) | 
+[ [{Mighty}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Ducks}) | 
 [ [{Mighty}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Ducks}] FSep Field FSep Field FSep Field FSep ] WSep [ [OptCap({of})] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Anaheim}) | 
 [ [{Milton}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Icehawks}) | 
 [ [{Minnesota}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Wild}) | 
@@ -3063,13 +3070,11 @@ Define CultOrgColloc3
  RC( WSep [ Field FSep Field [{kävijä}({määrä}) | {näyttely} | {kokoelma} | {intendentti} | {pääsymaksu} ] FSep Field FSep Field FSep ] ) ; 
  
 Define CultGazMacro1 
- [ inflect_sg( {Ateneum} | {Belvedere} | {Dikseli} | {EMMA} | {Eremitaasi} | {Fotografiska} | {Kiasma} | {Louvre} | {MCA} | {MoMA} | {Siida} | {Abba} | {ABBA} | {ACDC} | {AC/DC} | {Aerosmith} | {Agents} | {A-ha} | {AKB48} | {Aknestik} | {Amorphis} | {Anthrax} | {Apocalyptica} | {Avanti} | {Bananarama} | {Beatles} | {Candomino} | {Cascada} | {Chippendales} | {Clifters} | {CMX} | {Coldplay} | {Dallape} | {Dallapé} | {Doors} | {Eagles} | {Erasure} | {Eurythmics} | {Fintelligens} | {Folkswagen} | {Genialistid} | {Gimmel} | {Gjallarhorn} | {Glasvegas} | {Hearthill} | {Hellacopters} | {HIM} | {H.I.M.} | {Hunks} | {Hurriganes} | {Iconcrash} | {Indica} | {JMKE} | {JVG} | {KAJ} | {Kazaky} | {Kemmuru} | {Kemopetrol} | {Kiss} | {KISS} | {Klamydia} | {Kwan} | {Laibach} | {Lamourettes} | {LCMDF} | {Lemonator} | {Lovex} | {Mamba} | {Menudo} | {Metallica} | {Movetron} | {Mukaralla} | {Muse} | {Nickelback} | {Nickleback} | {Nightwish} | {Nirvana} | {NSYNC} | {PMMP} | {Popeda} | {Poropetra} | {Queen} | {Quintessence} | {Ramblers} | {Rehupiikles} | {Roxette} | {RSO} | {Salt-N-Pepa} | {Sarcofagus} | {SIG} | {SMG} | {Softengine} | {Stam1na} | {Stratovarius} | {Supremes} | {t.A.T.u} | {T.A.T.u.} | {Teleks} | {Teräsbetoni} | {Tiktak} | {TikTak} | {Tundramatiks} | {UMO} | {Vennaskond} | {Westlife} | {Wham} | {U2} | {XL5} | {YUP} | {Y.U.P.} ) | 
+ [ inflect_sg( {Ateneum} | {Belvedere} | {Dikseli} | {EMMA} | {Eremitaasi} | {Fotografiska} | {Kiasma} | {Louvre} | {MCA} | {MoMA} | {Siida} | {Abba} | {ABBA} | {ACDC} | {AC/DC} | {Aerosmith} | {Agents} | {A-ha} | {AKB48} | {Aknestik} | {Amorphis} | {Anthrax} | {Apocalyptica} | {Avanti} | {Bananarama} | {Beatles} | {Candomino} | {Cascada} | {Chippendales} | {Clifters} | {CMX} | {Coldplay} | {Dallape} | {Dallapé} | {Doors} | {Eagles} | {Erasure} | {Eurythmics} | {Fintelligens} | {Folkswagen} | {Genialistid} | {Gimmel} | {Gjallarhorn} | {Glasvegas} | {Hearthill} | {Hellacopters} | {HIM} | {H.I.M.} | {Hunks} | {Hurriganes} | {Iconcrash} | {Indica} | {JMKE} | {JVG} | {KAJ} | {Kazaky} | {Kemmuru} | {Kemopetrol} | {Kiss} | {KISS} | {Klamydia} | {Kwan} | {Laibach} | {Lamourettes} | {LCMDF} | {Lemonator} | {Lovex} | {Mamba} | {Menudo} | {Metallica} | {Movetron} | {Mukaralla} | {Muse} | {Nickelback} | {Nickleback} | {Nightwish} | {Nirvana} | {NSYNC} | {PMMP} | {Popeda} | {Poropetra} | {Queen} | {Quintessence} | {Ramblers} | {Rehupiikles} | {Roxette} | {RSO} | {Salt-N-Pepa} | {Sarcofagus} | {SIG} | {SMG} | {Softengine} | {Stam1na} | {Stratovarius} | {Supremes} | {t.A.T.u} | {T.A.T.u.} | {Teleks} | {Teräsbetoni} | {Tiktak} | {TikTak} | {Tundramatiks} | {U2} | {UMO} | {Vennaskond} | {Westlife} | {Wham} | {XL5} | {YUP} | {Y.U.P.} ) | 
 [ [{Forum}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Marinum}) | 
 [ [{La}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Fenice}) | 
 [ [{La}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Scala}) | 
 [ [{Modernin}] FSep Field FSep Field FSep Field FSep ] WSep [ [{taiteen}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({museo}) | 
-[ [{Matti}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{servo}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ [{ja}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Napander}) | 
-[ [{Matti}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{servo}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ [{&}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Napander}) | 
 [ [{30}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Seconds}] FSep Field FSep Field FSep Field FSep ] WSep [ [OptCap({to})] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Mars}) | 
 [ [{69}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Eyes}) | 
 [ [{Ace}] FSep Field FSep Field FSep Field FSep ] WSep [ [OptCap({of})] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Base}) | 
@@ -3133,8 +3138,8 @@ Define CultGazMacro1
 [ [{Green}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Day}) | 
 [ [{Grex}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Musicus}) | 
 [ [{Guerra}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Norte}) | 
-[ [{Guns}] FSep Field FSep Field FSep Field FSep ] WSep [ [{'N}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Roses}) | 
 [ [{Guns}] FSep Field FSep Field FSep Field FSep ] WSep [ [Apostr] FSep Field FSep Field FSep Field FSep ] WSep [ [{N}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Roses}) | 
+[ [{Guns}] FSep Field FSep Field FSep Field FSep ] WSep [ [{'N}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Roses}) | 
 [ [{Guns}] FSep Field FSep Field FSep Field FSep ] WSep [ [{N}] FSep Field FSep Field FSep Field FSep ] WSep [ [Apostr] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Roses}) | 
 [ [{Guns}] FSep Field FSep Field FSep Field FSep ] WSep [ [{N'}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Roses}) | 
 [ [{Hanoi}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Rocks}) | 
@@ -3307,6 +3312,8 @@ Define CultGazMacro1
 [ [{Zen}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Café}) | 
 [ [{Ziggy}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Marley}] FSep Field FSep Field FSep Field FSep ] WSep [ [OptCap({and})] FSep Field FSep Field FSep Field FSep ] WSep [ [OptCap({the})] FSep Field FSep Field FSep Field FSep ] WSep [ [{Melody}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Makers}) | 
 [ [{ZZ}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Top}) | 
+[ [{Matti}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{servo}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ [{ja}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Napander}) | 
+[ [{Matti}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{servo}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ [{&}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Napander}) | 
 [ [{Alwari}] FSep Field FSep Field FSep Field FSep ] WSep "T" [ Field FSep [{tuohitorvi}] FSep Field FSep Field FSep ] | 
 [ [{Don}] FSep Field FSep Field FSep Field FSep ] WSep "H" [ Field FSep [{huono}] FSep Field FSep Field FSep ] | 
 [ [{Eppu}] FSep Field FSep Field FSep Field FSep ] WSep "N" [ Field FSep [{normaali}] FSep Field FSep Field FSep ] | 
@@ -3375,19 +3382,6 @@ Define CultGazMacro2
  [ Field FSep [{metro-tyttö}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
  [ Field FSep [{neljä}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{baritoni}] FSep Field FSep Field FSep ] | 
  [ Field FSep [{neljä}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep "R" [ Field FSep [{ruusu}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- [ Field FSep [{rajaton}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- [ Field FSep [{raptori}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- [ Field FSep [{suurlähettiläs}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
- [ Field FSep [{tehosekoitin}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- [ Field FSep [{valonkantaja}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
- [ Field FSep [{värttinä}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- [ Field FSep [{yö}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- [ Field FSep [{aikamies}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
- [ Field FSep [{hevisaurus}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- [ Field FSep [{järjestyshäiriö}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- [ Field FSep [{jytäjyrisijä}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
- [ Field FSep [{kuunkuiskaaja}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
- [ Field FSep [{metro-tyttö}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
  [ Field FSep [{rajaton}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
  [ Field FSep [{raptori}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
  [ Field FSep [{suurlähettiläs}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
@@ -3664,7 +3658,7 @@ Define MediaSuffixed3
 Define MediaSuffixed4 
  [ Ins(CapMisc) WSep ]* 
  inflect_sg( AlphaUp Field OptCap( {bladet} | {blad} | {pressen} | {avisen} | {tidende} | {tidningen} | {posten} | {leht} | {kuriren} | 
- {zeitung} | {spiegel} | {bladid} | {blaðið} ) ) ; 
+ {zeitung} | {spiegel} | {bladid} | {blaðið} | {news} | {times} ) ) ; 
  
 !* "Fanni & Kaneli -ruokablogi", "Days of Old -lehti", "Rise of the Phoenix -blogi" 
 Define MediaSuffixed5 
@@ -3758,12 +3752,7 @@ Define gazMediaMWordCongr OptQuotes([
  ]) ; 
  
 Define gazMediaMWordNoCongr OptQuotes([ 
- [ [{La}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Razon}) | 
-[ [{La}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Razón}) | 
-[ [{Rolling}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Stone}) | 
-[ [{El}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({País}) | 
-[ [{El}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Pais}) | 
-[ [{ABC}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({News}) | 
+ [ [{ABC}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({News}) | 
 [ [{Åbo}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Underrättelser}) | 
 [ [{Advertising}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Age}) | 
 [ [{Alamogordo}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Daily}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({News}) | 
@@ -3796,6 +3785,8 @@ Define gazMediaMWordNoCongr OptQuotes([
 [ [{Digital}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Spy}) | 
 [ [{Economic}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Daily}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({News}) | 
 [ [{Eesti}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Päevaleht}) | 
+[ [{El}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Pais}) | 
+[ [{El}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({País}) | 
 [ [{Extreme}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Tech}) | 
 [ [{Fierce}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Wireless}) | 
 [ [{Financial}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Times}) | 
@@ -3809,6 +3800,8 @@ Define gazMediaMWordNoCongr OptQuotes([
 [ [{Japan}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Today}) | 
 [ [{Korea}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Herald}) | 
 [ [{Korea}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Times}) | 
+[ [{La}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Razon}) | 
+[ [{La}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Razón}) | 
 [ [{La}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Repubblica}) | 
 [ [{LA}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Times}) | 
 [ [{Latin}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Post}) | 
@@ -3833,6 +3826,7 @@ Define gazMediaMWordNoCongr OptQuotes([
 [ [{PC}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Magazine}) | 
 [ [{PC}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({World}) | 
 [ [{Popular}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Science}) | 
+[ [{Rolling}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Stone}) | 
 [ [{Ságaid}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Muitaleaddji}) | 
 [ [{Saǥai}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Muittalægje}) | 
 [ [{Sam}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Mobile}) | 
@@ -4330,7 +4324,6 @@ Define CorpListMWord
 [ [{Android}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Authority}) | 
 [ [{Android}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Central}) | 
 [ [{Android}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Community}) | 
-[ [{Reliance}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Communications}) | 
 [ [{Anunak}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Group}) | 
 [ [{AP}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Graphics}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Bank}) | 
 [ [{Archer}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Daniels}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Midland}) | 
@@ -4638,7 +4631,6 @@ Define CorpListMWord
 [ [{Mozilla}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Foundation}) | 
 [ [{Mr}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Max}) | 
 [ [{Mt.}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Gox}) | 
-[ [{Reliance}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Jio}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Infocomm}) | 
 [ [{Multimedia}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Research}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Group}) | 
 [ [{MWL}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({TV}) | 
 [ [{Naked}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Security}) | 
@@ -4728,6 +4720,7 @@ Define CorpListMWord
 [ [{Reebok-CCM}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Hockey}) | 
 [ [{Reed}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Elsevier}) | 
 [ [{Reliance}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Communications}) | 
+[ [{Reliance}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Jio}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Infocomm}) | 
 [ [{RF}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Benchmark}) | 
 [ [{R.J.}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Reynolds}) | 
 [ [{Robert}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Bosch}) | 
@@ -5222,7 +5215,6 @@ Define OrgUnion
  [ Field FSep [{liitto} ] FSep Field FSep Field FSep ] WSep 
  Ins(NpoSuffixAbbr) ; 
  
- 
 !** Kuopion Yrittäjät 
  
 !----------------------------------------------------------------------- 
@@ -5619,7 +5611,7 @@ Define OrgDisamb2
 !* "YouTuben [perustaja/omistaja/pääkonttori/lakimies]" 
 Define OrgDisamb3 
  [ [ [[ Ins(CorpOrPro) | Ins(CorpOrLoc) ] GenSuff ] FSep Field FSep Field FSep Field FSep ] | Ins(PropOrgGen) | Ins(WhiteHouseGen) ] 
- RC( WSep [ Field FSep Field [{edustaja} | {perustaja} | {työtekijä} | {johtaja} | {omistaja} | {konttori} | {osake} | {liikevaihto} | 
+ RC( WSep [ Field FSep Field [{edustaja} | {perustaja} | {työntekijä} | {johtaja} | {omistaja} | {konttori} | {osake} | {liikevaihto} | 
  {mies} | {kurssi} | {liikevaihto} | {liiketappio} | {markkinaosuus} | {listautuminen} | {palvelus} | {sijoittaja} | {blogi} | 
  {raportti} | {tiedote} | [{lehdistö}|{tiedotus}]{tilaisuus} | {suhtautuminen} | {lausunto} | {syyte} | {anteeksipyyntö} | {reaktio} | {omaisuus} | {hallitus} | {suunnitelma} | {insinööri} | {asiakaspalvelu} ] FSep Field FSep Field FSep ] 
  ) ; 
@@ -5631,7 +5623,8 @@ Define OrgDisamb4
  
 Define OrgDisamb5 
  [ [ [[ Ins(CorpOrPro) ] ParSuff ] FSep Field FSep Field FSep Field FSep ] | Ins(PropOrgPar) ] 
- RC( WSep [ [[ {syyttäv} | {uhkailev} | {moittiv} | {arvostelev} | {rahoittav} | {sponsoroiv} ] Alpha+ ] FSep Field FSep Field FSep Field FSep ] ) ; 
+ RC( WSep [ [[ {syyttäv} | {uhkailev} | {moittiv} | {arvostelev} | {rahoittav} | {sponsoroiv} ] Alpha+ | 
+ {vastaan} ] FSep Field FSep Field FSep Field FSep ] ) ; 
  
 !** 
 Define MunicipalityNom 
@@ -5766,7 +5759,7 @@ Define FoodDrinkOrNot [ @txt"gTentativeFoodDrink.txt" | @txt"gProdFoodDrinkBrand
 Define FoodDrinkType [ Field @txt"gProdFoodDrinkType.txt" ] ; 
  
 Define ProdFoodDrinkHyphen1 
- Field AlphaUp [ Field FSep [Field Dash Ins(FoodDrinkType) ] FSep Field FSep Field FSep ]::0.20 ; 
+ Field AlphaUp Field Capture(FoodCpt1) Dash [ Field FSep [Field Dash Ins(FoodDrinkType) ] FSep Field FSep Field FSep ]::0.20 ; 
  
 Define ProdFoodDrinkHyphen2 
  ( Ins(CapMisc) WSep ) 
@@ -5775,7 +5768,7 @@ Define ProdFoodDrinkHyphen2
  DashExt AlphaDown [ Field FSep [(Dash) Ins(FoodDrinkType) ] FSep Field FSep Field FSep ]::0.20 ; 
  
 Define ProdFoodDrinkHyphen3 
- Field AlphaUp lemma_exact_sg( Field AlphaDown Dash {niminen} ) WSep 
+ Field AlphaUp Field Capture(FoodCpt2) Dash lemma_exact_sg( Field AlphaDown Dash {niminen} ) WSep 
  lemma_exact_sg( Ins(FoodDrinkType) )::0.20 ; 
  
 Define ProdFoodDrinkColloc1 
@@ -5783,13 +5776,21 @@ Define ProdFoodDrinkColloc1
  [ ( CapMisc::0.20 WSep ) CapNounPar::0.50 | infl_sg_par(FoodDrinkOrNot)::0.10 ] ; 
  
 Define ProdFoodDrinkColloc2 
- LC( [ Field FSep Field [{kylmä} | {kuuma} | {lämmin} | {haalea} | {makea} | {suolainen} | {kirpea} | {huurteinen} | {virkistävä} | 
+ LC( [ Field FSep Field [{kylmä} | {kuuma} | {lämmin} | {haalea} | {makea} | {suolainen} | {kirpeä} | {hapan} | {huurteinen} | {virkistävä} | 
  {makuinen} | {raikas} | {alkoholiton} | {pitoinen} ] FSep Field FSep Field FSep ] WSep ) 
  [ ( CapMisc::0.20 WSep ) CapName::0.50 | inflect_sg(FoodDrinkOrNot)::0.10 ] ; 
  
 Define ProdFoodDrinkColloc3 
- [ ( CapMisc::0.20 WSep ) CapNameNSB::0.50 | infl_sg_nom(FoodDrinkOrNot)::0.10 ] 
+ [ ( CapMisc::0.20 WSep ) CapMisc::0.50 | infl_sg_nom(FoodDrinkOrNot)::0.10 ] 
  RC( WSep [ Field FSep [{maistua} | {sisältää} | {maistuu} | {ravitsee} | {virkistää} ] FSep Field FSep Field FSep ] ) ; 
+ 
+Define ProdFoodDrinkColloc4 
+ [ ( CapMisc::0.20 WSep ) CapNameGenNSB::0.50 | PropGen::0.50 | infl_sg_gen(FoodDrinkOrNot)::0.10 ] 
+ RC( WSep ( PosAdj WSep ) [ Field FSep [{maku} | {sivumaku} | {ainesosa} | {koostumus} | {makeus} | {resepti} | {aromi} | {hapokkuus} | 
+ AlphaDown+ {pitoituus} | {ph} | {keksijä} | {valmistaja} | {suutuntuma} | {puhtaus} | {rasva} | {rasvaisuus} ] FSep Field FSep Field FSep ] ) ; 
+ 
+Define ProdFoodDrinkCaptured 
+ [ [[ FoodCpt1 | FoodCpt2 ] FinSuff ] FSep Field FSep Field FSep Field FSep ]::0.60 ; 
  
 Define ProdFoodDrinkGaz [ inflect_sg( {7Up} | {Battery} | {Benecol} | {Bollinger} | {Bonaqua} | {Budweiser} | {Coca-Cola} | {Cointreau} | {Crisco} | {Crowmoor} | {Fanta} | {Jägermeister} | {Jallu} | {Juissi} | {Koff} | {Koskenkorva} | {Kossu} | {Lappari} | {L&M} | {Mynthon} | {Nobelaner} | {Oboy} | {O'boy} | {Oltermanni} | {Oreo} | {Oreos} | {Pepsi} | {Perlenbacher} | {Perrier} | {Pommac} | {Pople} | {Saludo} | {Sandels} | {Sorbus} | {Sprite} | {Stolichnaya} | {Suomi-viina} | {Västerbottensost} ) | 
 [ [{7}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Up}) | 
@@ -5827,13 +5828,13 @@ Ins(AlphaUp) [ [ Field FSep [{aura-juusto}] FSep Field [{NUM=SG}] Field FSep Fie
  [ Field FSep [{salaneuvos}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
  [ Field FSep [{salmiakkikossu}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
  [ Field FSep [{sisuviina}] FSep Field [{NUM=SG}] Field FSep Field FSep ] ] | 
-[ [ Field FSep [{kossu}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+[ [ Field FSep [{cokis}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
  [ Field FSep [{hirvilimu}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- [ Field FSep [{salmari}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
  [ Field FSep [{kokis}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- [ Field FSep [{cokis}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- [ Field FSep [{smurffilimu}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- [ Field FSep [{muumilimu}] FSep Field [{NUM=SG}] Field FSep Field FSep ] ] 
+ [ Field FSep [{kossu}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{muumilimu}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{salmari}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{smurffilimu}] FSep Field [{NUM=SG}] Field FSep Field FSep ] ] 
  ]::0.20 ; 
  
 Define ProdFoodDrink 
@@ -5843,70 +5844,55 @@ Define ProdFoodDrink
  | Ins(ProdFoodDrinkColloc1) 
  | Ins(ProdFoodDrinkColloc2) 
  | Ins(ProdFoodDrinkColloc3) 
+ | Ins(ProdFoodDrinkColloc4) 
+ | Ins(ProdFoodDrinkCaptured) 
  | Ins(ProdFoodDrinkGaz) 
  ] EndTag(EnamexProXxx) ; 
  
 !!---------------------------------------------------------------------- 
-!! Fruit and vegetable cultivars 
-!! (mostly grapes) 
+!! Fruit and vegetable cultivars (mostly grapes) 
 !!---------------------------------------------------------------------- 
  
 Define CultivarType [ ({viini}) {rypäle} ({lajike}) | {lajike} ] ; 
  
 Define ProdCultivarHyphen1 
- AlphaUp AlphaDown+ Dash lemma_exact_sg( Field Dash CultivarType )::0.20 ; 
+ AlphaUp AlphaDown+ Capture(CtivCpt1) Dash [ Field FSep [Field Dash CultivarType ] FSep Field FSep Field FSep ]::0.20 ; 
  
 Define ProdCultivarHyphen2 
  ( Ins(CapMisc) WSep ) 
- ( Ins(CapName) WSep ) 
  CapName WSep 
- DashExt lemma_exact_sg( (Dash) CultivarType )::0.20 ; 
+ ( [ Ins(CapName) | LowerWord ] WSep ) 
+ DashExt [ Field FSep [(Dash) CultivarType ] FSep Field FSep Field FSep ]::0.20 ; 
  
 Define ProdCultivarHyphen3 
- AlphaUp lemma_exact_sg( Field AlphaDown Dash {niminen} ) WSep 
+ AlphaUp Field Capture(CtivCpt2) Dash lemma_exact_sg( Field AlphaDown Dash {niminen} ) WSep 
  lemma_exact_sg( CultivarType )::0.20 ; 
  
-Define ProdCultivarGaz [ inflect_sg( {Merlot} | {Malbec} | {Bonarda} | {Syrah} | {Shiraz} | {Chardonnay} | {Riesling} | {Pinot} | {Muscadelle} | {Sauvignon} | {Grauburgunder} | {Weissburgunder} | {Weißburgunder} | {Grenache} | {Gala} ) | 
+Define ProdCultivarCaptured 
+ [ [[ CtivCpt1 | CtivCpt2 ] FinSuff ] FSep Field FSep Field FSep Field FSep ]::0.60 ; 
+ 
+Define ProdCultivarGaz [ inflect_sg( {Bonarda} | {Chardonnay} | {Gala} | {Grauburgunder} | {Grenache} | {Malbec} | {Merlot} | {Muscadelle} | {Pinot} | {Riesling} | {Sauvignon} | {Shiraz} | {Syrah} | {Weissburgunder} | {Weißburgunder} ) | 
 [ [{Cabernet}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Sauvignon}) | 
-[ [{Pinot}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Noir}) | 
+[ [{Golden}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Delicious}) | 
+[ [{Granny}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Smith}) | 
+[ [{Pinot}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Bianco}) | 
+[ [{Pinot}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Blanc}) | 
 [ [{Pinot}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Grigio}) | 
 [ [{Pinot}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Gris}) | 
-[ [{Sauvignon}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Blanc}) | 
-[ [{Pinot}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Blanc}) | 
-[ [{Pinot}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Bianco}) | 
-[ [{Sauvignon}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({vert}) | 
-[ [{Sauvignon}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({gris}) | 
-[ [{Granny}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Smith}) | 
+[ [{Pinot}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Noir}) | 
 [ [{Red}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Delicious}) | 
-[ [{Golden}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Delicious}) 
+[ [{Sauvignon}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Blanc}) | 
+[ [{Sauvignon}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({gris}) | 
+[ [{Sauvignon}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({vert}) 
  ]::0.20 ; 
  
 Define ProdCultivar 
  [ Ins(ProdCultivarHyphen1) 
  | Ins(ProdCultivarHyphen2) 
  | Ins(ProdCultivarHyphen3) 
+ | Ins(ProdCultivarCaptured) 
  | Ins(ProdCultivarGaz) 
  ] EndTag(EnamexProXxx) ; 
- 
-!!---------------------------------------------------------------------- 
-!! Auxiliary definitions 
-!!---------------------------------------------------------------------- 
- 
-Define VNum [ [0To9+ ( "." [ 0To9|"X"|"x"]+ ) ( "." [ 0To9|"X"|"x"]+ ) (":" AlphaDown+ ) ] FSep Field FSep Field FSep Field FSep ] ; 
-Define VersionSeq 
- ( [ Field FSep Field [{versio}] FSep Field FSep Field FSep ] WSep ) 
- ( [ VNum WSep [ [Comma] FSep Field FSep Field FSep Field FSep ] WSep ]* VNum WSep [ [{ja} | {sekä} | {että} | "&" | Comma ] FSep Field FSep Field FSep Field FSep ] WSep ) VNum ; 
- 
-Define VersionSeqX 
- ( [ VNum WSep [ [Comma] FSep Field FSep Field FSep Field FSep ] WSep ]* VNum WSep [ [{ja} | {sekä} | {että} | "&" | Comma ] FSep Field FSep Field FSep Field FSep ] WSep ) VNum ; 
- 
-Define ProTypeStr @txt"gProdType.txt" ; 
-Define ProType [ Field FSep Field [ProTypeStr ] FSep Field FSep Field FSep ] ; 
-Define ProMfac @txt"gProdMfac.txt" ; 
-Define ProSuff @txt"gProdSuff.txt" ; 
-Define ProSeries @txt"gProdSeries.txt" ; 
-Define ProOS @txt"gProdOS.txt" ; 
-Define ProBrowser @txt"gProdBrowser.txt" ; 
  
 !------------------------------------------------------------------------ 
 !* Video games 
@@ -5916,7 +5902,7 @@ Define GameSfx [ {3D} | {DX} | {Plus} | {Deluxe} | {64} ] ;
 Define GameType [ Field FSep Field [[ {peli}({sarja}) | {räiskintä} | {taso}[{hyppely}|{loikka}] | {seikkailu} | 
  ["j"|{mmo}]{rpg} | {simulaattori} | {pelikokoelma} ] ] FSep Field FSep Field FSep ] ; 
  
-Define gazProVG [ inflect_sg( {A-Spec} | {Banjo-Kazooie} | {Batman} | {Battlefield} | {Bejeweled} | {BioHazard} | {BioShock} | {Bomberman} | {Castlevania} | {Contra} | {Counter-Strike} | {CS} | {Diablo} | {Divinity} | {Doom} | {Earthbound} | {EarthBound} | {Fallout} | {Fortnite} | {Frogger} | {F-Zero} | {Galaga} | {GoldenEye} | {Half-Life} | {Halo} | {Ico} | {Katamari} | {Lineage} | {LittleBigPlanet} | {Megaman} | {Metroid} | {Minecraft} | {Minesweeper} | {Nintendogs} | {Oblivion} | {Ōkami} | {OutRun} | {Overwatch} | {Pacman} | {Pac-Man} | {Persona} | {Pitfall!} | {Planescape} | {Pokemon} | {Pokémon} | {Portal} | {PUBG} | {Punch-Out!!} | {Robotron} | {R-Type} | {Runescape} | {Shenmue} | {Skyrim} | {Sonic} | {Soulcalibur} | {SoulCalibur} | {StarCraft} | {Suikoden} | {Tekken} | {Tetris} | {TLoZ} | {Torment} | {Uncharted} | {Undertale} | {Veronica} | {Warcraft} | {Witcher} | {WoW} | {Xenogears} ) | 
+Define gazProGame [ inflect_sg( {A-Spec} | {Banjo-Kazooie} | {Batman} | {Battlefield} | {Bejeweled} | {BioHazard} | {BioShock} | {Bomberman} | {Castlevania} | {Contra} | {Counter-Strike} | {CS} | {Diablo} | {Divinity} | {Doom} | {Dota} | {Earthbound} | {EarthBound} | {Fallout} | {Fortnite} | {Frogger} | {F-Zero} | {Galaga} | {GoldenEye} | {Half-Life} | {Halo} | {Ico} | {Katamari} | {Lineage} | {LittleBigPlanet} | {Megaman} | {Metroid} | {Minecraft} | {Minesweeper} | {Nintendogs} | {Oblivion} | {Ōkami} | {OutRun} | {Overwatch} | {Pacman} | {Pac-Man} | {Persona} | {Pitfall!} | {Planescape} | {Pokemon} | {Pokémon} | {Portal} | {PUBG} | {Punch-Out!!} | {Robotron} | {R-Type} | {Runescape} | {Shenmue} | {Skyrim} | {Sonic} | {Soulcalibur} | {SoulCalibur} | {StarCraft} | {Suikoden} | {Tekken} | {Tetris} | {TLoZ} | {Torment} | {Uncharted} | {Undertale} | {Veronica} | {Warcraft} | {Witcher} | {WoW} | {Xenogears} ) | 
 [ [{Advance}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Wars}) | 
 [ [{Age}] FSep Field FSep Field FSep Field FSep ] WSep [ [OptCap({of})] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Empires}) | 
 [ [{Alan}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Wake}) | 
@@ -5958,6 +5944,7 @@ Define gazProVG [ inflect_sg( {A-Spec} | {Banjo-Kazooie} | {Batman} | {Battlefie
 [ [{FIFA}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({15}) | 
 [ [{Final}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Fantasy}) | 
 [ [{Fire}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Emblem}) | 
+[ [{Flappy}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Bird}) | 
 [ [{Gears}] FSep Field FSep Field FSep Field FSep ] WSep [ [OptCap({of})] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({War}) | 
 [ [{God}] FSep Field FSep Field FSep Field FSep ] WSep [ [OptCap({of})] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({War}) | 
 [ [{Grand}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Theft}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Auto}) | 
@@ -6071,25 +6058,25 @@ Define gazProVG [ inflect_sg( {A-Spec} | {Banjo-Kazooie} | {Batman} | {Battlefie
 [ [{Yoshi} Apostr {s}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Island}) 
  ] ; 
  
-Define ProVG1 
- AlphaUp Field Capture(ProCpt01) Dash Ins(GameType) ; 
+Define ProGame1 
+ AlphaUp Field Capture(GameCpt1) Dash Ins(GameType) ; 
  
-Define ProVG2 
+Define ProGame2 
  ( [ Ins(CapMisc) WSep ]* 
  [ AlphaUp | 0To9 ] Word WSep [ Field FSep [":"] FSep Field FSep Field FSep ] WSep ) 
  [ [ AlphaUp AbbrNom | AlphaUp PunctWord | Ins(CapMisc) ] WSep ]* 
  ( Ins(CapWord) WSep [ Ins(AndOfThe) WSep ]+ [ Ins(CapWord) WSep ]* ) 
  Field AlphaUp ( Word WSep ) 
- [ NoFSep - SentencePunct ] Field Capture(ProCpt02) FSep Word WSep 
+ [ NoFSep - SentencePunct ] Field Capture(GameCpt2) FSep Word WSep 
  DashExt Ins(GameType) ; 
  
-Define ProVG4 
+Define ProGame4 
  InQuotes WSep 
  DashExt Ins(GameType) ; 
  
-Define ProVG3 
+Define ProGame3 
  ( Ins(CapMisc) WSep ) 
- gazProVG 
+ gazProGame 
  ( WSep AlphaUp AlphaDown+ FSep Word ) 
  ( WSep [ [[ Ins(NumRoman) | Ins(GameSfx) | 0To9 ]] FSep Field FSep Field FSep Field FSep ] ) 
  ( WSep [ [[ Ins(NumRoman) | Ins(GameSfx) | 0To9 ](":" AlphaDown+)] FSep Field FSep Field FSep Field FSep ] ) 
@@ -6099,12 +6086,16 @@ Define ProVG3
  ( WSep Dash Ins(GameType) ) 
  NRC( WSep Dash Word ) ; 
  
+Define ProGameCaptured 
+ [ [[ GameCpt1 | GameCpt2 ] FinSuff ] FSep Field FSep Field FSep Field FSep ]::0.60 ; 
+ 
 Define ProVideoGame 
- [ Ins(ProVG1)::0.50 
- | Ins(ProVG2)::0.50 
- | OptQuotes(Ins(ProVG3))::0.25 
- | Ins(ProVG4)::0.25 
- ] ; 
+ [ Ins(ProGame1)::0.50 
+ | Ins(ProGame2)::0.50 
+ | OptQuotes(Ins(ProGame3))::0.25 
+ | Ins(ProGame4)::0.25 
+ | Ins(ProGameCaptured) 
+ ] EndTag(EnamexProXxx) ; 
  
 !------------------------------------------------------------------------ 
 !* Film & Television 
@@ -6119,7 +6110,7 @@ Define FilmTVType [ Field FSep Field [[ [ {elokuva} | {leffa} ]({sarja}) | [ {tv
  | {avaruusooppera} | {reality} | {tosi-tv-}[{kilpailu}|{kisa}] | {tietovisa} | {ooppera} | {näytelmä} 
  | {klassikko} ] ] FSep Field FSep Field FSep ] ; 
  
-Define gazProFilmTV [ inflect_sg( {Sel8nne} | {007} | {Americans} | {Avatar} | {Avengers} | {Batman} | {Blackadder} | {CSI} | {Deadwood} | {Fargo} | {Frasier} | {Frozen} | {Idols} | {Lost} | {Minions} | {Oz} | {Seinfeld} | {Shrek} | {Simpsons} | {Skyfall} | {Sopranos} | {Spectre} | {Spider-Man} | {Strömsö} | {Superman} | {Transformers} | {Twilight} | {X-Factor} | {X-Files} | {X-Men} | {Zootopia} ) | 
+Define gazProFilmTV [ inflect_sg( {007} | {Americans} | {Avatar} | {Avengers} | {Batman} | {Blackadder} | {CSI} | {Deadwood} | {Fargo} | {Frasier} | {Frozen} | {Idols} | {Lost} | {Minions} | {Oz} | {Seinfeld} | {Sel8nne} | {Shrek} | {Simpsons} | {Skyfall} | {Sopranos} | {Spectre} | {Spider-Man} | {Strömsö} | {Superman} | {Transformers} | {Twilight} | {X-Factor} | {X-Files} | {X-Men} | {Zootopia} ) | 
 [ [{American}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Idol}) | 
 [ [{Battlestar}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Galactica}) | 
 [ [{Breaking}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Bad}) | 
@@ -6174,10 +6165,10 @@ Define gazProFilmTV [ inflect_sg( {Sel8nne} | {007} | {Americans} | {Avatar} | {
 [ [{West}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Wing}) | 
 [ [{Will}] FSep Field FSep Field FSep Field FSep ] WSep [ [{&}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Grace}) | 
 [ [{X}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Factor}) | 
-[ [{Panssarilaiva}] FSep Field FSep Field FSep Field FSep ] WSep "P" [ Field FSep [{potemkin}] FSep Field FSep Field FSep ] | 
 [ [{Ihmisten}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{puolue}] FSep Field FSep Field FSep ] | 
 [ [{Linnunradan}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{pianobaari}] FSep Field FSep Field FSep ] | 
 [ [{Myrskyluodon}] FSep Field FSep Field FSep Field FSep ] WSep "M" [ Field FSep [{maija}] FSep Field FSep Field FSep ] | 
+[ [{Panssarilaiva}] FSep Field FSep Field FSep Field FSep ] WSep "P" [ Field FSep [{potemkin}] FSep Field FSep Field FSep ] | 
 [ [{Pikku}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{kakkonen}] FSep Field FSep Field FSep ] | 
 [ [{Pikku}] FSep Field FSep Field FSep Field FSep ] WSep "K" [ Field FSep [{kakkonen}] FSep Field FSep Field FSep ] | 
 [ [{Tähtien}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{sota}] FSep Field FSep Field FSep ] | 
@@ -6204,7 +6195,7 @@ Define ProFilmTVGaz
  NRC( WSep Dash AlphaDown ) ; 
  
 Define ProFilmTVSuffixed1 
- AlphaUp Field Capture(ProCpt03) Dash [ Field FSep Field [Ins(FilmTVType) ] FSep Field FSep Field FSep ] ; 
+ AlphaUp Field Capture(FilmCpt1) Dash [ Field FSep Field [Ins(FilmTVType) ] FSep Field FSep Field FSep ] ; 
  
 Define ProFilmTVSuffixed2 
  ( [ Ins(CapMisc) WSep ]* 
@@ -6212,7 +6203,7 @@ Define ProFilmTVSuffixed2
  [ Ins(CapMisc) WSep ]* 
  ( Ins(CapWord) WSep [ Ins(AndOfThe) WSep ]+ [ Ins(CapWord) WSep ]* ) 
  [ Ins(CapMisc) WSep ]* 
- [ AlphaUp | 0To9 ] Field Capture(ProCpt04) FSep Word WSep 
+ [ AlphaUp | 0To9 ] Field Capture(FilmCpt2) FSep Word WSep 
  ( ( LowerWord WSep ) ( LowerWord WSep ) 
  NotConj WSep ) 
  DashExt Ins(FilmTVType ) ; 
@@ -6232,6 +6223,9 @@ Define ProFilmColloc
  LC( WSep [ ? - Dash ] [ FilmTVType | [ Field FSep Field [{ohjelma} ] FSep Field FSep Field FSep ] ] WSep ( [ [{nimeltä}] FSep Field FSep Field FSep Field FSep ] WSep ) ) 
  [ [ Ins(CapMisc) WSep ]* Ins(CapName) ( ( WSep Ins(CapWord) ) WSep [ Ins(AndOfThe) WSep ]+ Ins(CapWord) )::0.75 | Ins(InQuotes) ] ; 
  
+Define ProFilmTvCaptured 
+ [ [[ FilmCpt1 | FilmCpt2 ] FinSuff ] FSep Field FSep Field FSep Field FSep ]::0.60 ; 
+ 
 Define ProFilmTV 
  [ Ins(ProFilmTVSuffixed1)::0.25 
  | Ins(ProFilmTVSuffixed2)::0.25 
@@ -6239,7 +6233,8 @@ Define ProFilmTV
  | OptQuotes(Ins(ProFilmTVGaz))::0.25 
  | Ins(ProFilmTVWith)::0.60 
  | Ins(ProFilmColloc)::0.20 
- ] ; 
+ | Ins(ProFilmTvCaptured) 
+ ] EndTag(EnamexProXxx) ; 
  
 !------------------------------------------------------------------------ 
 !* Books & Literature 
@@ -6259,7 +6254,7 @@ Define ProLitSuffixed1
  
 Define ProLitSuffixed2 
  LC( NoSentBoundary ) 
- AlphaUp Field Capture(ProCpt06) [ Field FSep [Field Dash Ins(LitType) ] FSep Field FSep Field FSep ] ; 
+ AlphaUp Field Capture(LitCpt1) [ Field FSep [Field Dash Ins(LitType) ] FSep Field FSep Field FSep ] ; 
  
 Define ProLitSuffixed3 
  InQuotes WSep 
@@ -6284,9 +6279,12 @@ Define ProLitQuoted
  LC( [ Field FSep [LitType] FSep Field FSep Field FSep ] WSep ( [ [{nimeltä}] FSep Field FSep Field FSep Field FSep ] WSep ) ) 
  InQuotes ; 
  
+Define ProLitCaptured 
+ [ [[ LitCpt1 ] FinSuff ] FSep Field FSep Field FSep Field FSep ]::0.60 ; 
+ 
 Define ProLitGaz 
- [ [ [{Genjin}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{tarina}] FSep Field FSep Field FSep ] | 
-[ [{Drina-joen}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{silta}] FSep Field FSep Field FSep ] | 
+ [ [ [{Drina-joen}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{silta}] FSep Field FSep Field FSep ] | 
+[ [{Genjin}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{tarina}] FSep Field FSep Field FSep ] | 
 [ [{Gilgamešin}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{taru}] FSep Field FSep Field FSep ] | 
 [ [{Johanneksen}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{evankeliumi}] FSep Field FSep Field FSep ] | 
 [ [{Luukkaan}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{evankeliumi}] FSep Field FSep Field FSep ] | 
@@ -6296,7 +6294,7 @@ Define ProLitGaz
 [ [{Rolandin}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{laulu}] FSep Field FSep Field FSep ] | 
 [ [{Setä}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Tuomon}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{tupa}] FSep Field FSep Field FSep ] | 
 [ [{Taru}] FSep Field FSep Field FSep Field FSep ] WSep [ [{sormusten}] FSep Field FSep Field FSep Field FSep ] WSep [ [{herrasta}] FSep Field FSep Field FSep Field FSep ] | 
-Ins(AlphaUp) [ [ Field FSep [{decamerone} | {beowulf} | {edda} | {kalevala} | {koraani} | {raamattu} | {runousoppi} | {toora} ] FSep Field FSep Field FSep ] | 
+Ins(AlphaUp) [ [ Field FSep [{beowulf} | {decamerone} | {edda} | {kalevala} | {koraani} | {raamattu} | {runousoppi} | {toora} ] FSep Field FSep Field FSep ] | 
  [ Field FSep [{edda}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
  [ Field FSep [{uusi}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{testamentti}] FSep Field FSep Field FSep ] | 
  [ Field FSep [{vanha}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{testamentti}] FSep Field FSep Field FSep ] ] 
@@ -6308,13 +6306,10 @@ Define ProLiterature
  | Ins(ProLitSuffixed3)::0.250 
  | Ins(ProLitSuffixed4)::0.250 
  | Ins(ProLitQuoted)::0.500 
+ | Ins(ProLitCaptured) 
  | Ins(ProLitWithAuthor)::0.750 
  | OptQuotes(Ins(ProLitGaz))::0.100 
- ] ; 
- 
-!------------------------------------------------------------------------ 
-!TODO: rukoukset yms. 
-!------------------------------------------------------------------------ 
+ ] EndTag(EnamexProXxx) ; 
  
 !------------------------------------------------------------------------ 
 !* Artwork, Paintings 
@@ -6350,7 +6345,7 @@ Define ProArtwork
  | ProArtSuffixed3::0.25 
  | ProArtSemtag::0.50 
  | ProArtWithArtist::0.75 
- ] ; 
+ ] EndTag(EnamexProXxx) ; 
  
 !------------------------------------------------------------------------ 
 !* Vehicles & Vessels 
@@ -6362,17 +6357,23 @@ Define ProArtwork
 ! - space shuttles 
 !------------------------------------------------------------------------ 
  
-Define VehicleBrandNom [ [VehicleBrand] FSep Field FSep Field FSep Field FSep ] ; 
+Define VehicleBrandNom [ [Ins(VehicleBrand)] FSep Field FSep Field FSep Field FSep ] ; 
 Define VehicleType [ Field FSep Field [@txt"gProdVehicleType.txt" ] FSep Field FSep Field FSep ] ; 
  
-Define ProVehicleSuffixed1 
+Define ProVehicleSuffixed1A 
  LC( NoSentBoundary ) 
- [ AlphaUp | 0To9 ] Field Capture(ProCptV01) Dash Ins(VehicleType) ; 
+ [ AlphaUp | 0To9 ] Field Capture(VehicCpt1) Dash Ins(VehicleType) ; 
+ 
+Define ProVehicleSuffixed1B 
+ [ [ AlphaUp Field Capture(VehicCpt2) Dash AlphaDown ] - ADashA ] Ins(VehicleType) ; 
+ 
+Define ProVehicleSuffixed1 
+ [ Ins(ProVehicleSuffixed1A) | Ins(ProVehicleSuffixed1B) ] ; 
  
 Define ProVehicleSuffixed2 
  [[ Ins(CapMisc) | AcrNom ] WSep ]* 
  ( [ AlphaUp | 0To9 ] Word WSep ) 
- [ NoFSep - SentencePunct ] Field Capture(ProCptV02) FSep Word WSep 
+ [ NoFSep - SentencePunct ] Field Capture(VehicCpt3) FSep Word WSep 
  DashExt Ins(VehicleType) ; 
  
 Define ProVehicleSuffixed3 
@@ -6405,6 +6406,14 @@ Define ProVehicleColloc1
  {bensatankki} | {polttoainetankki} | {takaveto} | {takavalo} | {vaihdelaatikko} | {varoitusvalo} | 
  {merkkivalo} | {runko} | {keula} | {huoltaminen} | {vuosihuolto} | {katsastus} | {vilkku} | {ohjaamo} ] FSep Field FSep Field FSep ] ) ; 
  
+Define ProVehicleColloc2 
+ LC( [ Field FSep [{uusi} | {punainen} | {musta} | {valkoinen} | {hopeinen} | {kiiltävä} | {tuliterä} ] FSep Field FSep Field FSep ] WSep ) 
+ inflect_sg(VehicleBrand) ; 
+ 
+Define ProVehicleColloc3 
+ LC( [ Field FSep [{tankata} | {virittää} | {huoltaa} | {pestä} | {katsastaa} ] FSep Field FSep Field FSep ] WSep ) 
+ [ ( Ins(CapMisc) WSep ) Ins(CapWord) | [ [Ins(VehicleBrand) [ GenSuff | NomSuff | ParSuff ] ] FSep Field FSep Field FSep Field FSep ] ] ; 
+ 
 ! "USS Enterprise", "HMS Victory", "USCGC Eagle (WIX-327)", "MS Allure of the Seas" 
 Define ProVehicleShipNameA 
  [ [["M"|"S"]("/")["S"|"V"] | {RMS} | {GTS} | {USS} | {USF} | {HMS} | {USCGC} | {HMAS} | {FS} ] FSep Field FSep Field FSep Field FSep ] WSep 
@@ -6421,11 +6430,15 @@ Define ProVehicleShipSpecial
  LC( [ Field FSep Field [{miinalaiva}] FSep Field [{CASE=NOM} ] Field FSep Field FSep ] WSep ) 
  OptQuotes( AlphaUp [ Field FSep Field [{nmaa} ] FSep Field FSep Field FSep ] ) ; 
  
+Define ProVehicleCaptured 
+ [ [[ VehicCpt1 | VehicCpt2 | VehicCpt3 ] FinSuff ] FSep Field FSep Field FSep Field FSep ]::0.60 ; 
+ 
 Define ProVehicle 
  [ Ins(ProVehicleSuffixed1)::0.25 
  | Ins(ProVehicleSuffixed2)::0.25 
  | Ins(ProVehicleSuffixed3)::0.25 
  | Ins(ProVehicleColloc1)::0.00 
+ | Ins(ProVehicleColloc2)::0.00 
  | OptQuotes(Ins(ProVehiclePrefixed1)::0.60) 
  | OptQuotes(Ins(ProVehicleMisc1)::0.30) 
  | OptQuotes(Ins(ProVehicleShipNameA)::0.25) 
@@ -6433,7 +6446,8 @@ Define ProVehicle
  | Ins(ProVehicleShipSpecial)::0.20 
  | Ins(ProVehicleQuotes)::0.75 
  | Ins(ProVehicleBrandPl)::0.20 
- ] ; 
+ | Ins(ProVehicleCaptured) 
+ ] EndTag(EnamexProXxx) ; 
  
 !------------------------------------------------------------------------ 
 !* Music 
@@ -6441,12 +6455,12 @@ Define ProVehicle
  
 Define MusicType 
  [ Field FSep [Field [ {laulu} | {kappale} | {biisi} | {single} | {sinkku} | {albumi} | {cd} | {pitkäsoitto} | {älppäri} | {levy} 
- | {tango} | {valssi} | {vinyyli} | {hitti} | {renkutus} ] | {ep} | {trilogia} | {sinfonia} | {tetralogia} 
- | {konsertto} | {menuetti} | {aaria} | {avausraita} | {lopetusraita} | {päätösraita} ] FSep Field FSep Field FSep ] ; 
+ | {tango} | {valssi} | {vinyyli} | {hitti} | {renkutus} ] | (Dash) [ {ep} | {trilogia} | {sinfonia} | {tetralogia} 
+ | {konsertto} | {menuetti} | {aaria} | {avausraita} | {lopetusraita} | {päätösraita} ] ] FSep Field FSep Field FSep ] ; 
  
 Define ProMusicSuffixed1 
  ( [ [{A} | {The} | {Of} | {From} | {In} ] FSep Field FSep Field FSep Field FSep ] WSep ) 
- [ Ins(CapMisc) WSep ]* 
+ [ [ Ins(CapMisc) | ( Ins(CapName) WSep ) Ins(AndOfThe) ] WSep ]* 
  CapWord WSep 
  ( ( LowerWord WSep ) ( LowerWord WSep ) 
  NotConj WSep ) 
@@ -6464,12 +6478,29 @@ Define ProMusicColloc
  [ Ins(CapMisc) WSep ]* 
  [ Ins(CapName) ( ( WSep Ins(CapWord) ) WSep [ Ins(AndOfThe) WSep ]+ Ins(CapWord) ) | Ins(InQuotes) ] ; 
  
+Define ProMiscMWord 
+ [ inflect_sg( {Bolero} | {Boléro} | {Gloria} | {Kyrie} | {Matteus-passio} | {Requiem} | {Caliburn} | {Cullinan} | {Excalibur} | {Koh-i-Noor} | {Mandilion} | {Mandylion} ) | 
+[ [{Ave}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Maria}) | 
+[ [{Nibelungin}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{sormus}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+[ [{Graalin}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{malja}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+[ [{Kaaban}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{musta}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{kivi}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+[ [{Pandoran}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{lipas}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+[ [{Pandoran}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{ruukku}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+Ins(AlphaUp) [ [ Field FSep [{kesäkatu}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{kultainen}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{talja}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{liitonarkki}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{liitonarkku}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{mahtisormus}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
+ [ Field FSep [{sampo}] FSep Field [{NUM=SG}] Field FSep Field FSep ] ] 
+ ] ; 
+ 
 Define ProMusic 
  [ Ins(ProMusicSuffixed1)::0.25 
  | Ins(ProMusicSuffixed2)::0.25 
  | Ins(ProMusicSuffixed3)::0.25 
  | Ins(ProMusicColloc)::0.70 
- ] ; 
+ | OptQuotes(Ins(ProMiscMWord))::0.20 
+ ] EndTag(EnamexProXxx) ; 
  
 !------------------------------------------------------------------------ 
 !* Awards, Prizes, Scholarships 
@@ -6485,7 +6516,7 @@ Define ProAwardSuffixed2
  [ Ins(CapMisc) WSep ]* 
  ( Ins(CapWord) WSep [ Ins(AndOfThe) WSep ]+ (CapWord WSep) ) 
  [ Ins(CapMisc) WSep ]* 
- AlphaUp Field FSep Capture(ProCptL01) Word WSep 
+ CapName WSep 
  ( ( LowerWord WSep ) ( LowerWord WSep ) 
  NotConj WSep ) 
  Dash [ Field FSep Field [Ins(AwardType) ] FSep Field FSep Field FSep ] ; 
@@ -6531,7 +6562,7 @@ Define ProAward
  | Ins(ProAwardMisc1) 
  | Ins(ProAwardMisc2) 
  | Ins(ProAwardMWord) 
- ] ; 
+ ] EndTag(EnamexProXxx) ; 
  
 !------------------------------------------------------------------------ 
 !* Pharmaceuticals & narcotics 
@@ -6541,10 +6572,10 @@ Define ProDrugType [ Field FSep Field [@txt"gProdDrugType.txt" ] FSep Field FSep
  
 Define ProDrugSuffixed1A 
  LC( NoSentBoundary ) 
- AlphaUp Field Dash Field Ins(ProDrugType) ; 
+ AlphaUp Field Capture(DrugCpt1) Dash Field Ins(ProDrugType) ; 
  
 Define ProDrugSuffixed1B 
- [ [ AlphaUp Field Dash AlphaDown Field Ins(ProDrugType) ] - ADashA ] ; 
+ [ [ AlphaUp Field Capture(DrugCpt2) Dash AlphaDown Field Ins(ProDrugType) ] - ADashA ] ; 
  
 Define ProDrugSuffixed2 
  ( Ins(CapMisc) WSep ) 
@@ -6555,6 +6586,9 @@ Define ProDrugSuffixed2
  
 !Define ProDrugColloc 
 ! X:n sivuvaikutus/vaikuttava aine/väärinkäyttäjä/pakkaus 
+ 
+Define ProDrugCaptured 
+ [ [[ DrugCpt1 | DrugCpt2 ] FinSuff ] FSep Field FSep Field FSep Field FSep ]::0.60 ; 
  
 Define gazProDrug 
  [ inflect_sg( {Abalgin} | {Alopam} | {Alprox} | {Alprozolam} | {Alsucral} | {Antabus} | {Antepsin} | {Apocyclin} | {Apolar} | {Aspirin} | {Aurorix} | {Bepanthen} | {Burana} | {Buronil} | {Cerazette} | {Cipralex} | {Cipramil} | {Citalopram} | {Clomifen} | {Concerta} | {Cymbalta} | {Decubal} | {Deprakine} | {Diapam} | {Diflucan} | {Dilpral} | {Dilzem} | {E-Epa} | {Ekanuba} | {Enbrel} | {Escitalopram} | {Frisium} | {Gaviscon} | {Gefina} | {Humira} | {Hydrocortison} | {Ibumax} | {Ibuxin} | {Imodium} | {Imovane} | {Indometin} | {Kefexin} | {Keppra} | {Ketipinor} | {Klotriptyl} | {Lamictal} | {Lariam} | {Livial} | {Lyrica} | {Marevan} | {Marinol} | {Marvelon} | {Medipam} | {Meliane} | {Melperon} | {Mercilon} | {Methotrexate} | {Midazolam} | {Mirtazapin} | {Mobilat} | {Nexium} | {Nicorette} | {Nifangin} | {Norspan} | {Oncovin} | {Opamox} | {Optipar} | {Oxamin} | {Oxepam} | {Oxiklorin} | {OxyContin} | {Oxynorm} | {Panacod} | {Panadol} | {Plendil} | {Pregabalin} | {Prilosec} | {Primaspan} | {Priorin} | {Progynova} | {Propral} | {Protopic} | {Reductil} | {Remeron} | {Remicade} | {Rennie} | {Risolid} | {Risperdal} | {Risperidon} | {Rituxan} | {Rivatril} | {Roaccutan} | {Salazopyrin} | {Sepram} | {Seronil} | {Seroquel} | {Seroxat} | {Sertralin} | {Somac} | {Stesolid} | {Strepsils} | {Suboxone} | {Subutex} | {SyylEnd} | {Tambocor} | {Tamofen} | {Tematsepam} | {Temesta} | {Temgesic} | {Tenox} | {Terolut} | {Tetralysal} | {Thyroxin} | {Topimax} | {Tramal} | {Trexan} | {Trileptal} | {Triptyl} | {Truvada} | {Vagisan} | {Valdoxan} | {Valium} | {Venlafaxin} | {Verpamil} | {Viagra} | {Voltaren} | {Voxra} | {Xanax} | {Xanor} | {Xanori} | {Xeloda} | {Zoloft} | {Zopinox} | {Zyprexa} | {Zyrtec} ) | 
@@ -6573,7 +6607,8 @@ Define ProDrug
  | Ins(ProDrugSuffixed1B)::0.25 
  | Ins(ProDrugSuffixed2)::0.25 
  | Ins(ProDrugGaz) 
- ] ; 
+ | Ins(ProDrugCaptured) 
+ ] EndTag(EnamexProXxx) ; 
  
 !------------------------------------------------------------------------ 
 !* Legislation 
@@ -6609,22 +6644,26 @@ Define ProLaw
  | Ins(ProLawHyphenQuote)::0.30 
  | OptQuotes(Ins(ProLawPrefixed1)::0.50) 
  | OptQuotes(Ins(ProLawSuffixed1)::0.30) 
- ] ; 
+ ] EndTag(EnamexProXxx) ; 
  
 !------------------------------------------------------------------------ 
-!* Projects 
+!* Projects & Operations 
 !------------------------------------------------------------------------ 
  
 Define ProProjectHyphen1 
- AlphaUp [ Field FSep [Field Dash Field [ {projekti} | {hanke} | {avaruusohjelma} | {operaatio} ] ] FSep Field FSep Field FSep ] ; 
+ AlphaUp [ Field FSep [Field Dash Field [ {projekti} | {hanke} | {avaruusohjelma} | {operaatio} | {kampanja} ] ] FSep Field FSep Field FSep ] ; 
  
 Define ProProjectHyphen2 
  ( Ins(CapMisc) WSep ) 
  CapName WSep 
- ( Ins(CapWord) WSep 
+ ( ( Ins(CapWord) WSep ) 
  ( ( LowerWord WSep ) ( LowerWord WSep ) 
  NotConj WSep ) ) 
- DashExt [ Field FSep Field [{projekti} | {hanke} | [{avaruus}]{ojelma} | {operaatio} ] FSep Field FSep Field FSep ] ; 
+ DashExt [ Field FSep Field [{projekti} | {hanke} | [{avaruus}]{ojelma} | {operaatio} | {kampanja} ] FSep Field FSep Field FSep ] ; 
+ 
+Define ProProjectHyphen3 
+ InQuotes WSep 
+ DashExt [ Field FSep Field [{projekti} | {hanke} | [{avaruus}]{ojelma} | {operaatio} | {kampanja} ] FSep Field FSep Field FSep ] ; 
  
 Define ProProjectSuffixed 
  [ Ins(CapMisc) WSep ]* 
@@ -6646,10 +6685,11 @@ Define ProProjectPrefixed2
 Define ProProject 
  [ Ins(ProProjectHyphen1)::0.25 
  | Ins(ProProjectHyphen2)::0.25 
+ | Ins(ProProjectHyphen3)::0.25 
  | OptQuotes(Ins(ProProjectPrefixed1)::0.50) 
  | Ins(ProProjectPrefixed2)::0.50 
  | OptQuotes(Ins(ProProjectSuffixed)::0.50) 
- ] ; 
+ ] EndTag(EnamexProXxx) ; 
  
  
 !------------------------------------------------------------------------ 
@@ -6680,535 +6720,1073 @@ Define ProAgreement
  | Ins(ProAgreementSuffixed2)::0.30 
  | Ins(ProAgreementHyphen1)::0.30 
  | Ins(ProAgreementHyphen2)::0.30 
- ] ; 
+ ] EndTag(EnamexProXxx) ; 
+ 
 !------------------------------------------------------------------------ 
-!* Software, Electronics & Miscellanea 
+!* Technology: Hardware, Software, Electronics, Social Media, Internet 
+!* Weapons: firearms, explosives 
 !------------------------------------------------------------------------ 
  
-!* "Xxx-sovellus" 
-Define ProMiscSuffixed1A 
- [ Alpha Field | 0To9 ] [ 0To9 | AlphaUp ] Field Capture(ProCptD) Dash Ins(ProType) ; 
- 
-Define ProMiscSuffixed1B 
- LC( NoSentBoundary ) 
- AlphaUp Field Capture(ProCptE) Dash Ins(ProType) ; 
- 
-Define ProMiscSuffixed1C 
- [ [ AlphaUp Field Dash AlphaDown Field ] - [ ADashA ] ] Capture(ProCptF) FSep Field Ins(ProTypeStr) FSep Word ; 
- 
-Define ProMiscSuffixed1D 
- Field Capture(ProCptG) [ Field FSep Field [? Dash [ {niminen} | {merkkinen} ] ] FSep Field FSep Field FSep ] WSep 
- Ins(ProType) ; 
- 
-!Define ProMiscSuffixed1E 
-! [ AlphaUp Field Dash FSep Word WSep 
-! [ Field FSep ["] FSep Field FSep Field FSep ] WSep ]* 
-! AlphaUp Field Dash FSep Word WSep 
-! [ Field FSep [{ja} | {sekä} ] FSep Field FSep Field FSep ] WSep 
-! AlphaUp Field Dash Ins(ProType) ; 
- 
-!* "Xxx 999 -sovellus" 
-Define ProMiscSuffixed2 
- [ Alpha* [ Ins(CapMisc) | AcrNom ] WSep ]* 
- ( Alpha* [ AlphaUp | 0To9 ] Word WSep ) 
- Alpha* [ AlphaUp | 0To9 ] Field Capture(ProCptA) FSep Word WSep 
- DashExt Ins(ProType) ; 
- 
-!* "The X of the Y -kirja" 
-Define ProMiscSuffixed3A 
- ( [ [{The}] FSep Field FSep Field FSep Field FSep ] WSep ( Ins(CapWord) WSep ) ( Ins(CapWord) WSep ) ) 
- [ Ins(CapMisc) WSep ]* 
- [ Ins(CapWord) WSep [ Ins(AndOfThe) WSep ]+ (CapWord WSep) ] 
- [ Ins(CapMisc) WSep ]* 
- ( Ins(CapWord) WSep ) 
- [ NoFSep - SentencePunct ] Field Capture(ProCptB) FSep Word WSep 
- DashExt Ins(ProType) ; 
- 
-Define ProMiscSuffixed3B 
- ( Ins(CapMisc) WSep ) 
- [ [{The}] FSep Field FSep Field FSep Field FSep ] WSep ( Ins(CapWord) WSep ) ( Ins(CapWord) WSep ) 
- [ Ins(CapMisc) WSep ]* 
- [ Ins(CapWord) WSep [ Ins(AndOfThe) WSep ]+ ( Ins(CapWord) WSep ) ]* 
- [ Ins(CapMisc) WSep ]* 
- [ NoFSep - SentencePunct ] Field Capture(ProCptC) FSep Word WSep 
- DashExt Ins(ProType) ; 
- 
-Define ProMiscSuffixed3C 
- [ Ins(InQuotes) ] WSep 
- DashExt Ins(ProType) ; 
- 
-Define ProMiscSuffixed3D 
- CapWord WSep 
- ( ( LowerWord WSep ) 
- NotConj WSep ) 
- DashExt Ins(ProType) ; 
- 
-Define ProMiscSuffixed4A 
- ( [ Alpha* [ Ins(CapMisc) | AcrNom ] WSep ]+ 
- NumNom WSep ) 
- [ Alpha* [ Ins(CapMisc) | AcrNom ] WSep ]+ 
- [ Field [ProSuff ] FSep Field FSep Field FSep Field FSep ] 
- [ WSep Alpha* [ Ins(CapMisc) | AcrNom | NumNom ] ]* 
- ( WSep [ VersionSeq | 0To9 Word | Ins(CapWord) ] ) 
- ( WSep Ins(DashExt) Ins(ProType) ) ; 
- 
-Define ProMiscSuffixed4B 
- ( [ Alpha* [ Ins(CapMisc) | AcrNom ] WSep ]+ 
- NumNom WSep ) 
- [ Alpha* [ Ins(CapMisc) | AcrNom ] WSep ]+ 
- inflect_sg( Field ProSuff ) ; 
- 
-Define ProMiscSuffixed5 
- InQuotes WSep 
- ( WSep Ins(DashExt) Ins(ProType) ) ; 
- 
-Define ProMiscSuffixed 
- [ Ins(ProMiscSuffixed1A) | Ins(ProMiscSuffixed1B) | Ins(ProMiscSuffixed1C) | Ins(ProMiscSuffixed1D) 
- | Ins(ProMiscSuffixed2) 
- | Ins(ProMiscSuffixed3A) | Ins(ProMiscSuffixed3B) | Ins(ProMiscSuffixed3C) | Ins(ProMiscSuffixed3D) 
- | Ins(ProMiscSuffixed4A) | Ins(ProMiscSuffixed4B) 
- | Ins(ProMiscSuffixed5) 
- ] ; 
- 
-Define ProPfx [ [ [Ins(ProMfac) ] FSep Field FSep Field FSep Field FSep ] EndTag(EnamexOrgCrp2) | [ [Ins(CorpOrPro) | Ins(ProSeries) | Ins(ProOS) | Ins(ProBrowser) ] FSep Field FSep Field FSep Field FSep ] ] ; 
- 
-! "Xxx Reader", "Samsung Xxx Pro" 
-Define ProMiscOther1A 
- Ins(ProPfx) WSep 
- [ [ Alpha | 0To9 ]* [ Ins(CapNameNom) | CapNum ] WSep ]* 
- ( VersionSeq WSep ) 
- [ [Ins(ProSeries) | Ins(ProSuff) ] FSep Field FSep Field FSep Field FSep ] 
- [ WSep [ Alpha | 0To9 ]* [ Ins(CapNameNom) | CapNum ] ]* 
- ( WSep VersionSeq ) 
- ( WSep Ins(CapWord) ) 
- ( WSep Ins(DashExt) Ins(ProType) ) ; 
- 
-Define ProMiscOther1B 
- Ins(ProPfx) WSep 
- [ [ Alpha | 0To9 ]* [ Ins(CapNameNom) | CapNum ] WSep ]* 
- ( VersionSeq WSep ) 
- inflect_sg( ProSeries | ProSuff ) 
- ( WSep Ins(DashExt) Ins(ProType) ) ; 
- 
-! "Xxx 4 Yyy:ssä" 
-Define ProMiscOther2A 
- ( Alpha* Ins(CapMisc) WSep ) 
- Ins(ProPfx) 
- [ WSep Ins(CapMisc) ]* 
- WSep Alpha* 0To9 [ Ins(CapMisc) | NumNom ] 
- [ WSep Ins(CapMisc) ]* 
- WSep Alpha* [ Ins(CapName) | 0To9 Word ] 
- ( WSep Ins(DashExt) Ins(ProType) ) ; 
- 
-!* "Xxxx 4:ssä" 
-Define ProMiscOther2B 
- ( Alpha* Ins(CapMisc) WSep ) 
- Ins(ProPfx) 
- [ WSep [ Ins(CapMisc) | AcrNom | NumNom ] ]* 
- WSep [ Alpha* 0To9 Word | VersionSeq ] 
- ( WSep Ins(DashExt) Ins(ProType) ) ; 
- 
-Define ProMiscOther3 
- [ Alpha* [ Ins(CapMisc) | AcrNom ] WSep ]* 
- Ins(ProPfx) 
- [ WSep Alpha* [ NumNom | Ins(CapMisc) | AcrNom ] ]* 
- WSep Alpha* [ 0To9 | AlphaUp ] Word 
- ( WSep Ins(DashExt) Ins(ProType) ) ; 
- 
-!* Xxx Development Kit 
-Define ProMiscOther4 
- [ Alpha* Ins(CapMisc) WSep ]+ 
- [ [ [{App}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Store}) | 
- [ [{Development}] FSep Field FSep Field FSep Field FSep ] inflect_sg({Kit}) | 
- [ [{Live}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({System}) | 
- [ [{Remote}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{Desktop}] FSep Field FSep Field FSep ] | 
- [ [{Speed}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Test}) | 
- [ [{Storage}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Service}) | 
- [ [{Media}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Player}) | 
- inflect_sg( {Beta} ) ] 
- ( WSep Ins(VersionSeq) ) 
- ( WSep Ins(DashExt) Ins(ProType) ) ; 
- 
-Define ProAppStore 
- [ Alpha* Ins(CapMisc) WSep ]* 
- CapWord WSep 
- [ Field [{Store} | {Play} ] FSep Field FSep Field FSep Field FSep ] 
- WSep Dash [ Field FSep Field [{kauppa}] FSep Field FSep Field FSep ] ; 
+Define VersNum [ [0To9+ ["." [ 0To9 | "x" | "X" ]+ ]* ] FSep Field FSep Field FSep Field FSep ] ; 
+Define VersSeq [ [ Field FSep [{v.} | (Dash) {versio} ] FSep Field FSep Field FSep ] WSep [ VersNum WSep [ [{ja}|Comma|"&"|Dash] FSep Field FSep Field FSep Field FSep ] WSep ]* VersNum ] ; 
  
 Define ModelString 
- ( [ AlphaUp | 0To9 ]+ Dash ) 
- [ AlphaUp | 0To9 ]* [ AlphaUp 0To9 | 0To9 AlphaUp ] [ AlphaUp | 0To9 ]* 
- ( Dash [ AlphaUp | 0To9 ]+ ) ; 
+ ([ AlphaUp | 0To9 ]+ Field) [ AlphaUp 0To9 | 0To9 AlphaUp ] (Field [ AlphaUp | 0To9 ]) ; 
  
-Define ProMiscModel1A 
- [ Alpha* [ Ins(CapMisc) | AcrNom ] WSep ]+ 
- ( [ [ModelString ] FSep Field FSep Field FSep Field FSep ] WSep ) 
- [ [ModelString ] FSep Field FSep Field FSep Field FSep ] 
- [ WSep Alpha* [ Ins(CapMisc) | AcrNom ] ]* 
- ( WSep Ins(DashExt) Ins(ProType) ) ; 
+Define MiscTechName [ [ [{8600}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Smart}] FSep Field FSep Field FSep Field FSep ] WSep {Routers} | 
+[ [{Adobe}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Cold}] FSep Field FSep Field FSep Field FSep ] WSep {Fusion} | 
+[ [{Adobe}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Flash}] FSep Field FSep Field FSep Field FSep ] WSep {Player} | 
+[ [{Affordable}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Care}] FSep Field FSep Field FSep Field FSep ] WSep {Act} | 
+[ [{Alcatel}] FSep Field FSep Field FSep Field FSep ] WSep [ [{OneTouch}] FSep Field FSep Field FSep Field FSep ] WSep {Fierce} | 
+[ [{Amazon}] FSep Field FSep Field FSep Field FSep ] WSep {FireTV} | 
+[ [{Amazon}] FSep Field FSep Field FSep Field FSep ] WSep {Video} | 
+[ [{American}] FSep Field FSep Field FSep Field FSep ] WSep {Idol} | 
+[ [{Android}] FSep Field FSep Field FSep Field FSep ] WSep Ins(CapNum) WSep [ [{Jelly}] FSep Field FSep Field FSep Field FSep ] WSep {Bean} | 
+[ [{Android}] FSep Field FSep Field FSep Field FSep ] WSep Ins(CapNum) WSep {KitKat} | 
+[ [{Android}] FSep Field FSep Field FSep Field FSep ] WSep Ins(CapNum) WSep {Lollipop} | 
+[ [{Android}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Developer}] FSep Field FSep Field FSep Field FSep ] WSep {Dashboard} | 
+[ [{Android}] FSep Field FSep Field FSep Field FSep ] WSep {KitKat} | 
+[ [{Android}] FSep Field FSep Field FSep Field FSep ] WSep {Lollipop} | 
+[ [{Android}] FSep Field FSep Field FSep Field FSep ] WSep {Wear} | 
+[ [{Angry}] FSep Field FSep Field FSep Field FSep ] WSep {Birds} | 
+[ [{Aol}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Instant}] FSep Field FSep Field FSep Field FSep ] WSep {Messenger} | 
+[ [{Apple}] FSep Field FSep Field FSep Field FSep ] WSep {Pay} | 
+[ [{Apple}] FSep Field FSep Field FSep Field FSep ] WSep {TV} | 
+[ [{Apple}] FSep Field FSep Field FSep Field FSep ] WSep {Watch} | 
+[ [{Apple}] FSep Field FSep Field FSep Field FSep ] WSep {iPhone} | 
+[ [{Apps}] FSep Field FSep Field FSep Field FSep ] WSep [ [OptCap({for})] FSep Field FSep Field FSep Field FSep ] WSep {Work} | 
+[ [{App}] FSep Field FSep Field FSep Field FSep ] WSep {Store} | 
+[ [{Arena}] FSep Field FSep Field FSep Field FSep ] WSep [ [{de}] FSep Field FSep Field FSep Field FSep ] WSep {Barcelona} | 
+[ [{Ashley}] FSep Field FSep Field FSep Field FSep ] WSep {Madison} | 
+[ [{Aston}] FSep Field FSep Field FSep Field FSep ] WSep {Martin} | 
+[ [{Avegant}] FSep Field FSep Field FSep Field FSep ] WSep {Glyph} | 
+[ [{Blobs}] FSep Field FSep Field FSep Field FSep ] WSep {Storage} | 
+[ [{Blue}] FSep Field FSep Field FSep Field FSep ] WSep {Cross} | 
+[ [{Boom}] FSep Field FSep Field FSep Field FSep ] WSep {Beach} | 
+[ [{CTB}] FSep Field FSep Field FSep Field FSep ] WSep {Locker} | 
+[ [{Candy}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Casino}] FSep Field FSep Field FSep Field FSep ] WSep {Slots} | 
+[ [{Chromebook}] FSep Field FSep Field FSep Field FSep ] WSep {Pixel} | 
+[ [{Chrome}] FSep Field FSep Field FSep Field FSep ] WSep {Store} | 
+[ [{Cold}] FSep Field FSep Field FSep Field FSep ] WSep {Fusion} | 
+[ [{Commodore}] FSep Field FSep Field FSep Field FSep ] WSep {64} | 
+[ [{Compute}] FSep Field FSep Field FSep Field FSep ] WSep {Stick} | 
+[ [{C}] FSep Field FSep Field FSep Field FSep ] WSep {More} | 
+[ [{Da}] FSep Field FSep Field FSep Field FSep ] WSep {Vinci} | 
+[ [{Debian}] FSep Field FSep Field FSep Field FSep ] WSep {Linux} | 
+[ [{Deep}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Space}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Climate}] FSep Field FSep Field FSep Field FSep ] WSep {Observatory} | 
+[ [{Dodge}] FSep Field FSep Field FSep Field FSep ] WSep {Caravan} | 
+[ [{Domain}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Name}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Industry}] FSep Field FSep Field FSep Field FSep ] WSep {Brief} | 
+[ [{Domain}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Name}] FSep Field FSep Field FSep Field FSep ] WSep {System} | 
+[ [{Doro}] FSep Field FSep Field FSep Field FSep ] WSep {EasyPC} | 
+[ [{Elementary}] FSep Field FSep Field FSep Field FSep ] WSep Ins(CapNum) WSep {Freya} | 
+[ [{Eve}] FSep Field FSep Field FSep Field FSep ] WSep {V} | 
+[ [{Facebook}] FSep Field FSep Field FSep Field FSep ] WSep [ [{at}] FSep Field FSep Field FSep Field FSep ] WSep {Work} | 
+[ [{Facebook}] FSep Field FSep Field FSep Field FSep ] WSep {Paper} | 
+[ [{Firefox}] FSep Field FSep Field FSep Field FSep ] WSep {One} | 
+[ [{Flappy}] FSep Field FSep Field FSep Field FSep ] WSep {Bird} | 
+[ [{Flash}] FSep Field FSep Field FSep Field FSep ] WSep {Player} | 
+[ [{Ford}] FSep Field FSep Field FSep Field FSep ] WSep {Sierra} | 
+[ [{GTX}] FSep Field FSep Field FSep Field FSep ] WSep {Titan} | 
+[ [{Galaxy}] FSep Field FSep Field FSep Field FSep ] WSep {Trend} | 
+[ [{Game}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Boy}] FSep Field FSep Field FSep Field FSep ] WSep {Advance} | 
+[ [{Game}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Boy}] FSep Field FSep Field FSep Field FSep ] WSep {Color} | 
+[ [{Game}] FSep Field FSep Field FSep Field FSep ] WSep {Boy} | 
+[ [{Gear}] FSep Field FSep Field FSep Field FSep ] WSep {Fit} | 
+[ [{Google}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Street}] FSep Field FSep Field FSep Field FSep ] WSep {View} | 
+[ [{Google}] FSep Field FSep Field FSep Field FSep ] WSep {+} | 
+[ [{Google}] FSep Field FSep Field FSep Field FSep ] WSep {Calendar} | 
+[ [{Google}] FSep Field FSep Field FSep Field FSep ] WSep {Chrome} | 
+[ [{Google}] FSep Field FSep Field FSep Field FSep ] WSep {Earth} | 
+[ [{Google}] FSep Field FSep Field FSep Field FSep ] WSep {Glass} | 
+[ [{Google}] FSep Field FSep Field FSep Field FSep ] WSep {Maps} | 
+[ [{Google}] FSep Field FSep Field FSep Field FSep ] WSep {News} | 
+[ [{Google}] FSep Field FSep Field FSep Field FSep ] WSep {Now} | 
+[ [{Google}] FSep Field FSep Field FSep Field FSep ] WSep {Play} | 
+[ [{Google}] FSep Field FSep Field FSep Field FSep ] WSep {Talk} | 
+[ [{Google}] FSep Field FSep Field FSep Field FSep ] WSep {Translate} | 
+[ [{Gorilla}] FSep Field FSep Field FSep Field FSep ] WSep {Glass} | 
+[ [{G}] FSep Field FSep Field FSep Field FSep ] WSep {Flex} | 
+[ [{HTC}] FSep Field FSep Field FSep Field FSep ] WSep {One} | 
+[ [{HTC}] FSep Field FSep Field FSep Field FSep ] WSep {Sensation} | 
+[ [{Instant}] FSep Field FSep Field FSep Field FSep ] WSep {Video} | 
+[ [{Intel}] FSep Field FSep Field FSep Field FSep ] WSep {Appup} | 
+[ [{Internet}] FSep Field FSep Field FSep Field FSep ] WSep {Explorer} | 
+[ [{Iridium}] FSep Field FSep Field FSep Field FSep ] WSep {Go} | 
+[ [{Jelly}] FSep Field FSep Field FSep Field FSep ] WSep {Bean} | 
+[ [{Krebs}] FSep Field FSep Field FSep Field FSep ] WSep [ [{on}] FSep Field FSep Field FSep Field FSep ] WSep {Security} | 
+[ [{LG}] FSep Field FSep Field FSep Field FSep ] WSep [ [{G}] FSep Field FSep Field FSep Field FSep ] WSep {Flex} | 
+[ [{Lizard}] FSep Field FSep Field FSep Field FSep ] WSep {Stresser} | 
+[ [{MTV}] FSep Field FSep Field FSep Field FSep ] WSep {Katsomo} | 
+[ [{MTV}] FSep Field FSep Field FSep Field FSep ] WSep {Total} | 
+[ [{MacBook}] FSep Field FSep Field FSep Field FSep ] WSep {Air} | 
+[ [{MacBook}] FSep Field FSep Field FSep Field FSep ] WSep {Pro} | 
+[ [{MacOS}] FSep Field FSep Field FSep Field FSep ] WSep {X} | 
+[ [{Mac}] FSep Field FSep Field FSep Field FSep ] WSep [ [{OS}] FSep Field FSep Field FSep Field FSep ] WSep {X} | 
+[ [{Mac}] FSep Field FSep Field FSep Field FSep ] WSep {Pro} | 
+[ [{Mega}] FSep Field FSep Field FSep Field FSep ] WSep {Drive} | 
+[ [{Millennial}] FSep Field FSep Field FSep Field FSep ] WSep {Media} | 
+[ [{Million}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Dollar}] FSep Field FSep Field FSep Field FSep ] WSep {Baby} | 
+[ [{Model}] FSep Field FSep Field FSep Field FSep ] WSep {S} | 
+[ [{Moto}] FSep Field FSep Field FSep Field FSep ] WSep {G} | 
+[ [{Moto}] FSep Field FSep Field FSep Field FSep ] WSep {X} | 
+[ [{Music}] FSep Field FSep Field FSep Field FSep ] WSep {Key} | 
+[ [{Nintendo}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Entertainment}] FSep Field FSep Field FSep Field FSep ] WSep {System} | 
+[ [{Nintendo}] FSep Field FSep Field FSep Field FSep ] WSep {3DS} | 
+[ [{Nintendo}] FSep Field FSep Field FSep Field FSep ] WSep {64} | 
+[ [{Nintendo}] FSep Field FSep Field FSep Field FSep ] WSep {Switch} | 
+[ [{Nokia}] FSep Field FSep Field FSep Field FSep ] WSep {Lumia} | 
+[ [{Nokia}] FSep Field FSep Field FSep Field FSep ] WSep {TV} | 
+[ [{O2}] FSep Field FSep Field FSep Field FSep ] WSep {Wallet} | 
+[ [{OS}] FSep Field FSep Field FSep Field FSep ] WSep {X} | 
+[ [{Oculus}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Rift}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Development}] FSep Field FSep Field FSep Field FSep ] WSep {Kit} | 
+[ [{Oculus}] FSep Field FSep Field FSep Field FSep ] WSep {Rift} | 
+[ [{OneTouch}] FSep Field FSep Field FSep Field FSep ] WSep {Fierce} | 
+[ [{OpenSuse}] FSep Field FSep Field FSep Field FSep ] WSep {Linux} | 
+[ [{Open}] FSep Field FSep Field FSep Field FSep ] WSep {Catalog} | 
+[ [{Open}] FSep Field FSep Field FSep Field FSep ] WSep {Guest} | 
+[ [{Operation}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Pawn}] FSep Field FSep Field FSep Field FSep ] WSep {Storm} | 
+[ [{Paper}] FSep Field FSep Field FSep Field FSep ] WSep [ [{By}] FSep Field FSep Field FSep Field FSep ] WSep {FiftyThree} | 
+[ [{Pirate}] FSep Field FSep Field FSep Field FSep ] WSep {Bay} | 
+[ [{Playstation}] FSep Field FSep Field FSep Field FSep ] WSep {Network} | 
+[ [{Play}] FSep Field FSep Field FSep Field FSep ] WSep {Music} | 
+[ [{Play}] FSep Field FSep Field FSep Field FSep ] WSep {Store} | 
+[ [{Project}] FSep Field FSep Field FSep Field FSep ] WSep {Loon} | 
+[ [{Project}] FSep Field FSep Field FSep Field FSep ] WSep {Normandy} | 
+[ [{Project}] FSep Field FSep Field FSep Field FSep ] WSep {Novena} | 
+[ [{Pultizer}] FSep Field FSep Field FSep Field FSep ] WSep {Prize} | 
+[ [{Raspberry}] FSep Field FSep Field FSep Field FSep ] WSep {Pi} | 
+[ [{Red}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Bull}] FSep Field FSep Field FSep Field FSep ] WSep {TV} | 
+[ [{Red}] FSep Field FSep Field FSep Field FSep ] WSep {Hat} | 
+[ [{Samsung}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Galaxy}] FSep Field FSep Field FSep Field FSep ] WSep {Express} | 
+[ [{Samsung}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Galaxy}] FSep Field FSep Field FSep Field FSep ] WSep {Trend} | 
+[ [{Samsung}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Galaxy}] FSep Field FSep Field FSep Field FSep ] WSep {Xcover} | 
+[ [{Samsung}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Gear}] FSep Field FSep Field FSep Field FSep ] WSep {Fit} | 
+[ [{Samsung}] FSep Field FSep Field FSep Field FSep ] WSep {Galaxy} | 
+[ [{Samsung}] FSep Field FSep Field FSep Field FSep ] WSep {Nexus} | 
+[ [{Second}] FSep Field FSep Field FSep Field FSep ] WSep {Life} | 
+[ [{Sega}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Mega}] FSep Field FSep Field FSep Field FSep ] WSep {Drive} | 
+[ [{Sega}] FSep Field FSep Field FSep Field FSep ] WSep {Genesikse} | 
+[ [{Sega}] FSep Field FSep Field FSep Field FSep ] WSep {Genesis} | 
+[ [{Silk}] FSep Field FSep Field FSep Field FSep ] WSep {Road} | 
+[ [{SingStar}] FSep Field FSep Field FSep Field FSep ] WSep {Suomibileet} | 
+[ [{Smart}] FSep Field FSep Field FSep Field FSep ] WSep {Lamp} | 
+[ [{Social}] FSep Field FSep Field FSep Field FSep ] WSep {News} | 
+[ [{Solar}] FSep Field FSep Field FSep Field FSep ] WSep {Impulse} | 
+[ [{Sony}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Vaio}] FSep Field FSep Field FSep Field FSep ] WSep {Fit} | 
+[ [{Sony}] FSep Field FSep Field FSep Field FSep ] WSep {Xperia} | 
+[ [{Sports}] FSep Field FSep Field FSep Field FSep ] WSep {Tracker} | 
+[ [{SteamOS}] FSep Field FSep Field FSep Field FSep ] WSep {Linux} | 
+[ [{Steam}] FSep Field FSep Field FSep Field FSep ] WSep {Machine} | 
+[ [{Super}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Nintendo}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Entertainment}] FSep Field FSep Field FSep Field FSep ] WSep {System} | 
+[ [{Super}] FSep Field FSep Field FSep Field FSep ] WSep {Famicom} | 
+[ [{Super}] FSep Field FSep Field FSep Field FSep ] WSep {Nintendo} | 
+[ [{Surface}] FSep Field FSep Field FSep Field FSep ] WSep {Hub} | 
+[ [{Surface}] FSep Field FSep Field FSep Field FSep ] WSep {Pro} | 
+[ [{S}] FSep Field FSep Field FSep Field FSep ] WSep {Health} | 
+[ [{S}] FSep Field FSep Field FSep Field FSep ] WSep {Note} | 
+[ [{S}] FSep Field FSep Field FSep Field FSep ] WSep {Voice} | 
+[ [{Tesla}] FSep Field FSep Field FSep Field FSep ] WSep {Model} | 
+[ [{The}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Pirate}] FSep Field FSep Field FSep Field FSep ] WSep {Bay} | 
+[ [{The}] FSep Field FSep Field FSep Field FSep ] WSep {Interview} | 
+[ [{Tor}] FSep Field FSep Field FSep Field FSep ] WSep {Mail} | 
+[ [{Trend}] FSep Field FSep Field FSep Field FSep ] WSep {Plussa} | 
+[ [{Trend}] FSep Field FSep Field FSep Field FSep ] WSep {Plus} | 
+[ [{Virus}] FSep Field FSep Field FSep Field FSep ] WSep {Shield} | 
+[ [{Watch}] FSep Field FSep Field FSep Field FSep ] WSep {Dogs} | 
+[ [{Web}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Traffic}] FSep Field FSep Field FSep Field FSep ] WSep {Scanning} | 
+[ [{Western}] FSep Field FSep Field FSep Field FSep ] WSep {Union} | 
+[ [{WhatsApp}] FSep Field FSep Field FSep Field FSep ] WSep {Web} | 
+[ [{Wii}] FSep Field FSep Field FSep Field FSep ] WSep {U} | 
+[ [{Windows}] FSep Field FSep Field FSep Field FSep ] WSep Ins(CapNum) WSep {update} | 
+[ [{Windows}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Phone}] FSep Field FSep Field FSep Field FSep ] WSep Ins(CapNum) WSep {Update} | 
+[ [{Windows}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Phone}] FSep Field FSep Field FSep Field FSep ] WSep Ins(CapNum) WSep {update} | 
+[ [{Windows}] FSep Field FSep Field FSep Field FSep ] WSep {Phone} | 
+[ [{Windows}] FSep Field FSep Field FSep Field FSep ] WSep {Server} | 
+[ [{Windows}] FSep Field FSep Field FSep Field FSep ] WSep {Store} | 
+[ [{Windows}] FSep Field FSep Field FSep Field FSep ] WSep {Update} | 
+[ [{Windows}] FSep Field FSep Field FSep Field FSep ] WSep {Vista} | 
+[ [{Wolfram}] FSep Field FSep Field FSep Field FSep ] WSep {Alpha} | 
+[ [{Xbox}] FSep Field FSep Field FSep Field FSep ] WSep {360} | 
+[ [{Xbox}] FSep Field FSep Field FSep Field FSep ] WSep {Live} | 
+[ [{Xbox}] FSep Field FSep Field FSep Field FSep ] WSep {One} | 
+[ [{Xbox}] FSep Field FSep Field FSep Field FSep ] WSep {Video} | 
+[ [{Xiaomi}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Mi}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Note}] FSep Field FSep Field FSep Field FSep ] WSep {Pro} | 
+[ [{YLE}] FSep Field FSep Field FSep Field FSep ] WSep {Areena} | 
+[ [{Year}] FSep Field FSep Field FSep Field FSep ] WSep [ [OptCap({in})] FSep Field FSep Field FSep Field FSep ] WSep {Review} | 
+[ [{Ye}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Olde}] FSep Field FSep Field FSep Field FSep ] WSep {SteamOS} | 
+[ [{Yle}] FSep Field FSep Field FSep Field FSep ] WSep {Areena} | 
+[ [{Yoga}] FSep Field FSep Field FSep Field FSep ] WSep {tablet} | 
+[ [{YouTube}] FSep Field FSep Field FSep Field FSep ] WSep {Premium} | 
+[ [{YouTube}] FSep Field FSep Field FSep Field FSep ] WSep {Red} | 
+[ [{Z}] FSep Field FSep Field FSep Field FSep ] WSep {Launcher} | 
+{3DS} | 
+{3GPP} | 
+{AC-300} | 
+{AIM} | 
+{ATV} | 
+{AWS} | 
+{AccuWeather} | 
+{Acrobat} | 
+{Aftonbladet.se} | 
+{Aftonbladet} | 
+{Alchemist} | 
+{Alexa} | 
+{Android} | 
+{Angrybirds.com} | 
+{Apache} | 
+{AppleTV} | 
+{Appup} | 
+{Aptoide} | 
+{Ara} | 
+{Arduino} | 
+{Areena} | 
+{Arial} | 
+{Arirang} | 
+{Asha} | 
+{Australikse} | 
+{Australis} | 
+{Azure} | 
+{BADASS} | 
+{BBM} | 
+{Baboom} | 
+{Bash} | 
+{Basic} | 
+{Bing} | 
+{Bitlocker} | 
+{BlackPOS} | 
+{Blued} | 
+{BrowserProtector} | 
+{Bump} | 
+{Buzz} | 
+{C64} | 
+{CFAA} | 
+{COS} | 
+{CTB-Locker} | 
+{CUPS} | 
+{Calendar} | 
+{CarPlay} | 
+{Carberpin} | 
+{Cert.fi} | 
+{Chakra} | 
+{Cheetah} | 
+{Chromebook} | 
+{Chromecast} | 
+{Chrome} | 
+{Chthonic} | 
+{Cortana} | 
+{Cromecast} | 
+{Cryptolocker} | 
+{Cryptowall} | 
+{Curie} | 
+{CurrentC} | 
+{CyanogenMod} | 
+{Cygnukse} | 
+{Cygnus} | 
+{DK2} | 
+{DNS} | 
+{DSCOVR} | 
+{DSiWare} | 
+{Dawn} | 
+{Days} | 
+{Debian} | 
+{DeepFace} | 
+{Defender} | 
+{Destiny} | 
+{Dictionary!} | 
+{DirectX} | 
+{Dishfire} | 
+{Docs} | 
+{Download.com} | 
+{Dreamcast} | 
+{DuckDuckGo} | 
+{Duolingo} | 
+{Duqun} | 
+{Duqu} | 
+{E-Rate} | 
+{E.T} | 
+{EBS} | 
+{EasyPC} | 
+{Ebay} | 
+{Emjoyment} | 
+{Epoc} | 
+{Excel} | 
+{Exim} | 
+{Exlorer} | 
+{Explorer} | 
+{Exynos} | 
+{F-35} | 
+{FaceTime} | 
+{Facebook} | 
+{Famicom} | 
+{Fedora} | 
+{FiNER} | 
+{Fiber} | 
+{FileZilla} | 
+{FireTV} | 
+{Firefox} | 
+{FirstNet} | 
+{Firstdate} | 
+{FlashPlayer} | 
+{Flash} | 
+{Flickr} | 
+{Flipboard} | 
+{Flock} | 
+{Freedome} | 
+{Fresnel} | 
+{FuboTV} | 
+{Galaxy} | 
+{GameBoy} | 
+{GameCube} | 
+{GeForce} | 
+{Geforce} | 
+{Glass} | 
+{Gliph} | 
+{Glyph} | 
+{Gmail} | 
+{Gnome} | 
+{Google+} | 
+{Google.com} | 
+{Google.fi} | 
+{Google.fr} | 
+{Google.se} | 
+{GooglePlussa} | 
+{GooglePlus} | 
+{Gorillan} | 
+{Gravity} | 
+{Grindr} | 
+{Groups} | 
+{HFST} | 
+{Half-Life} | 
+{Hangouts} | 
+{Healthcare.gov} | 
+{Helpouts} | 
+{Hipchat} | 
+{HoloLens} | 
+{Hololens} | 
+{Hubble} | 
+{Hulu} | 
+{Hydra} | 
+{I2P} | 
+{IE} | 
+{IOS} | 
+{IPad} | 
+{IPhone} | 
+{IPod} | 
+{ISS} | 
+{Ibis-167} | 
+{Indiegogo} | 
+{Instagram} | 
+{JWST} | 
+{Jack'd} | 
+{JavaScript} | 
+{Java} | 
+{JellyBean} | 
+{Jeopardy} | 
+{KDE} | 
+{Kansalaisaloite.fi} | 
+{Kejo} | 
+{Kepler} | 
+{KeySweeper} | 
+{Keylogger} | 
+{Keysweeper} | 
+{Kickstarter} | 
+{Kindle} | 
+{KitKat} | 
+{Kitkat} | 
+{Knox} | 
+{KrebsOnSecurity.com} | 
+{KrebsOnSecurity} | 
+{Kursor} | 
+{Kyberturvallisuuskeskus.fi} | 
+{Linux-Steam} | 
+{Linux} | 
+{Lollipop} | 
+{LoopPay} | 
+{Lumia} | 
+{Lumio} | 
+{Länsimetro} | 
+{M510} | 
+{MS14-002} | 
+{MS15-002} | 
+{MS15-004} | 
+{MacBook} | 
+{MacOS} | 
+{Macbook} | 
+{Mac} | 
+{Maemo} | 
+{MakerBot} | 
+{Makerbot} | 
+{MapQuest} | 
+{Maps} | 
+{Match} | 
+{Mavericks} | 
+{Mbody} | 
+{Meego} | 
+{MegaChat} | 
+{Megaupload} | 
+{Meltami} | 
+{Metasploit} | 
+{Metro} | 
+{MicroStation} | 
+{Microsoft-Lumia} | 
+{Minecraft} | 
+{Mirai} | 
+{Mixradio} | 
+{Moonraker} | 
+{Morph} | 
+{MySQL} | 
+{MySpace} | 
+{Myspace} | 
+{N3DS} | 
+{N64} | 
+{N95} | 
+{N9} | 
+{NES} | 
+{NGC} | 
+{NIST-F1} | 
+{NIST-F2} | 
+{Netflix} | 
+{Nexus} | 
+{Nginx} | 
+{Node.js} | 
+{Normandy} | 
+{Nova} | 
+{Novena} | 
+{OTR} | 
+{Obamacare} | 
+{Office} | 
+{OneDrive} | 
+{OneNote} | 
+{Onyx} | 
+{OpenSSL} | 
+{Opportunity} | 
+{Outlook} | 
+{Ouya} | 
+{PGP} | 
+{PS2} | 
+{PS3} | 
+{PS4} | 
+{PS5} | 
+{PSN} | 
+{PSX} | 
+{Pacman} | 
+{Paddle} | 
+{Paperin} | 
+{Peridot} | 
+{Philae} | 
+{Photon} | 
+{Picasa} | 
+{PlanetRomeo} | 
+{PlayStation} | 
+{Playstation} | 
+{Pleikkari} | 
+{PowerPoint} | 
+{Powerpoint} | 
+{Prisonlocker} | 
+{Prius} | 
+{Punatähti} | 
+{Quantum} | 
+{Raspberry} | 
+{React} | 
+{Reader} | 
+{Reddit} | 
+{Reedum} | 
+{Regin} | 
+{Rosetta} | 
+{Runkeeper} | 
+{Ruutu} | 
+{SHOUTcast} | 
+{SNES} | 
+{SP1} | 
+{SVF11N1XXXX} | 
+{Safari} | 
+{Sailfish} | 
+{Samjiyon} | 
+{Samsung.com} | 
+{Sat-Fi} | 
+{Scruff} | 
+{Selfnit} | 
+{Sendmail} | 
+{Sentinel-1A} | 
+{Shodan} | 
+{Shoutcast} | 
+{Signal} | 
+{Silverlight} | 
+{SingStar} | 
+{Siri} | 
+{Sites} | 
+{SkyDrive} | 
+{Skype} | 
+{Slack} | 
+{SmartEyeglass} | 
+{Snapdragon} | 
+{Sojuz} | 
+{SourceForge} | 
+{Spark} | 
+{Spartan} | 
+{Spirit} | 
+{Spotify} | 
+{SteamOS} | 
+{Steam} | 
+{Stravan} | 
+{Supercharger} | 
+{Superfish} | 
+{Superman} | 
+{Surface} | 
+{Switch} | 
+{Symbian} | 
+{Syrah} | 
+{T420} | 
+{T510} | 
+{TabPRO} | 
+{Talk} | 
+{TalletusOtto} | 
+{Teensy} | 
+{Telegram} | 
+{ThinkPad} | 
+{Threshold} | 
+{Thunderbird} | 
+{Thunderbolt} | 
+{Thunderstrike} | 
+{Tidal} | 
+{Tinder} | 
+{Tizen} | 
+{TorMail} | 
+{Tor} | 
+{TouchWiz} | 
+{Transcendence} | 
+{Trident} | 
+{Trojan-Banker.Win32.Chthonic} | 
+{Trojan.Droidpak} | 
+{TrueCrypt} | 
+{Twitter} | 
+{Ubuntu} | 
+{Unity} | 
+{Unzip} | 
+{Utopia} | 
+{VLC} | 
+{Vantage} | 
+{Vine} | 
+{Vipukirves} | 
+{VirtualBox} | 
+{Virve} | 
+{Vista} | 
+{Vitja} | 
+{Vivaldi} | 
+{W510} | 
+{WP7} | 
+{WP8} | 
+{WP} | 
+{Wallet} | 
+{WatchESPN} | 
+{Watson} | 
+{WeChat} | 
+{WebView} | 
+{Weibo} | 
+{WhatsApp} | 
+{Whatsapp} | 
+{Wii} | 
+{Wikipedia} | 
+{Winamp.com} | 
+{Winamp} | 
+{Windows} | 
+{Wired} | 
+{Wiskytablet} | 
+{Wisky} | 
+{Wolfram} | 
+{WordPerfect} | 
+{WordPress} | 
+{Word} | 
+{WorkMail} | 
+{Workmail} | 
+{X100E} | 
+{X120E} | 
+{X200} | 
+{X201} | 
+{X2} | 
+{X360} | 
+{XAgent} | 
+{XC90} | 
+{XONE} | 
+{XP} | 
+{Xbox} | 
+{Xone} | 
+{Xperia} | 
+{Yakuake} | 
+{Yammer} | 
+{Yogatablet} | 
+{Yosemite} | 
+{YotaCover} | 
+{YotaHub} | 
+{YotaMirror} | 
+{YotaPanel} | 
+{YotaPhone} | 
+{YotaReader} | 
+{YotaSnap} | 
+{Yotaphone} | 
+{Yotareader} | 
+{YouTube} | 
+{Younited} | 
+{Youtube} | 
+{Yutu} | 
+{Z1} | 
+{angrybirds.com} | 
+{e-Up} | 
+{eBay} | 
+{ftp.isc.org} | 
+{fuboTV} | 
+{glibc} | 
+{iBook} | 
+{iCloud} | 
+{iMX6} | 
+{iMac} | 
+{iMessage} | 
+{iOS7} | 
+{iOS8} | 
+{iOS9} | 
+{iOS} | 
+{iPad} | 
+{iPhone} | 
+{iPod} | 
+{iStun} | 
+{iTV} | 
+{iTunes} | 
+{iWatch} | 
+{iWork} | 
+{javascript} | 
+{kb.isc.org} | 
+{steam.sh} | 
+{tonymacx86.com} | 
+{x86-Atom} | 
+{x86} 
+ ] ; 
+Define BrowserName [ [ [{360}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Safe}] FSep Field FSep Field FSep Field FSep ] WSep {Browser} | 
+[ [{360}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Secure}] FSep Field FSep Field FSep Field FSep ] WSep {Browser} | 
+[ [{Coc}] FSep Field FSep Field FSep Field FSep ] WSep {Coc} | 
+[ [{Google}] FSep Field FSep Field FSep Field FSep ] WSep {Chrome} | 
+[ [{Internet}] FSep Field FSep Field FSep Field FSep ] WSep {Explorer} | 
+[ [{Microsoft}] FSep Field FSep Field FSep Field FSep ] WSep {Edge} | 
+[ [{Mozilla}] FSep Field FSep Field FSep Field FSep ] WSep {Firefox} | 
+[ [{Netscape}] FSep Field FSep Field FSep Field FSep ] WSep {Navigator} | 
+[ [{Pale}] FSep Field FSep Field FSep Field FSep ] WSep {Moon} | 
+[ [{QQ}] FSep Field FSep Field FSep Field FSep ] WSep {Browser} | 
+[ [{Sougou}] FSep Field FSep Field FSep Field FSep ] WSep {Explorer} | 
+[ [{Tor}] FSep Field FSep Field FSep Field FSep ] WSep {Browser} | 
+[ [{UC}] FSep Field FSep Field FSep Field FSep ] WSep {Browser} | 
+[ [{Yandex}] FSep Field FSep Field FSep Field FSep ] WSep {Browser} | 
+{Chrome} | 
+{Chromium} | 
+{DuckDuckGo} | 
+{Edge} | 
+{Explorer} | 
+{Firefox} | 
+{IE} | 
+{Netscape} | 
+{Opera} | 
+{PhantomJS} | 
+{Safari} | 
+{Vivaldi} | 
+{Yandex} 
+ ] ; 
+Define DeviceName [ [ [{Apple}] FSep Field FSep Field FSep Field FSep ] WSep {Watch} | 
+[ [{Apple}] FSep Field FSep Field FSep Field FSep ] WSep {iPhone} | 
+[ [{CBM}] FSep Field FSep Field FSep Field FSep ] WSep {64} | 
+[ [{Cold}] FSep Field FSep Field FSep Field FSep ] WSep {Fusion} | 
+[ [{Commodore}] FSep Field FSep Field FSep Field FSep ] WSep {64} | 
+[ [{Fire}] FSep Field FSep Field FSep Field FSep ] WSep {Tablet} | 
+[ [{Galaxy}] FSep Field FSep Field FSep Field FSep ] WSep {Note} | 
+[ [{Game}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Boy}] FSep Field FSep Field FSep Field FSep ] WSep {Advance} | 
+[ [{Game}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Boy}] FSep Field FSep Field FSep Field FSep ] WSep {Color} | 
+[ [{Game}] FSep Field FSep Field FSep Field FSep ] WSep {Boy} | 
+[ [{Google}] FSep Field FSep Field FSep Field FSep ] WSep {Glass} | 
+[ [{Google}] FSep Field FSep Field FSep Field FSep ] WSep {Watch} | 
+[ [{Kindle}] FSep Field FSep Field FSep Field FSep ] WSep {Fire} | 
+[ [{Mega}] FSep Field FSep Field FSep Field FSep ] WSep {Drive} | 
+[ [{Nintendo}] FSep Field FSep Field FSep Field FSep ] WSep {2DS} | 
+[ [{Nintendo}] FSep Field FSep Field FSep Field FSep ] WSep {3DS} | 
+[ [{Nintendo}] FSep Field FSep Field FSep Field FSep ] WSep {DS} | 
+[ [{Nintendo}] FSep Field FSep Field FSep Field FSep ] WSep {Switch} | 
+[ [{Nokia}] FSep Field FSep Field FSep Field FSep ] WSep {#} | 
+[ [{Nokia}] FSep Field FSep Field FSep Field FSep ] WSep {Lumia} | 
+[ [{Nokia}] FSep Field FSep Field FSep Field FSep ] WSep {N1} | 
+[ [{Nokia}] FSep Field FSep Field FSep Field FSep ] WSep {N2} | 
+[ [{Nokia}] FSep Field FSep Field FSep Field FSep ] WSep {N9} | 
+[ [{PlayStation}] FSep Field FSep Field FSep Field FSep ] WSep {#} | 
+[ [{Raspberry}] FSep Field FSep Field FSep Field FSep ] WSep {Pi} | 
+[ [{Samsung}] FSep Field FSep Field FSep Field FSep ] WSep {Galaxy} | 
+[ [{Sega}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Mega}] FSep Field FSep Field FSep Field FSep ] WSep {Drive} | 
+[ [{Sega}] FSep Field FSep Field FSep Field FSep ] WSep {Dreamcast} | 
+[ [{Sega}] FSep Field FSep Field FSep Field FSep ] WSep {Genesikse} | 
+[ [{Sega}] FSep Field FSep Field FSep Field FSep ] WSep {Genesis} | 
+[ [{Sega}] FSep Field FSep Field FSep Field FSep ] WSep {Saturn} | 
+[ [{Sony}] FSep Field FSep Field FSep Field FSep ] WSep {PlayStation} | 
+[ [{Sony}] FSep Field FSep Field FSep Field FSep ] WSep {Xperia} | 
+[ [{Super}] FSep Field FSep Field FSep Field FSep ] WSep {Nintendo} | 
+[ [{Wii}] FSep Field FSep Field FSep Field FSep ] WSep {U} | 
+[ [{Xbox}] FSep Field FSep Field FSep Field FSep ] WSep {360} | 
+[ [{Xbox}] FSep Field FSep Field FSep Field FSep ] WSep {One} | 
+{2DS} | 
+{Amiga} | 
+{C64} | 
+{DSi} | 
+{DS} | 
+{Dreamcast} | 
+{Famicom} | 
+{Galaxy} | 
+{GameCube} | 
+{IPad} | 
+{IPhone} | 
+{IPod} | 
+{Iphone} | 
+{Jolla} | 
+{Kindle} | 
+{Lumia} | 
+{N3DS} | 
+{N64} | 
+{NES} | 
+{PS1} | 
+{PS2} | 
+{PS3} | 
+{PS4} | 
+{PSOne} | 
+{PSX} | 
+{PlayStation} | 
+{Playstation} | 
+{Pleikkari} | 
+{Raspberry} | 
+{SNES} | 
+{SwanCrystal} | 
+{Wii} | 
+{WonderSwan} | 
+{Xbox} | 
+{iPad} | 
+{iPhone} | 
+{iPod} 
+ ] ; 
+Define OSName [ [ [{Android}] FSep Field FSep Field FSep Field FSep ] WSep {Lollipop} | 
+[ [{MacOS}] FSep Field FSep Field FSep Field FSep ] WSep {X} | 
+[ [{Mac}] FSep Field FSep Field FSep Field FSep ] WSep [ [{OS}] FSep Field FSep Field FSep Field FSep ] WSep {X} | 
+[ [{Mac}] FSep Field FSep Field FSep Field FSep ] WSep {OS} | 
+[ [{Microsoft}] FSep Field FSep Field FSep Field FSep ] WSep {Windows} | 
+[ [{OS}] FSep Field FSep Field FSep Field FSep ] WSep {X} | 
+[ [{Open}] FSep Field FSep Field FSep Field FSep ] WSep [ [{AT}] FSep Field FSep Field FSep Field FSep ] WSep {OS} | 
+[ [{Sailfish}] FSep Field FSep Field FSep Field FSep ] WSep {OS} | 
+[ [{Windows}] FSep Field FSep Field FSep Field FSep ] WSep {Phone} | 
+[ [{Windows}] FSep Field FSep Field FSep Field FSep ] WSep {Vista} | 
+[ [{Windows}] FSep Field FSep Field FSep Field FSep ] WSep {XP} | 
+{Android} | 
+{Debian} | 
+{IOS} | 
+{Linux} | 
+{MacOS} | 
+{Metro} | 
+{OSX} | 
+{Sailfish} | 
+{Symbian} | 
+{Tizen} | 
+{Ubuntu} | 
+{Windows} | 
+{iOS} | 
+{macOS} 
+ ] ; 
+Define AppStoreName [ [ [{Amazon}] FSep Field FSep Field FSep Field FSep ] WSep {Appstore} | 
+[ [{Android}] FSep Field FSep Field FSep Field FSep ] WSep {Market} | 
+[ [{App}] FSep Field FSep Field FSep Field FSep ] WSep {Store} | 
+[ [{App}] FSep Field FSep Field FSep Field FSep ] WSep {World} | 
+[ [{Chrome}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Web}] FSep Field FSep Field FSep Field FSep ] WSep {Store} | 
+[ [{Chrome}] FSep Field FSep Field FSep Field FSep ] WSep {Store} | 
+[ [{Google}] FSep Field FSep Field FSep Field FSep ] WSep {Play} | 
+[ [{Mac}] FSep Field FSep Field FSep Field FSep ] WSep [ [{App}] FSep Field FSep Field FSep Field FSep ] WSep {Store} | 
+[ [{Microsoft}] FSep Field FSep Field FSep Field FSep ] WSep {Store} | 
+[ [{PlayStation}] FSep Field FSep Field FSep Field FSep ] WSep {Network} | 
+[ [{Play}] FSep Field FSep Field FSep Field FSep ] WSep {Store} | 
+[ [{Reader}] FSep Field FSep Field FSep Field FSep ] WSep {Store} | 
+[ [{Sony}] FSep Field FSep Field FSep Field FSep ] WSep {Store} | 
+[ [{Virtual}] FSep Field FSep Field FSep Field FSep ] WSep {Console} | 
+[ [{Windows}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Store}] FSep Field FSep Field FSep Field FSep ] WSep {Beta} | 
+[ [{Windows}] FSep Field FSep Field FSep Field FSep ] WSep {Store} | 
+[ [{Xbox}] FSep Field FSep Field FSep Field FSep ] WSep {Live} | 
+{Play} | 
+{Steam} 
+ ] ; 
+Define SearchEngineName [ [ [{Google}] FSep Field FSep Field FSep Field FSep ] WSep {Search} | 
+{Altavista} | 
+{Ask.com} | 
+{Baidu} | 
+{Bing} | 
+{DuckDuckGo} | 
+{Gigablast} | 
+{Seznam.cz} | 
+{Seznam} | 
+{StartPage} | 
+{YaCy} | 
+{Yandex} 
+ ] ; 
  
-Define ProMiscModel1B 
- [ Alpha* [ Ins(CapMisc) | AcrNom ] WSep ]+ 
- ( [ [ModelString ] FSep Field FSep Field FSep Field FSep ] WSep ) 
- inflect_sg( ModelString ) ; 
+Define DeviceType [ @txt"hProdDeviceType.txt" ] ; 
+Define OSType [ {käyttöjärjestelmä} ({versio}) | {käyttis} | {ympäristö} | {alusta} ] ; 
+Define SoftwareType [ @txt"hProdSoftwareType.txt" ] ; 
  
-Define ProMiscVersion1 
- [ Alpha* [ Ins(CapMisc) | AcrNom ] WSep ]* 
- [ Alpha* [ Ins(CapNameGenNSB) | AlphaUp Ins(PropGen) | CapForeign ] ] WSep 
- [ Field FSep [[ Field - DownCase(ProOS) ] Dash {versio}] FSep Field FSep Field FSep ] ; 
+Define ProdTechSfx [ @txt"hProdTechSfx.txt" ] ; 
+Define ProdTechPfx [ @txt"hProdTechPfx.txt" ] ; 
  
-Define ProMiscVersion2 
- [ Alpha* [ Ins(CapMisc) | AcrNom ] WSep ]* 
- [ Alpha* [ Ins(CapNameGenNSB) | AlphaUp Ins(PropGen) | CapForeign ] ] WSep 
- [ Field FSep [{versio}] FSep Field FSep Field FSep ] WSep Ins(VersionSeqX) ; 
+Define ProdTechType [ Ins(OSType) | Ins(DeviceType) | Ins(SoftwareType) | @txt"hProdTechType.txt" ] ; 
  
-Define ProMiscVersion3 
- [ Alpha* [ Ins(CapMisc) | AcrNom ] WSep ]* 
- [ [ProOS ] FSep Field FSep Field FSep Field FSep ] WSep 
- [ Alpha* [ Ins(CapMisc) | AcrNom ] WSep ]* 
- [ Field FSep [{versio}] FSep Field FSep Field FSep ] WSep Ins(VersionSeqX) ; 
+Define ProdTechTentative [ @txt"hTentativeProdTech.txt" ] ; 
  
-Define ProMiscOther5 
- LC( WSep [ Field - [ Field AlphaUp Field ] ] FSep Word WSep ) 
- inflect_sg( Alpha* ProSuff ) 
- RC( WSep [ ? - [ AlphaUp | Dash | 0To9 ] ]) ; 
+!!---------------------------------------------------------------------- 
  
-Define ProDStr [ Ins(CorpOrPro) | CamelCase::1.00 | AlphaUp WebDomain::1.00 ] ; 
+Define ProdTechHyphen1A 
+ LC( NoSentBoundary ) 
+ UppercaseAlpha LowercaseAlpha+ Capture(TechCpt1) Dash LowercaseAlpha Field FSep Field Ins(ProdTechType) FSep Word ; 
  
-!* "Facebookissa" 
-Define ProDisamb1 
- [ [Ins(ProDStr) LocIntSuff ] FSep Field FSep Field FSep Field FSep ] ; 
+Define ProdTechHyphen1B 
+ [ [ AlphaUp Field Dash AlphaDown Field ] - [ ADashA ] ] FSep Field Ins(ProdTechType) FSep Word::0.10 ; 
  
-!* "Facebookin [kautta]" 
-Define ProDisamb2 
- [ [Ins(ProDStr) GenSuff ] FSep Field FSep Field FSep Field FSep ] 
- RC( WSep [ Field [{avulla} | 
- {kautta} | 
- {välityksellä} | 
- {ulkopuolella} ] FSep Field FSep Field FSep Field FSep ] ) ; 
+Define ProdTechHyphen1C 
+ Field [ Alpha | 0To9 ] Field [ AlphaUp ] Field Capture(TechCpt2) Dash [ Field FSep Field [Dash Field Ins(ProdTechType) ] FSep Field FSep Field FSep ] ; 
  
-!* "Facebookin [käyttäjät]" 
-Define ProDisamb3 
- [ [Ins(ProDStr) GenSuff ] FSep Field FSep Field FSep Field FSep ] 
- RC( WSep [ Field FSep Field [{käyttäjä} | 
- {kehittäjä} | 
- {valmistaja} | 
- {käyttö} | 
- {käyttöehto} | 
- {asetus} | 
- {haavoittuvuus} | 
- {lähdekoodi} | 
- {sovellus} | 
- {laitteisto} | 
- {ominaisuus} | 
- {versio} | 
- {valikko} | 
- {näyttö} | 
- {näppäimistö} | 
- {päivitys} | 
- {akku} | 
- {näppäin} | 
- {kuvake} | 
- {yhteensopivuus} | 
- {estäminen} | 
- {suosio} | 
- {suoritin} | 
- {käyttöliittymä} ] FSep Field FSep Field FSep ] ) ; 
+Define ProdTechHyphen1D 
+ Field Alpha Field 0To9 Field Capture(TechCpt3) Dash [ Field FSep Field [Dash Field Ins(ProdTechType) ] FSep Field FSep Field FSep ] ; 
  
-!* "[asentaa/poistaa] WhatsApp" 
-Define ProDisamb4 
- LC( [ Field FSep [{asentaa} | {poistaa} | {julkaista} ] FSep Field FSep Field FSep ] WSep ( PosAdv WSep ) ) 
- [ [Ins(ProDStr) [ NomSuff | GenSuff ] ] FSep Field FSep Field FSep Field FSep ] ; 
+Define ProdTechHyphen1E 
+ Field Capture(TechCpt4) Dash ["n"|"m"] [ Field FSep Field [Dash {niminen} | {merkkinen} ] FSep Field FSep Field FSep ] WSep 
+ [ Field FSep Field [Ins(ProdTechType) ] FSep Field FSep Field FSep ] ; 
  
-!* "[käyttää/asentaa/hyödyntää/päivittää] Facebookia" 
-Define ProDisamb5 
- LC( [ Field FSep [{käyttää} | {asentaa} | {ladata} | {hyödyntää} | {kehittää} | {päivittää} | {poistaa} ] FSep Field FSep Field FSep ] WSep ( PosAdv WSep ) ) 
- [ [Ins(ProDStr) ParSuff ] FSep Field FSep Field FSep Field FSep ] ; 
+Define ProdTechHyphen1 
+ [ [ [ Ins(CapMisc) | Serial ] WSep ]* TruncPfx WSep Coord WSep ]* 
+ [ Ins(ProdTechHyphen1A) | Ins(ProdTechHyphen1B) | Ins(ProdTechHyphen1C) | Ins(ProdTechHyphen1D) | 
+ Ins(ProdTechHyphen1E) ]::0.20 ; 
  
-!* "Facebookia [käyttävien]" 
-Define ProDisamb6 
- [ [Ins(ProDStr) ParSuff ] FSep Field FSep Field FSep Field FSep ] 
- RC( WSep ( PosAdv WSep ) [ [[ {käyttäv} | {asentav} | {hyödyntäv} | {kehittäv} ] Alpha+ ] FSep Field FSep Field FSep Field FSep ] ) ; 
+Define ProdTechHyphen2 
+ [ [ Ins(CapMisc) | Serial ] WSep ]+ 
+ ( VersNum WSep ) 
+ [ [ Ins(CapMisc) | Serial ] WSep ]* 
+ ( Field Ins(CapName) WSep ) 
+ ( VersNum WSep ) 
+ DashExt [ Field FSep Field [Ins(ProdTechType) ] FSep Field FSep Field FSep ]::0.20 ; 
  
-Define ProCapture 
- [ ProCpt01 | ProCpt02 | ProCpt03 
- | ProCpt04 | ProCpt06 | ProCptV01 | ProCptV02 
- | ProCptA | ProCptB | ProCptC | ProCptD 
- | ProCptE | ProCptF | ProCptG ] FinSuff FSep Word ; 
+Define ProdTechHyphen3 
+ [ Ins(CapMisc) | Serial | Field Ins(CapName) | NumNom ] WSep 
+ ( [ VersNum | Serial ] WSep ) 
+ DashExt [ Field FSep Field [Ins(ProdTechType) ] FSep Field FSep Field FSep ]::0.20 ; 
  
-Define ProCollocSg 
- [ Ins(CapMisc) WSep ( NumWord WSep ) ]* 
- [ Ins(CapNameGenNSB) | AlphaUp Ins(PropGen) ] 
- RC( ( WSep [ Field FSep Field FSep Field [{ADJECTIVE}] Field FSep Field FSep ] ) 
- WSep [ ? - [ Dash | AlphaUp ] ] [ Field FSep Field [{sammuttaminen} | 
- {kaatuminen} | 
- {asennus} | 
- {asentaminen} | 
- {valmistaja} | 
- {akku} | 
- {näyttö} | 
- {ruutu} | 
- {varuste} | 
- {näppäin} | 
- {yhteensopivuus} | 
- {anturi} | 
- {kamera} | 
- {laajenuus} | 
- {näppämistö} | 
- {tallennustila} | 
- {suoritin} | 
- {laitteisto} | 
- {prosessori} | 
- {haavoittuvuus} | 
- {lähdekoodi} | 
- {prototyyppi} | 
- {versio} | 
- {beta} | 
- {päivitys} | 
- {käyttöliittymä} | 
- {käyttöjärjestelmä} | 
- {kuvake} | 
- {käyttöehto} | 
- {valikko} | 
- {käyttäjä} | 
- {ylläpitäjä} | 
- {julkaisu} | 
- {lanseeraus} | 
- {julkistus} | 
- {julkaisija} | 
- {lisenssi} | 
- {hinta} | 
- {menekki} | 
- {myyntimäärä} | 
- {toimitusmäärä}] FSep Field [{NUM=SG}] Field FSep Field FSep ] ) ; 
+Define ProdTechHyphen4 
+ [ Ins(CapMisc) | Serial | Field Ins(CapNameNom) ] WSep 
+ ( [ Ins(CapMisc) | Serial | Field Ins(CapName) ] WSep ) 
+ DashExt [ Field FSep Field [Ins(ProdTechType) ] FSep Field FSep Field FSep ]::0.20 ; 
  
-Define ProCollocPl 
- [ Ins(CapMisc) WSep ( NumWord WSep ) ]* 
- [ Ins(CapNameGenNSB) | AlphaUp Ins(PropGen) ] 
- RC( ( WSep [ Field FSep Field FSep Field [{ADJECTIVE}] Field FSep Field FSep ] ) 
- WSep [ ? - [ Dash | AlphaUp ] ] [ Field FSep Field [{päivitys} | 
- {käyttöehto} | 
- {näppäin} 
- {varuste} | 
- {haavoittuvuus} | 
- {kuvake} | 
- {käyttäjä} | 
- {myyntimäärä} | 
- {toimitusmäärä}] FSep Field [{NUM=PL}] Field FSep Field FSep ] ) ; 
+Define ProdTechHyphen5 
+ [ [ Ins(CapMisc) | ( Ins(CapName) WSep ) Ins(AndOfThe) ] WSep ]* 
+ CapWord WSep 
+ DashExt [ Field FSep Field [Ins(ProdTechType) ] FSep Field FSep Field FSep ]::0.20 ; 
  
-Define ProQuotesAndYear 
+Define ProdTechHyphen6 
+ InQuotes WSep 
+ DashExt [ Field FSep Field [Ins(ProdTechType) ] FSep Field FSep Field FSep ]::0.20 ; 
+ 
+Define ProdTechHyphen7 
+ [ [ [ Ins(CapMisc) | Serial ] WSep ]* TruncPfx WSep Coord WSep ]+ 
+ [ [ Ins(CapMisc) | Serial | VersNum ] WSep ]+ 
+ DashExt [ Field FSep Field [Ins(ProdTechType) ] FSep Field FSep Field FSep ]::0.20 ; 
+ 
+Define ProdTechHyphenAppStore 
+ Ins(AppStoreName) ( FSep Word WSep ) 
+ Dash [ Field FSep Field [{kauppa} ] FSep Field FSep Field FSep ] ; 
+ 
+Define ProdTechPrefixed 
+ ( Ins(CapMisc) WSep ) 
+ [ [Ins(ProdTechPfx) ] FSep Field FSep Field FSep Field FSep ] EndTag(EnamexOrgCrp2) WSep 
+ [ [ Ins(CapMisc) | Serial ]::0.10 WSep ]* 
+ [ ( VersNum WSep ) Field Ins(CapWord) | 
+ ( Ins(CapMisc) WSep ) 1To9 Word ]::0.30 
+ ( Ins(DashExt) [ Field FSep Field [Ins(ProdTechType) ] FSep Field FSep Field FSep ] ) ; 
+ 
+Define ProdTechSuffixed1 
+ [ [ Ins(CapMisc) | Serial ] WSep ]+ 
+ [ [( AlphaUp Field ) Ins(ProdTechSfx) FinSuff ] FSep Field FSep Field FSep Field FSep ]::0.30 ; 
+ 
+Define ProdTechSuffixed2 
+ [ [ Ins(CapMisc) | Serial ] WSep ]+ 
+ [ [( AlphaUp Field ) Ins(ProdTechSfx) ] FSep Field FSep Field FSep Field FSep ] WSep 
+ [ Serial WSep ]* 
+ [ CapWord::0.10 | 1To9 Word ]::0.30 ; 
+ 
+Define ProdTechSuffixed3 
+ [ [Field CapName] - PropOrgGen] WSep 
+ [ [Ins(ProdTechSfx) FinSuff ] FSep Field FSep Field FSep Field FSep ]::0.30 ; 
+ 
+Define ProdTechSuffixed4 
+ [ [Field CapName] - PropOrgGen] WSep 
+ [ [Ins(ProdTechSfx) ] FSep Field FSep Field FSep Field FSep ] WSep 
+ [ Field FSep [0To9 0To9 0To9 (0To9) | 0To9 [ "." 0To9 ]+ ] FSep Field FSep Field FSep ]::0.30 ; 
+ 
+Define ProdTechSuffixed5 
+ ( Ins(CapMisc) WSep ) 
+ [ Ins(CapMisc) | Serial ] WSep 
+ ( [ Ins(CapMisc) | Serial ] WSep ) 
+ [ [ Field FSep [0To9 0To9 0To9 (0To9) | 0To9 [ "." 0To9 ]+ ] FSep Field FSep Field FSep ] | [ [Ins(ModelString) (":" FinSuff)] FSep Field FSep Field FSep Field FSep ] ]::0.30 ; 
+ 
+Define ProdTechGuessed 
+ [ [Alpha+ Ins(ProdTechSfx) ] FSep Field FSep Field FSep Field FSep ]::0.50 ; 
+ 
+Define ProdTechVersion 
+ [ [ Ins(CapMisc) | Serial ] WSep ]* 
+ [ Field Ins(CapNameGenNSB) | [ Field [UppercaseAlpha GenSuff ] FSep Field FSep Field FSep Field FSep ] | Ins(CapMisc) | Serial ] WSep 
+ [ (Dash) VersSeq | VersNum Dash [ Field FSep Field [Dash {versio} ] FSep Field FSep Field FSep ] | [ Field FSep [{beta} (Dash) {versio}] FSep Field FSep Field FSep ] ] ; 
+ 
+Define ProdTechColloc1 
+ [ ( Ins(CapMisc) WSep ) [ Ins(CapNameGenNSB) | AbbrGen ]::0.50 | [ [Ins(ProdTechTentative) GenSuff] FSep Field FSep Field FSep Field FSep ]::0.10 ] 
+ RC( WSep ( PosAdj WSep ) 
+ AlphaDown [ Field FSep Field [{akku} | {anturi} | {asennus} | {asentaminen} | {asetus} | {beta} | {estäminen} | {haavoittuvuus} | {hinta} | 
+ {julkaisija} | {julkaisu} | {julkistus} | {kaatuminen} | {kamera} | {käyttäjä} | {käyttäjäkunta} | {käyttö} | 
+ {käyttöehto} | {käyttöjärjestelmä} | {käyttöliittymä} | {kehittäjä} | {kuvake} | {laajenuus} | {lähdekoodi} | 
+ {laitteisto} | {lanseeraus} | {lisenssi} | {menekki} | {myyntimäärä} | {näppäimistö} | {näppäin} | {laturi} | 
+ {näppämistö} | {näyttö} | {ominaisuus} | {päivitys} | {painike} | {prosessori} | {prototyyppi} | {ruutu} | 
+ {sammuttaminen} | {sovellus} | {suoritin} | {suosio} | {tallennustila} | {toimitusmäärä} | {valikko} | 
+ {valmistaja} | {varuste} | {versio} | {yhteensopivuus} | {ylläpitäjä} ] FSep Field FSep Field FSep ] ) ; 
+ 
+Define ProdTechColloc2 
+ [ ( Ins(CapMisc) WSep ) [ Ins(CapNameGenNSB) | AbbrGen ]::0.50 | [ [Ins(ProdTechTentative) GenSuff] FSep Field FSep Field FSep Field FSep ]::0.10 ] 
+ RC( WSep [ [{avulla} | {välityksellä} | {kautta} ] FSep Field FSep Field FSep Field FSep ] ) ; 
+ 
+Define ProdTechColloc3 
+ LC( [ [ Field FSep [{käyttää} | {asentaa} | {ladata} | {hyödyntää} | {kehittää} | {päivittää} | {poistaa} | {julkaista}] FSep Field [{VOICE=ACT}] Field FSep Field FSep ] - [ Field FSep Field FSep Field [{PCP=VA}] Field FSep Field FSep ] ] WSep 
+ ( PosAdv WSep ) ) 
+ [ [ Ins(CapMisc) WSep ]* [ Field infl_sg_par(CapNameStr) ]::0.50 | [ [Ins(ProdTechTentative) ParSuff ] FSep Field FSep Field FSep Field FSep ] ] ; 
+ 
+Define ProdTechColloc4 
+ LC( [ [ Field FSep [{asentaa} | {ladata} | {kehittää} | {päivittää} | {julkistaa} ] FSep Field [] Field FSep Field FSep ] - [ Field FSep Field FSep Field [{PCP=VA}] Field FSep Field FSep ] ] WSep 
+ ( PosAdv WSep ) ) 
+ [ [ Ins(CapMisc) WSep ]* [ Field Ins(CapName) | Abbr ]::0.50 | [ [Ins(ProdTechTentative) [ GenSuff | NomSuff ]] FSep Field FSep Field FSep Field FSep ] ] ; 
+ 
+Define ProdTechDisamb 
+ [ [Ins(ProdTechTentative) LocIntSuff ] FSep Field FSep Field FSep Field FSep ] ; 
+ 
+Define ProdTechCaptured 
+ [ [[ TechCpt1 | TechCpt2 | TechCpt3 | TechCpt4 ] FinSuff ] FSep Field FSep Field FSep Field FSep ]::0.60 ; 
+ 
+Define ProdTechGaz1 
+ [ [[ Ins(DeviceName) | Ins(OSName) | Ins(BrowserName) | Ins(MiscTechName) | Ins(AppStoreName) ] ] FSep Field FSep Field FSep Field FSep ] WSep 
+ ( [ Ins(CapMisc) | Serial ] WSep ) 
+ ( VersNum::0.20 WSep ) 
+ [ CapWord::0.20 | ( Ins(CapMisc) WSep ) 1To9 Word ]::0.20 ; 
+ 
+Define ProdTechGaz2 
+ [ [[ Ins(DeviceName) | Ins(OSName) | Ins(AppStoreName) | 
+ Ins(BrowserName) | Ins(MiscTechName) | Ins(SearchEngineName)::0.10 ] FinSuff ] FSep Field FSep Field FSep Field FSep ]::0.10 ; 
+ 
+Define ProdTechGazPl 
+ inflect_pl( DeviceName | OSName | BrowserName | MiscTechName )::0.10 ; 
+ 
+Define ProdTechRules 
+ [ Ins(ProdTechHyphen1) 
+ | Ins(ProdTechHyphen2) 
+ | Ins(ProdTechHyphen3) 
+ | Ins(ProdTechHyphen4) 
+ | Ins(ProdTechHyphen5) 
+ | Ins(ProdTechHyphen6) 
+ | Ins(ProdTechHyphen7) 
+ | Ins(ProdTechHyphenAppStore) 
+ | OptQuotes(Ins(ProdTechPrefixed)) 
+ | OptQuotes(Ins(ProdTechSuffixed1)) 
+ | OptQuotes(Ins(ProdTechSuffixed2)) 
+ | OptQuotes(Ins(ProdTechSuffixed3)) 
+ | OptQuotes(Ins(ProdTechSuffixed4)) 
+ | OptQuotes(Ins(ProdTechSuffixed5)) 
+ | Ins(ProdTechVersion) 
+ | Ins(ProdTechGuessed) 
+ | Ins(ProdTechColloc1) 
+ | Ins(ProdTechColloc2) 
+ | Ins(ProdTechColloc3) 
+ | Ins(ProdTechColloc4) 
+ | Ins(ProdTechDisamb) 
+ | Ins(ProdTechCaptured) 
+ | OptQuotes(Ins(ProdTechGaz1)) 
+ | OptQuotes(Ins(ProdTechGaz2)) 
+ | Ins(ProdTechGazPl) 
+ ] EndTag(EnamexProXxx) ; 
+ 
+Define ExceptionProd1 
+ [ Ins(OSName) | Ins(BrowserName) ] Dash [ Field FSep Field [Dash Field [ Ins(DeviceType) | {päivitys} ]] FSep Field FSep Field FSep ] ; 
+ 
+Define ExceptionProd2 
+ [ [Ins(OSName) | Ins(BrowserName) ] FSep Field FSep Field FSep Field FSep ] WSep 
+ ( VersNum WSep ) 
+ Dash [ Field FSep Field [Ins(DeviceType) ] FSep Field FSep Field FSep ] ; 
+ 
+Define ExceptionProd3 
+ [ Ins(DeviceName) | Ins(OSName) | Ins(AppStoreName) ] 
+ Dash [ Field FSep Field [Dash Field [ Ins(SoftwareType) | {päivitys} ]] FSep Field FSep Field FSep ] ; 
+ 
+Define ExceptionProd4 
+ [ [Ins(OSName) ] FSep Field FSep Field FSep Field FSep ] WSep 
+ ( VersNum WSep ) 
+ Dash [ Field FSep Field [Ins(SoftwareType) ] FSep Field FSep Field FSep ] ; 
+ 
+Define ExceptionProd5 
+ [ [Ins(DeviceName) | Ins(AppStoreName) ] FSep Field FSep Field FSep Field FSep ] WSep 
+ Dash [ Field FSep Field [Ins(SoftwareType) | {päivitys} ] FSep Field FSep Field FSep ] ; 
+ 
+Define ExceptionProd6 
+ [ Field FSep [[{facebook}|{twitter}] Dash [{päivitys}|{sovellus}|{ryhmä}|{yhteisö}]] FSep Field FSep Field FSep ] ; 
+ 
+Define ExceptionProd7 
+ [ Field FSep [[{mars}|{pluto}] Dash [{luotain}|{mönkijä}]] FSep Field FSep Field FSep ] ; 
+ 
+Define ExceptionProd 
+ [ Ins(ExceptionProd1) 
+ | Ins(ExceptionProd2) 
+ | Ins(ExceptionProd3) 
+ | Ins(ExceptionProd4) 
+ | Ins(ExceptionProd5) 
+ | Ins(ExceptionProd6) 
+ | Ins(ExceptionProd7) 
+ ] EndTag(Exc000) ; 
+ 
+Define ProdTech 
+ [ Ins(ProdTechRules) 
+ | Ins(ExceptionProd) 
+ ] ; 
+ 
+ 
+!!----------------------------------------------------------------------- 
+!! Artifacts & Miscellanea 
+!!----------------------------------------------------------------------- 
+ 
+Define ProdMiscQuotesAndYear 
  InQuotes 
  RC( WSep [ [LPar] FSep Field FSep Field FSep Field FSep ] 
  WSep [ [["1"|"2"] 0To9 0To9 0To9 ( Dash ( ["1"|"2"] 0To9 0To9 0To9 ) ) ] FSep Field FSep Field FSep Field FSep ] 
  ( WSep [ [Dash ] FSep Field FSep Field FSep Field FSep ] ) 
  WSep [ [RPar] FSep Field FSep Field FSep Field FSep ] ) ; 
  
-Define gazProdMWordNoCongr [ 
- inflect_sg( {3DS} | {N3DS} | {N64} | {NGC} | {Bolero} | {Boléro} | {Gloria} | {Kyrie} | {Matteus-passio} | {Requiem} | {Mandylion} | {Mandilion} | {Koh-i-Noor} | {Cullinan} | {Excalibur} | {Caliburn} ) | 
-[ [{8600}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Smart}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Routers}) | 
-[ [{Adobe}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Cold}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Fusion}) | 
-[ [{Adobe}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Flash}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Player}) | 
-[ [{Affordable}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Care}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Act}) | 
-[ [{Alcatel}] FSep Field FSep Field FSep Field FSep ] WSep [ [{OneTouch}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Fierce}) | 
-[ [{Amazon}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({FireTV}) | 
-[ [{American}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Idol}) | 
-[ [{Android}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Developer}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Dashboard}) | 
-[ [{Android}] FSep Field FSep Field FSep Field FSep ] WSep Ins(CapNum) WSep [ [{Jelly}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Bean}) | 
-[ [{Android}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({KitKat}) | 
-[ [{Android}] FSep Field FSep Field FSep Field FSep ] WSep Ins(CapNum) WSep inflect_sg({KitKat}) | 
-[ [{Android}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Lollipop}) | 
-[ [{Android}] FSep Field FSep Field FSep Field FSep ] WSep Ins(CapNum) WSep inflect_sg({Lollipop}) | 
-[ [{Android}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Wear}) | 
-[ [{Angry}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Birds}) | 
-[ [{Aol}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Instant}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Messenger}) | 
-[ [{Apple}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({iPhone}) | 
-[ [{Apple}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Pay}) | 
-[ [{Apple}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({TV}) | 
-[ [{Apple}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Watch}) | 
-[ [{Apps}] FSep Field FSep Field FSep Field FSep ] WSep [ [OptCap({for})] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Work}) | 
-[ [{App}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Store}) | 
-[ [{Arena}] FSep Field FSep Field FSep Field FSep ] WSep [ [{de}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Barcelona}) | 
-[ [{Ashley}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Madison}) | 
-[ [{Aston}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Martin}) | 
-[ [{Avegant}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Glyph}) | 
-[ [{Blobs}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Storage}) | 
-[ [{Blue}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Cross}) | 
-[ [{Boom}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Beach}) | 
-[ [{Candy}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Casino}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Slots}) | 
-[ [{Chromebook}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Pixel}) | 
-[ [{Chrome}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Store}) | 
-[ [{Cold}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Fusion}) | 
-[ [{Commodore}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({64}) | 
-[ [{Compute}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Stick}) | 
-[ [{CTB}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Locker}) | 
-[ [{Da}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Vinci}) | 
-[ [{Debian}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Linux}) | 
-[ [{Deep}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Space}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Climate}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Observatory}) | 
-[ [{Dodge}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Caravan}) | 
-[ [{Domain}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Name}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Industry}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Brief}) | 
-[ [{Domain}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Name}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({System}) | 
-[ [{Doro}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({EasyPC}) | 
-[ [{Elementary}] FSep Field FSep Field FSep Field FSep ] WSep Ins(CapNum) WSep inflect_sg({Freya}) | 
-[ [{Eve}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({V}) | 
-[ [{Facebook}] FSep Field FSep Field FSep Field FSep ] WSep [ [{at}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Work}) | 
-[ [{Facebook}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Paper}) | 
-[ [{Firefox}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({One}) | 
-[ [{Flappy}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Bird}) | 
-[ [{Flash}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Player}) | 
-[ [{Ford}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Sierra}) | 
-[ [{Galaxy}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Trend}) | 
-[ [{Game}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Boy}) | 
-[ [{Game}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Boy}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Advance}) | 
-[ [{Game}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Boy}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Color}) | 
-[ [{Gear}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Fit}) | 
-[ [{G}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Flex}) | 
-[ [{Google}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Calendar}) | 
-[ [{Google}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Chrome}) | 
-[ [{Google}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Earth}) | 
-[ [{Google}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Glass}) | 
-[ [{Google}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Maps}) | 
-[ [{Google}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({News}) | 
-[ [{Google}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Play}) | 
-[ [{Google}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Street}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({View}) | 
-[ [{Google}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Talk}) | 
-[ [{Google}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Translate}) | 
-[ [{Gorilla}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Glass}) | 
-[ [{GTX}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Titan}) | 
-[ [{HTC}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({One}) | 
-[ [{HTC}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Sensation}) | 
-[ [{Instant}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Video}) | 
-[ [{Intel}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Appup}) | 
-[ [{Internet}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Explorer}) | 
-[ [{Iridium}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Go}) | 
-[ [{Jelly}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Bean}) | 
-[ [{Krebs}] FSep Field FSep Field FSep Field FSep ] WSep [ [{on}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Security}) | 
-[ [{LG}] FSep Field FSep Field FSep Field FSep ] WSep [ [{G}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Flex}) | 
-[ [{LG}] FSep Field FSep Field FSep Field FSep ] WSep [ [{G}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Flex}] FSep Field FSep Field FSep Field FSep ] WSep Ins(CapNum) | 
-[ [{Lizard}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Stresser}) | 
-[ [{MacBook}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Air}) | 
-[ [{MacBook}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Pro}) | 
-[ [{Mac}] FSep Field FSep Field FSep Field FSep ] WSep [ [{OS}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({X}) | 
-[ [{MacOS}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({X}) | 
-[ [{Mac}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Pro}) | 
-[ [{Mega}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Drive}) | 
-[ [{Millennial}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Media}) | 
-[ [{Million}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Dollar}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Baby}) | 
-[ [{Model}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({S}) | 
-[ [{Moto}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({G}) | 
-[ [{Moto}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({X}) | 
-[ [{MTV}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Total}) | 
-[ [{Nintendo}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({3DS}) | 
-[ [{Nintendo}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({64}) | 
-[ [{Nintendo}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Entertainment}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({System}) | 
-[ [{Nintendo}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Switch}) | 
-[ [{Nokia}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Lumia}) | 
-[ [{Nokia}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({TV}) | 
-[ [{O2}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Wallet}) | 
-[ [{Oculus}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Rift}) | 
-[ [{Oculus}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Rift}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Development}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Kit}) | 
-[ [{OneTouch}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Fierce}) | 
-[ [{Open}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Catalog}) | 
-[ [{Open}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Guest}) | 
-[ [{OpenSuse}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Linux}) | 
-[ [{Operation}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Pawn}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Storm}) | 
-[ [{OS}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({X}) | 
-[ [{Paper}] FSep Field FSep Field FSep Field FSep ] WSep [ [{By}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({FiftyThree}) | 
-[ [{Pirate}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Bay}) | 
-[ [{Play}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Music}) | 
-[ [{Playstation}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Network}) | 
-[ [{Play}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Store}) | 
-[ [{Project}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Loon}) | 
-[ [{Project}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Normandy}) | 
-[ [{Project}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Novena}) | 
-[ [{Pultizer}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Prize}) | 
-[ [{Raspberry}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Pi}) | 
-[ [{Red}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Bull}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({TV}) | 
-[ [{Red}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Hat}) | 
-[ [{Samsung}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Galaxy}) | 
-[ [{Samsung}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Galaxy}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Express}) | 
-[ [{Samsung}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Galaxy}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Trend}) | 
-[ [{Samsung}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Galaxy}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Xcover}) | 
-[ [{Samsung}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Gear}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Fit}) | 
-[ [{Samsung}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Nexus}) | 
-[ [{Second}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Life}) | 
-[ [{Sega}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Genesis}) | 
-[ [{Sega}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Mega}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Drive}) | 
-[ [{S}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Health}) | 
-[ [{Silk}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Road}) | 
-[ [{SingStar}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Suomibileet}) | 
-[ [{Smart}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Lamp}) | 
-[ [{S}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Note}) | 
-[ [{Social}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({News}) | 
-[ [{Solar}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Impulse}) | 
-[ [{Sony}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Vaio}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Fit}) | 
-[ [{Sony}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Xperia}) | 
-[ [{Sports}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Tracker}) | 
-[ [{Steam}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Machine}) | 
-[ [{SteamOS}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Linux}) | 
-[ [{Super}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Famicom}) | 
-[ [{Super}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Nintendo}) | 
-[ [{Super}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Nintendo}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Entertainment}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({System}) | 
-[ [{Surface}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Hub}) | 
-[ [{Surface}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Pro}) | 
-[ [{S}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Voice}) | 
-[ [{Tesla}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Model}) | 
-[ [{The}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Interview}) | 
-[ [{The}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Pirate}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Bay}) | 
-[ [{Tor}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Mail}) | 
-[ [{Trand}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Plus}) | 
-[ [{Virus}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Shield}) | 
-[ [{Watch}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Dogs}) | 
-[ [{Web}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Traffic}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Scanning}) | 
-[ [{Western}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Union}) | 
-[ [{WhatsApp}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Web}) | 
-[ [{Wii}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({U}) | 
-[ [{Windows}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Phone}) | 
-[ [{Windows}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Phone}] FSep Field FSep Field FSep Field FSep ] WSep Ins(CapNum) WSep [ [{update}] FSep Field FSep Field FSep Field FSep ] WSep Ins(CapNum) | 
-[ [{Windows}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Server}) | 
-[ [{Windows}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Store}) | 
-[ [{Windows}] FSep Field FSep Field FSep Field FSep ] WSep Ins(CapNum) WSep [ [{update}] FSep Field FSep Field FSep Field FSep ] WSep Ins(CapNum) | 
-[ [{Windows}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Update}) | 
-[ [{Windows}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Vista}) | 
-[ [{Xbox}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({360}) | 
-[ [{Xbox}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Live}) | 
-[ [{Xbox}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({One}) | 
-[ [{Xbox}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Video}) | 
-[ [{Xiaomi}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Mi}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Note}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Pro}) | 
-[ [{Year}] FSep Field FSep Field FSep Field FSep ] WSep [ [OptCap({in})] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Review}) | 
-[ [{Ye}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Olde}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({SteamOS}) | 
-[ [{Yle}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Areena}) | 
-[ [{YLE}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Areena}) | 
-[ [{Yoga}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({tablet}) | 
-[ [{Z}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Launcher}) | 
-[ [{Ave}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Maria}) | 
-[ [{Nibelungin}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{sormus}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
-[ [{Graalin}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{malja}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
-[ [{Pandoran}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{lipas}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
-[ [{Pandoran}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{ruukku}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
-[ [{Kaaban}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{musta}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{kivi}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
-[ [{DNA}] FSep Field FSep Field FSep Field FSep ] WSep "K" [ Field FSep [{kauppa}] FSep Field FSep Field FSep ] | 
-Ins(AlphaUp) [ [ Field FSep [{kesäkatu}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- [ Field FSep [{liitonarkki}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- [ Field FSep [{liitonarkku}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- [ Field FSep [{sampo}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- [ Field FSep [{mahtisormus}] FSep Field [{NUM=SG}] Field FSep Field FSep ] | 
- [ Field FSep [{kultainen}] FSep Field [{NUM=SG}] Field FSep Field FSep ] WSep [ Field FSep [{talja}] FSep Field [{NUM=SG}] Field FSep Field FSep ] ] 
+Define ProdMiscHyphen 
+ AlphaUp [ Field FSep Field [Dash {niminen} ] FSep Field FSep Field FSep ] WSep 
+ ( PosAdj WSep ) 
+ [ Field FSep Field [{tuote} | {tarvike} | {esine} | @txt"gArtifactType.txt" ] FSep Field FSep Field FSep ] ; 
  
- ] ; 
+Define ProdMiscColloc1 
+ LC( [ Field FSep [{uusi} | {punainen} | {musta} | {valkoinen} | {hopeinen} | {kiiltävä} | {tuliterä} ] FSep Field FSep Field FSep ] WSep ) 
+ [ [ [ [ [ Field Ins(CapNameNom) | PropNom | Ins(CapMisc) ] WSep ]* [ Ins(CapName) | Abbr ]::0.50 ] ] | 
+ [ [ [ Field Ins(CapNameNom) | PropNom | Ins(CapMisc) ] WSep ]+ NumWord ] ] ; 
  
-Define ProMiscMultiWord 
- OptQuotes( Ins(gazProdMWordNoCongr) 
- [ WSep [ Ins(CapMisc) | CapNum | AcrNom ] ]* 
- ( WSep [ Ins(CapName) | NumWord ] ) ) 
- ( WSep Ins(DashExt) Ins(ProType) ) ; 
+Define ProdMiscColloc2 
+ LC( ( Ins(CapMisc) WSep ) [ Ins(CapNameGenNSB) | Ins(PropGen) ] WSep ) 
+ [ Field FSep Field [{käyttö} | {käyttäjä} | {käyttäjäkunta} | {käyttäminen} | {kahva} | {runko} | {pakkaus} | {valmistaja} 
+ {käyttäjäystävällisyys} | {saatavuus} | {hinta} ] FSep Field FSep Field FSep ] ; 
  
-Define ProMiscPl 
- inflect_pl( ProSeries | @txt"gProdVehicleModel.txt" | {Xperia} | {Nokia} | {Lumia} | {Tesla} ) ; 
+Define ProdMisc 
+ [ Ins(ProdMiscQuotesAndYear) 
+ | Ins(ProdMiscHyphen) 
+ | Ins(ProdMiscColloc1) 
+ | Ins(ProdMiscColloc2) 
+ ] EndTag(EnamexProXxx) ; 
  
-Define ProDefault 
- inflect_sg( @txt"gStatPRO.txt" ) ; 
+!!---------------------------------------------------------------------- 
  
 !* Category HEAD 
+ 
 Define Product 
  [ Ins(ProLaw)::0.00 
  | Ins(ProAgreement)::0.00 
@@ -7221,36 +7799,11 @@ Define Product
  | Ins(ProMusic) 
  | Ins(ProArtwork) 
  | Ins(ProDrug) 
- | Ins(ProMiscSuffixed)::0.25 
- | Ins(ProMiscOther1A)::0.50 
- | Ins(ProMiscOther1B)::0.50 
- | Ins(ProMiscOther2A)::0.50 
- | Ins(ProMiscOther2B)::0.50 
- | Ins(ProMiscOther3)::0.75 
- | Ins(ProMiscOther4)::0.75 
- | Ins(ProMiscOther5)::0.75 
- | Ins(ProMiscModel1A)::0.50 
- | Ins(ProMiscModel1B)::0.50 
- | Ins(ProMiscVersion1)::0.25 
- | Ins(ProMiscVersion2)::0.25 
- | Ins(ProMiscVersion3)::0.25 
- | Ins(ProAppStore)::0.25 
- | Ins(ProMiscPl)::0.50 
- | Ins(ProCollocSg)::0.95 
- | Ins(ProCollocPl)::0.95 
- | Ins(ProDisamb1)::0.00 
- | Ins(ProDisamb2)::0.00 
- | Ins(ProDisamb3)::0.00 
- | Ins(ProDisamb4)::0.00 
- | Ins(ProDisamb5)::0.00 
- | Ins(ProDisamb6)::0.00 
- | Ins(ProDefault)::0.25 
- | Ins(ProMiscMultiWord)::0.20 
- | Ins(ProQuotesAndYear)::0.75 
- | Ins(ProCapture)::0.90 
- ] EndTag(EnamexProXxx) 
  | Ins(ProdFoodDrink) 
- | Ins(ProdCultivar) ; 
+ | Ins(ProdCultivar) 
+ | Ins(ProdTech) 
+ | Ins(ProdMisc) 
+ ] ; 
  
 !!---------------------------------------------------------------------- 
 !! TODO: Phenomena, weather (storms, hurricanes earthquakes) 
@@ -7452,7 +8005,7 @@ Define EvtChampionsLeague3
  "E" [ Field FSep [{eurooppa} Dash {liiga} ] FSep Field FSep Field FSep ] ; 
  
 Define EvtSocialGaz 
- [ inflect_sg( {Gamescom} | {9/11} | {A-con} | {Animecon} | {Ankkarock} | {Assembly} | {Bakacon} | {brexit} | {Brexit} | {CES} | {Chibicon} | {Comiccon} | {CosplayGaala} | {Desucon} | {DocPoint} | {Etnosoi} | {Eurovision} | {Finncon} | {Flow} | {Hypecon} | {Ilosaarirock} | {Jysäri} | {Kawacon} | {Kirsikankukkacon} | {Kitacon} | {Kokkocon} | {Lolicon} | {Melodifestivalen} | {Mimicon} | {MWC} | {Nekocon} | {Oktoberfest} | {Provinssirock} | {Qstock} | {R&A} | {Ragnarök} | {Ropecon} | {Ruisrock} | {Sakuracon} | {Sexhibition} | {Shirocon} | {Skábmagovat} | {Slush} | {Sonisphere} | {Tracon} | {Tsukicon} | {Tubecon} | {UMK} | {Vinokino} | {Woodstock} | {WWDC} | {Yukicon} ) | 
+ [ inflect_sg( {9/11} | {A-con} | {Animecon} | {Ankkarock} | {Assembly} | {Bakacon} | {brexit} | {Brexit} | {CES} | {Chibicon} | {Comiccon} | {CosplayGaala} | {Desucon} | {DocPoint} | {Etnosoi} | {Eurovision} | {Finncon} | {Flow} | {Gamescom} | {Hypecon} | {Ilosaarirock} | {Jysäri} | {Kawacon} | {Kirsikankukkacon} | {Kitacon} | {Kokkocon} | {Lolicon} | {Melodifestivalen} | {Mimicon} | {MWC} | {Nekocon} | {Oktoberfest} | {Provinssirock} | {Qstock} | {R&A} | {Ragnarök} | {Ropecon} | {Ruisrock} | {Sakuracon} | {Sexhibition} | {Shirocon} | {Skábmagovat} | {Slush} | {Sonisphere} | {Tracon} | {Tsukicon} | {Tubecon} | {UMK} | {Vinokino} | {Woodstock} | {WWDC} | {Yukicon} ) | 
 [ [{9}] FSep Field FSep Field FSep Field FSep ] WSep [ [{/}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({11}) | 
 [ [{Allsång}] FSep Field FSep Field FSep Field FSep ] WSep [ [{på}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Skansen}) | 
 [ [{Burning}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Man}) | 
@@ -7465,10 +8018,10 @@ Define EvtSocialGaz
 [ [{Hamina}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Tattoo}) | 
 [ [{Helsinki}] FSep Field FSep Field FSep Field FSep ] WSep [ [{City}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Run}) | 
 [ [{Ijahis}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Idja}) | 
+[ [{International}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Conference}] FSep Field FSep Field FSep Field FSep ] WSep [ [{on}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Cyber}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Security}) | 
 [ [{Kuopio}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Tanssii}] FSep Field FSep Field FSep Field FSep ] WSep [ [{ja}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Soi}) | 
 [ [{Maailma}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({kylässä}) | 
 [ [{MGP}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Nordic}) | 
-[ [{International}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Conference}] FSep Field FSep Field FSep Field FSep ] WSep [ [{on}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Cyber}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Security}) | 
 [ [{R}] FSep Field FSep Field FSep Field FSep ] WSep [ [{&}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({A}) | 
 [ [{Rakkautta}] FSep Field FSep Field FSep Field FSep ] WSep [ [{&}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Anarkiaa}) | 
 [ [{Rakkautta}] FSep Field FSep Field FSep Field FSep ] WSep [ [{ja}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Anarkiaa}) | 
@@ -7477,7 +8030,6 @@ Define EvtSocialGaz
 [ [{Riddu}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Riđđu}) | 
 [ [{Silicon}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Valley}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Open}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Innovation}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Challenge}) | 
 [ [{Via}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Crucis}) | 
-[ [{Wienin}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{kongressi}] FSep Field FSep Field FSep ] | 
 [ [{Eurovision}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{laulukilpailu}] FSep Field FSep Field FSep ] | 
 [ [{Itsenäisyyspäivän}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{vastaanotto}] FSep Field FSep Field FSep ] | 
 [ [{Maailman}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{rauhankongressi}] FSep Field FSep Field FSep ] | 
@@ -7487,12 +8039,13 @@ Define EvtSocialGaz
 [ [{Uuden}] FSep Field FSep Field FSep Field FSep ] WSep [ [{musiikin}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{festivaali}] FSep Field FSep Field FSep ] | 
 [ [{Uuden}] FSep Field FSep Field FSep Field FSep ] WSep [ [{musiikin}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{kilpailu}] FSep Field FSep Field FSep ] | 
 [ [{Uuden}] FSep Field FSep Field FSep Field FSep ] WSep [ [{Musiikin}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{kilpailu}] FSep Field FSep Field FSep ] | 
+[ [{Wienin}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{kongressi}] FSep Field FSep Field FSep ] | 
 [ [{Kalevan}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{kisa}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
 [ [{Linnan}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{juhla}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
-[ [{Persianlahden}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{sota}] FSep Field FSep Field FSep ] | 
-[ [{Irakin}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{sota}] FSep Field FSep Field FSep ] | 
-[ [{Satavuotinen}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{sota}] FSep Field FSep Field FSep ] | 
 [ [{30-vuotinen}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{sota}] FSep Field FSep Field FSep ] | 
+[ [{Irakin}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{sota}] FSep Field FSep Field FSep ] | 
+[ [{Persianlahden}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{sota}] FSep Field FSep Field FSep ] | 
+[ [{Satavuotinen}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep [{sota}] FSep Field FSep Field FSep ] | 
 Ins(AlphaUp) [ [ Field FSep [{nenäpäivä} | {provinssi} | {ravintolapäivä} | {tuska} | {wtc-isku} | {puunisota} ] FSep Field FSep Field FSep ] | 
  [ Field FSep [{euroviisu}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
  [ Field FSep [{kuninkuusravi}] FSep Field [{NUM=PL}] Field FSep Field FSep ] | 
@@ -7989,6 +8542,7 @@ Define Backoff
  !| Ins(BackoffCapInternalLoc)::2.00 
  ] ; 
  
+ 
 !!---------------------------------------------------------------------- 
 !! <Exceptions>: Words that shouldn't get tagged by other rules 
 !! (in phase 2 or by shorter matches in this rule set) 
@@ -8021,7 +8575,7 @@ Define ExceptCommonNounPersName2
  {vappu} | {taito} | {lukko} | {kärppä} | {ilves} | {mieli} | {miele} AlphaDown+ | {motti} | {mantere} | {manner} | {lehti} | {tästedes} | {vastedes} | 
  {valo} | {toimi} | {kärki} | AlphaDown+ [{lainen}|{läinen}] | {aurinko} | {ankara} | {elastinen} | {kirkas} | {blondi} | {yö} | {mamba} | {elo} | 
  {rajaton} | {onni} | {raptori} | {dingo} | {itä} | {länsi} | {rautatie} | {sisarus} | {asevoima}("t") | {kai} | {tehosekoitin} | {tuska} | 
- {provinssi} | {suurlähettiläs} | {manifesti} | {paavius} | {naiivius} | {määrä} | {miina} | {ansa} | {alanko} | {media} | {kiista} | {vuori} | {laakso} | {tori} | {areena} | {flow} (Apostr) | {pitkä} | {kylä} | {merituuli} | {hovi} | {etelä} | {kuola} | Field {bisnes} | {erikseen} | {palava} | {urakka} | {siksi} | {sitä} | {nirvana} | {provinssi} | {luola} | {runko} ] FSep Field FSep Field FSep ] 
+ {provinssi} | {suurlähettiläs} | {manifesti} | {paavius} | {naiivius} | {määrä} | {miina} | {ansa} | {alanko} | {media} | {kiista} | {vuori} | {laakso} | {tori} | {areena} | {flow} (Apostr) | {pitkä} | {kylä} | {merituuli} | {hovi} | {etelä} | {kuola} | Field {bisnes} | {erikseen} | {palava} | {urakka} | {siksi} | {sitä} | {nirvana} | {provinssi} | {luola} | {runko} | {hummeri} ] FSep Field FSep Field FSep ] 
  EndTag(Exc003A) ; 
  
 Define ExceptMiesPoika 
@@ -8074,40 +8628,14 @@ Define ExceptFilm
  {spotify-kappale} 
  ] FSep Field FSep Field FSep ] EndTag(Exc006) ; 
  
-!* "Android-puhelin" ≠ "Android-niminen puhelin" 
-Define ExceptOSDevice 
- [ Field FSep [[ {sailfish} | {android} | {windows} | {ios} | {ubuntu} | {symbian} | {linux} | {tizen} ] 
- Dash Field 
- [ {laite} | {puhelin} | {kännykkä} | {kone} | {tabletti} | {palvelin} | {serveri} | {televisio} | {tv} | 
- {sovellus} | {versio} | {päivitys} | {ohjelma} | {kello} ]] FSep Field FSep Field FSep ] 
- EndTag(Exc007) ; 
- 
-!* "Xbox-peli", "Windows-sovellus" 
-Define ExceptDeviceSoftware 
- [ Field FSep [[ {xbox} | {playstation} | {nintendo} | {n64} | {wii} | {switch} | ("3"){ds} | Alpha+ [{phone}|{pad}] ] 
- Dash Field 
- [ {peli} | {sovellus} | {päivitys} | {ohjelma} ] ] FSep Field FSep Field FSep ] 
- EndTag(Exc014) ; 
- 
-!* "Firefox-sovellukset", "Xbox-pelit" 
-Define ExceptBrowserApps 
- [ Field FSep Field [Field Dash Field [ {sovellus} | {ohjelma} | {peli} | {päivitys} | {haku} | {palvelu} | {kauppa} ]] FSep Field [{NUM=PL} ] Field FSep Field FSep ] 
- EndTag(Exc008) ; 
- 
-!* "Facebook-puhelin" ≠ "Facebook-niminen puhelin" 
-Define ExceptBrowserDevice 
- [ Field FSep [[ {firefox} | {safari} | {explorer} | {chrome} | {opera} | {facebook} | {instagram} ] 
- Dash Field [ {laite} | {puhelin} | {kännykkä} | {kone} | {tabletti} | {päivitys} ] ] FSep Field FSep Field FSep ] 
- EndTag(Exc009) ; 
- 
 !* "4G:n", "3G-verkko", "MP3-soitin", "Wlan-asema", "DVD-elokuva" 
 Define ExceptMisc 
- [ 1To9 [ "g" | "G" ] | {4K} | {GSM} | {5K} | {HD} | {RnB} | {R&B} | {EDM} | {ATK} | {HIV} | {AIDS} | {Atk} | {IT} | {It} | {pH} 
- | {WC} | {UV} | {AU} | {LSD} | {TV} | {Tv} | {LTE} | {LVI} | {BKT} | {MP3 } | {mp3} | {jp2} | {JPG} | {JP2} | {PNG} | {DJ} | {MC} | {GIF} 
- | {SVG} | {XML} | {Xml} | {Https} | {SSH} | {PC} | {GUI} | {API} | ("X"){HTML}(1To9) | ("x"){html}(1To9) | {Dvd} | {DVD} 
- | {VHS} | {Blu-ray} | ("J"|{MMO}){RPG} | {DIY} | {VPN} | {Web} | {Tdd} | {Wlan} | {Telnet} | {Internet} | {Televisio} 
- | [ {LGBT} | {HLBT} ] UppercaseAlpha* | {F1} | {F2} | {F3} | {Startup} | {LED} | {LP} | {GPS} 
- | {Wi}(Dash)[{fi}|{Fi}] | {IoT} ] [ Dash | ":" ] Word 
+ [ 1To9 [ "g" | "G" ] | {4K} | {GSM} | {5K} | {HD} | {RnB} | {R&B} | {EDM} | {ATK} | {HIV} | {AIDS} | {Atk} | {IT} | {It} | {pH} | 
+ {WC} | {UV} | {AU} | {LSD} | {TV} | {Tv} | {LTE} | {LVI} | {BKT} | {MP3 } | {mp3} | {jp2} | {JPG} | {JP2} | {PNG} | {DJ} | {MC} | 
+ {GIF} | {SVG} | {XML} | {Xml} | {Https} | {SSH} | {PC} | {GUI} | {API} | ("X"){HTML}(1To9) | ("x"){html}(1To9) | {Dvd} | {DVD} | 
+ {VHS} | {3d} | {3D} | {Blu-ray} | ("J"|{MMO}){RPG} | {DIY} | {VPN} | {Web} | {Tdd} | {Wlan} | {Telnet} | {Internet} | {Televisio} 
+ [ {LGBT} | {HLBT} ] UppercaseAlpha* | {F1} | {F2} | {F3} | {Startup} | {LED} | {LP} | {GPS} | {Adware} | 
+ {Wi}(Dash)[{fi}|{Fi}] | {IoT} ] [ Dash | ":" ] Word 
  EndTag(Exc010) ; 
  
 Define ExceptChampionship 
@@ -8176,10 +8704,6 @@ Define Exceptions
  | Ins(ExceptMiesPoika)::0.00 
  | Ins(ExceptChannel)::0.00 
  | Ins(ExceptFilm)::0.00 
- | Ins(ExceptOSDevice)::0.00 
- | Ins(ExceptDeviceSoftware)::0.00 
- | Ins(ExceptBrowserApps)::0.00 
- | Ins(ExceptBrowserDevice)::0.00 
  | Ins(ExceptMisc)::0.00 
  | Ins(ExceptUnit)::0.00 
  | Ins(ExceptChampionship)::0.00 

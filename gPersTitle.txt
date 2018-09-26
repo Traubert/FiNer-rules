@@ -39,6 +39,7 @@ cantus
 causa
 deejii
 dekaani
+diktaattori
 diplomiarkkitehti
 diplomiekonomi
 diplomi-insinööri
@@ -165,8 +166,8 @@ koneteknikko
 konstaapeli
 konsuli
 konsultti
-korpraali
 koreografi
+korpraali
 kosmetologi
 kosmonautti
 kotiseutuneuvos
@@ -283,6 +284,7 @@ nuorisotyöntekijä
 ohjaaja
 ohjelmoija
 oligarkki
+ologi
 olympiavoittaja
 omistaja
 opettaja
@@ -396,7 +398,6 @@ solisti
 sosiaalineuvos
 sosiaalipsykologi
 sosionomi
-ologi
 sotakamreeri
 sotamies
 stuertti
@@ -475,7 +476,6 @@ virkailija
 virkamies
 viskaali
 vladika
-diktaattori
 voimistelunopettaja
 vouti
 vuorineuvos

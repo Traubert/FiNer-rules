@@ -43,6 +43,7 @@ sook
 sun
 sung
 tae
+Wei
 won
 wong
 woo
@@ -53,5 +54,4 @@ yong
 yoon
 young
 yun
-Wei
 Zhang
