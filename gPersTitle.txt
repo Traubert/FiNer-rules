@@ -467,6 +467,7 @@ varapuheenjohtaja
 varatuomari
 veistäjä
 verotusneuvos
+veteraani
 viestintäneuvos
 viihdetaiteilija
 viinikassa

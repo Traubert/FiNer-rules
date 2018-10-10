@@ -58,7 +58,7 @@ Define ParagraphTag [ {<p>} | {</p>} | {<p/>} ] ;
 
 Define WordBoundary [ WSep | # ] ;
 Define SentBoundary [ [ ".#." ( WSep [ Quote | Dash ] FSep Word ) WSep ] |
-		      [ WSep [ "." | "!" | "?" | ParagraphTag ] FSep Word WSep ] |
+		      [ WSep [ "." | "!" | "?" | ":" | Dash | ParagraphTag ] FSep Word WSep ] |
 		      # ] ;
 
 Define NoSentBoundary WordBoundary [ [ [ AlphaUp | AlphaDown | Comma | 0To9 | LPar | RPar | "&" | "@" ] Word ] -
@@ -307,10 +307,10 @@ Define CapNomWithN
 		| {Women} | {Men} | {Nation} | {Motion} | {Time} | {Queen} | {Champion} | {Indian} | {Norwegian} | {Australian} | {Ten}
 		| {An} | {Milton} | {Hilton} | {Titan} | {Aryan} | {Austrian} | {German} | {Silicon} | {Icon} | {Falcon} | {Recon}
 		| {Lexicon} | {In} | {Teen} | {Canadian} | {Min} | {Don} | {Photon} | {Proton} | {Neutron} | {Electron}
-		| {Hadron} | {Un} | {Den} | {Great} | {Invasion} | {Within} | {Revolution} 
-		| {Independent} | {Ålands} | {Malaysian} | {Golden} | {Japan} | {Golden} | {Collection} | {Operation} | {Dragon}
+		| {Hadron} | {Un} | {Den} | {Great} | {Invasion} | {Within} | {Revolution}
+		| {Independent} | {Ålands} | {Malaysian} | {Golden} | {Japan} | {Collection} | {Operation} | {Dragon}
 		| {Edition} | {Fusion} | {Mission} | {Horizon} | {Caravan} | {Titan} | {Mr.} | {Dr.} | {Million} | {Billion}
-		| AlphaUp AlphaDown* [ AlphaDown - "a" ] {ation} ]
+		| AlphaUp AlphaDown* [ AlphaDown - "a" ] {ation} | AlphaUp AlphaDown* {lution} ]
 		) ;
 
 Define CapForeign   [ Ins(AlphaUp) morphtag({SUBCAT=FOREIGN}) ] ;

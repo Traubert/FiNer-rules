@@ -183,14 +183,15 @@ Define PersonSemtag1
 
 Define PersonSemtag2
        LC( NoSentBoundary )
-       [ PropFirstLastNom WSep ]
+       [ AlphaUp AlphaDown PropFirstNom WSep ]
        [ NameInitial WSep ]*
        CapNameNom
        ( WSep [ PropFirst | PropLast ])
        NRC( WSep Dash AlphaDown ) ;
 
 Define PersonSemtag3
-       OnlyPropFirstLastNom
+       LC( NoSentBoundary )
+       AlphaUp AlphaDown OnlyPropFirstLastNom
        [ WSep NameInitial ]*
        ( WSep CapName )
        ( WSep [ PropFirst | PropLast ])
@@ -238,7 +239,7 @@ Define PersonSurnameInitialism
 
 Define PersonUsername
        LC( lemma_exact( ( Field Dash ) [ {nimimerkki} | {käyttäjä} ] ) WSep )
-       [ wordform_exact( "@" [ Alpha | 0To9 ]+ Field ) | SetQuotes( Prop | NounNom ) | Prop | wordform_exact(CamelCase) ] ;
+       [ wordform_exact( "@" [ Alpha | 0To9 ]+ Field ) | SetQuotes( Prop | NounNom ) | Field AlphaUp Prop | wordform_exact(CamelCase) ] ;
 
 Define PersonGrecoRoman
        ( CapMisc WSep ( wordform_exact(NumRoman) WSep ) )
@@ -730,7 +731,7 @@ Define LocAstColloc2
 !* "[Yyy:n kuu] Xxx"
 Define LocAstColloc3
        LC([ CapNameGen | PropGen ] WSep lemma_exact({kuu}) WSep )
-       [ CapNameGen | Prop ] ;
+       [ CapNameGen | AlphaUp Prop ] ;
 
 Define LocAstGazMWord
        wf_lemma_x2( OptCap({Iso}), {karhu} ) |
@@ -1838,7 +1839,7 @@ Define CultGroupSuffixed2
        CapWord WSep
        ( ( LowerWord WSep ) ( LowerWord WSep )
        NotConj WSep )
-       DashExt lemma_ends( {orkesteri} | {yhtye} | {kuoro} | {bändi} | {duo} | {soittokunta} | [{tanssi}|{teatteri}|{baletti}][{ryhmä}|{seurue}] | {kollektiivi} | {sirkus}({ryhmä}) ) ;
+       DashExt lemma_ends( {orkesteri} | {yhtye} | {kuoro} | {bändi} | {duo} | {soittokunta} | [{tanssi}|{teatteri}|{baletti}|{solisti}][{ryhmä}|{seurue}] | {kollektiivi} | {sirkus}({ryhmä}) ) ;
 
 Define CultGroupSuffixed3A
        [ [ AlphaUp Field ] - Cap( {rap} | Field (Dash) {rock} | Field {pop} | {jazz} | {eurodance} | {ambient} | {house} | {studio} |
@@ -1852,7 +1853,7 @@ Define CultGroupCaptured
 ! "Adolf Fredriks flickkör", "Bo Kaspers orkester", "Espoo Big Band"
 Define CultGroupSuffixed4
        [ CapMisc WSep ]*
-       [ CapNameNSB | PropNom ] WSep
+       [ CapNameNSB | AlphaUp PropNom ] WSep
        inflect_sg( Field [ {Band} | {Ensemble} | {Orchestra} | ["o"|"O"]{rkester} | {kör} | {Kör} | {Duo} | {Sinfonietta}
        		   	 | {Trio} | {Quartet} | {Quintet} | {Singers} | {Dancers} | {Ballet} | {Staatsballet} ] ) ;
 
@@ -2423,7 +2424,7 @@ Define CorpSuffixedFin2A
 !* Tunnista "Xxxx Oy" virkkeen alussa kun seuraava sana	ei ala isolla alkukirjaimella tai yhdysviivalla
 Define CorpSuffixedFin2B
        ( [ AbbrBase | NameInitial | CapWord WSep wordform_exact("&") ] WSep )
-       [ PropNom | CapName | AbbrBase | CapWordNom ] WSep
+       [ AlphaUp PropNom | CapName | AbbrBase | CapWordNom ] WSep
        [ [ AlphaUp lemma_exact( {oyj} | {oy} ({:öö}) | {ky} | {ab} | {abp} | {osakeyhtiö} ) NRC( WSep [ AlphaUp | Dash AlphaDown ]) ]
        | [ wordform_exact([ {Oy} | {Ab} | {OY} | {Ky} ] ":" CaseSfx ) ] ] ;
 
@@ -2919,23 +2920,24 @@ Define OrgSociety1
        lemma_morph( {seura} | {kannatusyhdistys}, {NUM=SG} ) ;
 
 !** "Suomen Saunaseura", "Turun Ratagolfseura", "Suomi-Nigeria Ystävyysseura"
+!** "Helsingin Pörssiklubi"
 Define OrgSociety2
-       [ CapWordGen EndTag(EnamexLocPpl2) | CapWordNom ] WSep
+       [ CapWordGen EndTag(EnamexLocPpl2) | CapWordNomNSB ] WSep
        ( TruncPfx WSep lemma_exact({ja}) WSep )
-       lemma_morph( AlphaDown {seura}, {NUM=SG} ) ;
+       lemma_morph( AlphaDown [ {seura} | {klubi} ], {NUM=SG} ) ;
 
 !** "Aleksis Kiven Seura", "Lauri Viita -seura", "Suomi-Unkari Seura" [!] (but not "Väinö Linnan seura")
 Define OrgSociety3
        [ CapWordGen EndTag(EnamexLocPpl2) | CapWordNom ] WSep
        (CapWordNomGen WSep)
-       [ Dash | UppercaseAlpha ] lemma_morph( {seura}, {NUM=SG} ) ;
+       [ Dash | UppercaseAlpha ] lemma_morph([ {seura} | {klubi} ], {NUM=SG} ) ;
 
 Define OrgSociety4
        AlphaUp AlphaDown lemma_morph( Dash {seura}, {NUM=SG} ) ;
        
 Define OrgSociety5
        LC( NoSentBoundary )
-       AlphaUp AlphaDown lemma_morph( AlphaDown [ {seura} | {yhdistys} ], {NUM=SG} ) ;
+       AlphaUp AlphaDown lemma_morph( AlphaDown [ {seura} | {yhdistys} | {klubi} ], {NUM=SG} ) ;
 
 !** "Suomen Veturimiesyhdistys",
 Define OrgSociety6
@@ -4099,7 +4101,7 @@ Define ProProjectHyphen3
 
 Define ProProjectSuffixed
        [ CapMisc WSep ]*
-       [ CapMisc | PropNom ] WSep
+       [ CapMisc ] WSep
        inflect_sg( {Project} | {Operation} ) ;
 
 ! "Project MKUltra", "Operation Desert Storm"
@@ -4417,8 +4419,8 @@ Define ProdMiscHyphen
 
 Define ProdMiscColloc1
        LC( lemma_exact( {uusi} | {punainen} | {musta} | {valkoinen} | {hopeinen} | {kiiltävä} | {tuliterä} ) WSep )
-           [ [ [ [ [ Field CapNameNom | PropNom | CapMisc ] WSep ]* [ CapName | Abbr ]::0.50 ] ] |
-	       [ [ [ Field CapNameNom | PropNom | CapMisc ] WSep ]+ NumWord ] ] ;
+           [ [ [ [ [ Field CapNameNom | Field AlphaUp PropNom | CapMisc ] WSep ]* [ CapName | Abbr ]::0.50 ] ] |
+	       [ [ [ Field CapNameNom | Field AlphaUp PropNom | CapMisc ] WSep ]+ NumWord ] ] ;
 
 Define ProdMiscColloc2
        LC( ( CapMisc WSep ) [ CapNameGenNSB | PropGen ] WSep ) 
@@ -5166,7 +5168,7 @@ Define ExceptJosKun
 
 Define ExceptCommonNounPersName1
        LC( SentBoundary | OrdinalWord WSep )
-       wordform_ends( [ {Aina} ({kin}) | {Lunasta} | {Meri} | {Ainoa} | {Mai}[{ssa}|{hin}|{sta}|{lle}|{lta}] | {Halpa} | {Alun} | {Jo} | {Alla} | {Ole}("n") | {Onne} ? | {Rauha} | {Toivo} | {Lintu} | {Alan} | {Portin} | {Hiljaa} | {Vappu} | {Anna}("n"|"t"|{mme}|{tte}) ] ({pa}|{kin}|{han}|{kaan}) | {Aku}["n"|{ssa}|{sta}] )
+       wordform_ends( [ {Aina} ({kin}) | {Lunasta} | {Meri} | {Pian} | {Ainoa} | {Mai}[{ssa}|{hin}|{sta}|{lle}|{lta}] | {Halpa} | {Alun} | {Jo} | {Alla} | {Ole}("n") | {Onne} ? | {Rauha} | {Toivo} | {Lintu} | {Alan} | {Portin} | {Hiljaa} | {Vappu} | {Anna}("n"|"t"|{mme}|{tte}) | {Aku}["n"|{ssa}|{sta}] ] ({pa}|{kin}|{han}|{kaan}) )
        EndTag(Exc003) ;
 
 Define ExceptCommonNounPersName2
@@ -5179,19 +5181,18 @@ Define ExceptCommonNounPersName2
 		{vappu} | {taito} | {lukko} | {kärppä} | {ilves} | {mieli} | {miele} AlphaDown+ | {motti} | {mantere} | {manner} | {lehti} | {tästedes} | {vastedes} |
 		{valo} | {toimi} | {kärki} | AlphaDown+ [{lainen}|{läinen}] | {aurinko} | {ankara} | {elastinen} | {kirkas} | {blondi} | {yö} | {mamba} | {elo} |
 		{rajaton} | {onni} | {raptori} | {dingo} | {itä} | {länsi} | {rautatie} | {sisarus} | {asevoima}("t") | {kai} | {tehosekoitin} | {tuska} |
-		{provinssi} | {suurlähettiläs} | {manifesti} | {paavius} | {naiivius} | {määrä} | {miina} | {ansa} | {alanko} | {media} | {kiista} | {vuori} | {laakso} | {tori} | {areena} | {flow} (Apostr) | {pitkä} | {kylä} | {merituuli} | {hovi} | {etelä} | {kuola} | Field {bisnes} | {erikseen} | {palava} | {urakka} | {siksi} | {sitä} | {nirvana} | {provinssi} | {luola} | {runko} | {hummeri} )
-       EndTag(Exc003A) ;
+		{provinssi} | {suurlähettiläs} | {manifesti} | {paavius} | {naiivius} | {määrä} | {miina} | {ansa} | {alanko} | {media} | {kiista} | {vuori} | {laakso} | {tori} | {areena} | {flow} (Apostr) | {pitkä} | {kylä} | {merituuli} | {hovi} | {etelä} | {kuola} | Field {bisnes} | {erikseen} | {palava} | {urakka} | {siksi} | {sitä} | {nirvana} | {provinssi} | {luola} | {runko} | {hummeri} | {tarkka} | {vaara} | {summa} | {lähde} | {pitkä} | {halpa} | {valmis} ) EndTag(Exc004) ;
 
 Define ExceptMiesPoika
        LC( SentBoundary | OrdinalWord WSep )
        lemma_exact( {mies} | {he} | {liika} |{pian} | {lista} | {avain} | {joki} | {kohta} | {avata} | {se} | {senkin} | {olla} | {ainoa} | {poika} | {monet} | {moni} | {muu} | {jokin} | {jotta} | {ainakin} | {vanha} | {laina} | {ryhmä} | {jatkettu} | {linkki} | {internet} | {hakkeri} | {ainakaan} | {talo} | {tuleva} | {harva} | {tietty} | {miljoon}("a") | {oma} | {viisi} | {korke}("e") | {jakaa} | {metropoli} | {imago} | {varhaisteini} )
-       EndTag(Exc004) ;
+       EndTag(Exc005) ;
 
 Define LangOrLoc @txt"gMiscLanguage.txt" ;
 
 Define ExceptInLanguage
        lemma_exact_morph( Ins(LangOrLoc), {[NUM=SG][CASE=TRA]})
-       EndTag(Exc004) ;
+       EndTag(Exc006) ;
 
 Define ExceptLanguage1
        lemma_exact_morph( Ins(LangOrLoc), {[NUM=SG]}[{[CASE=GEN]}|{[CASE=INE]}] ) WSep
@@ -5199,23 +5200,23 @@ Define ExceptLanguage1
        lemma_exact( ({kirja}|{yleis}|{puhe}) {kieli} | {syntaksi} | {kielioppi} | {lauseoppi} | {ääntämys} | {äännejärjestelmä} |
        		    {sanajärjestys} | {ortografia} | {oikeinkirjoitus} | {essee} | {fonologia} | {sana} | Field {taivutus} |
 		    Field {verbi} | {adjektiivi} | {sanaluokka} | {sijamuoto} | {kirjaimisto} | {kirjoitusjärjestelmä} )
-      		    EndTag(Exc004) ;
+      		    EndTag(Exc007) ;
 
 Define ExceptLanguage2
        lemma_exact_morph( Ins(LangOrLoc), {[NUM=SG][CASE=PAR]})
        RC( [ WSep AuxVerb ]^{0,4}
        	     WSep lemma_exact_morph( {puhua} | {kirjoittaa} | {lukea} | {käyttää} | {lausua} | {ääntää} |
-       	     	  	  	     {opettaa} | {opiskella} | {harjoitella} )) EndTag(Exc004) ;
+       	     	  	  	     {opettaa} | {opiskella} | {harjoitella} )) EndTag(Exc008) ;
 
 Define ExceptLanguage3
        LowercaseAlpha lemma_exact_morph( Ins(LangOrLoc) )
-       EndTag(Exc004) ;
+       EndTag(Exc009) ;
 
 Define ExceptNotTurkey
        wordform_exact( {Turkin} ) WSep
        lemma_exact( {hoito} | {hoitaminen} | {laatu} | {kiilto} | {väri} | {harjaus} | {harjaaminen} | {hiha} | {kunto} |
        		    {pituus} | {leikkaaminen} | {hoitaa} | {pesu} | {harjata} | {kasvu} | {trimmaus} | {väritys} | {hilseily}
-		    {paksuus} | {likaisuus} | {kampaaminen} | {leikkuu} | {värjääminen} ) EndTag(Exc004) ;
+		    {paksuus} | {likaisuus} | {kampaaminen} | {leikkuu} | {värjääminen} ) EndTag(Exc010) ;
 
 !----------------
 
@@ -5224,7 +5225,7 @@ Define ExceptChannel
        lemma_exact(
 		[ {tv} | {youtube} ]
        		Dash [ {kanava} | {video} ] )
-       EndTag(Exc005) ;
+       EndTag(Exc011) ;
 
 !* "Netflix-sarja", "Hollywood-elokuva" ≠ "Netflix-niminen sarja", "Hollywood-niminen elokuva"
 Define ExceptFilm
@@ -5232,7 +5233,7 @@ Define ExceptFilm
 		["b"|"h"]{ollywood} Dash AlphaDown* [{elokuva}|{leffa}|{filmi}|{filmatisointi}|{sovitus}] |
        		[{netflix}|{tv}|{youtube}|{hbo}] Dash AlphaDown* [{sarja}|{elokuva}|{leffa}|{filmi}|{filmatisointi}|{sovitus}] |
        		{spotify-kappale}
-       ) EndTag(Exc006) ;
+       ) EndTag(Exc012) ;
 
 !* "4G:n", "3G-verkko", "MP3-soitin", "Wlan-asema", "DVD-elokuva"
 Define ExceptMisc
@@ -5242,10 +5243,10 @@ Define ExceptMisc
        	 {VHS} | {3d} | {3D} | {Blu-ray} | ("J"|{MMO}){RPG} | {DIY} | {VPN} | {Web} | {Tdd} | {Wlan} | {Telnet} | {Internet} | {Televisio} 
        	 [ {LGBT} | {HLBT} ] UppercaseAlpha* | {F1} | {F2} | {F3} | {Startup} | {LED} | {LP} | {GPS} | {Adware} |
        	 {Wi}(Dash)[{fi}|{Fi}] | {IoT} ] [ Dash | ":" ] Word
-       EndTag(Exc010) ;
+       EndTag(Exc013) ;
 
 Define ExceptChampionship
-       lemma_exact( [ {sm} | {em} | {mm} ] Dash AlphaDown* [ {kisa} | {kilpailu} | {sarja} | {ottelu} | {hopea} | {pronssi} | {kulta} | {mitali} ] ) EndTag(Exc010) ;
+       lemma_exact( [ {sm} | {em} | {mm} ] Dash AlphaDown* [ {kisa} | {kilpailu} | {sarja} | {ottelu} | {hopea} | {pronssi} | {kulta} | {mitali} ] ) EndTag(Exc014) ;
 
 ! "1024 x 860 -näyttö", "30 x 40 x 50"
 Define ExceptDimensions
@@ -5253,52 +5254,53 @@ Define ExceptDimensions
        NumNom WSep wordform_exact( "x" | "X" | "×" | {kertaa} ) WSep
        NumNom
        ( WSep Dash AlphaDown Word )
-       EndTag(Exc013) ;
+       EndTag(Exc015) ;
 
 Define ExceptMiscMWord
        ( CapNameNomNSB WSep )
        ( Word WSep )
        Word WSep
        Dash lemma_ends( @txt"gMiscSuffixWord.txt" )
-       EndTag(Exc012) ;
+       EndTag(Exc016) ;
 
 Define ExceptPicture
        ( Word WSep ) ( Word WSep )
        ( AlphaUp Field ) Dash lemma_exact( ( Field Dash ) {kuva} )
-       EndTag(Exc013) ;
+       EndTag(Exc017) ;
 
 Define ExceptUnit
        ( NumNom WSep wordform_exact(Dash) WSep )
        NumNom WSep
        lemma_ends( {prosentti} | {miljoona} | {miljardi} )
-       EndTag(Exc022) ;
+       EndTag(Exc018) ;
 
 Define ExceptNotYear
        wordform_exact( OptCap( {tänä} | {ensi} | {viime} | {edellisenä} | {kuluvana} | {seuraavana} | {tulevana} ) ) WSep
        lemma_exact( {vuonna} | {vuosi} ) WSep
        wordform_exact( 1To9 0To9+ ( Dash 1To9 0To9+ ) )
-       EndTag(Exc023) ;
+       EndTag(Exc019) ;
 
 Define ExceptStorm
        lemma_exact_morph( {hurrikaani} | {hirmumyrsky} | {taifuuni} ) WSep
        CapName
-       EndTag(Exc024) ;
+       EndTag(Exc020) ;
 
 !* Exclude dates that do not refer to a specific month (of a specific year)
 Define ExceptNotDate
        LC( [ lemma_exact( {aina} | {yleensä} | {ennen} | {viettää} | {vuosittain} | {yleensä} | {tavallisesti} ) |
        wordform_exact( {vietetään} ) ] WSep )
        lemma_exact( MonthPfx {kuu} )
-       EndTag(Exc025) ;
+       EndTag(Exc021) ;
 
 Define ExceptNotPlanetEarth
        LC( [ # | ".#." WSep | SentencePunct WSep | OrdinalWord WSep ] )
        wordform_exact( {Maan} ) WSep
        lemma_exact( {pääkaupunki} | {asukasluku} | {väkiluku} )
-       EndTag(Exc026) ;
+       EndTag(Exc022) ;
 
 Define ExceptProductCommunity
-       @txt"gStatPRO.txt" Dash lemma_ends( Dash [ {ryhmä} | {yhteisö} | {tiimi} | {projekti} ] ) ;
+       @txt"gStatPRO.txt" Dash lemma_ends( Dash [ {ryhmä} | {yhteisö} | {tiimi} | {projekti} ] )
+       EndTag(Exc023) ;
 
 
 !* Category HEAD

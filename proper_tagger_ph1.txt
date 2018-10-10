@@ -68,7 +68,7 @@ Define ParagraphTag [ {<p>} | {</p>} | {<p/>} ] ;
  
 Define WordBoundary [ WSep | # ] ; 
 Define SentBoundary [ [ ".#." ( WSep [ Quote | Dash ] FSep Word ) WSep ] | 
- [ WSep [ "." | "!" | "?" | ParagraphTag ] FSep Word WSep ] | 
+ [ WSep [ "." | "!" | "?" | ":" | Dash | ParagraphTag ] FSep Word WSep ] | 
  # ] ; 
  
 Define NoSentBoundary WordBoundary [ [ [ AlphaUp | AlphaDown | Comma | 0To9 | LPar | RPar | "&" | "@" ] Word ] - 
@@ -299,9 +299,9 @@ Define CapNomWithN
  | {An} | {Milton} | {Hilton} | {Titan} | {Aryan} | {Austrian} | {German} | {Silicon} | {Icon} | {Falcon} | {Recon} 
  | {Lexicon} | {In} | {Teen} | {Canadian} | {Min} | {Don} | {Photon} | {Proton} | {Neutron} | {Electron} 
  | {Hadron} | {Un} | {Den} | {Great} | {Invasion} | {Within} | {Revolution} 
- | {Independent} | {Ålands} | {Malaysian} | {Golden} | {Japan} | {Golden} | {Collection} | {Operation} | {Dragon} 
+ | {Independent} | {Ålands} | {Malaysian} | {Golden} | {Japan} | {Collection} | {Operation} | {Dragon} 
  | {Edition} | {Fusion} | {Mission} | {Horizon} | {Caravan} | {Titan} | {Mr.} | {Dr.} | {Million} | {Billion} 
- | AlphaUp AlphaDown* [ AlphaDown - "a" ] {ation} ] 
+ | AlphaUp AlphaDown* [ AlphaDown - "a" ] {ation} | AlphaUp AlphaDown* {lution} ] 
  ] FSep Field FSep Field FSep Field FSep ] ; 
  
 Define CapForeign [ Ins(AlphaUp) [ Field FSep Field FSep Field [{SUBCAT=FOREIGN}] Field FSep Field FSep ] ] ; 
@@ -1143,14 +1143,15 @@ Define PersonSemtag1
  
 Define PersonSemtag2 
  LC( NoSentBoundary ) 
- [ Ins(PropFirstLastNom) WSep ] 
+ [ AlphaUp AlphaDown Ins(PropFirstNom) WSep ] 
  [ NameInitial WSep ]* 
  CapNameNom 
  ( WSep [ Ins(PropFirst) | Ins(PropLast) ]) 
  NRC( WSep Dash AlphaDown ) ; 
  
 Define PersonSemtag3 
- OnlyPropFirstLastNom 
+ LC( NoSentBoundary ) 
+ AlphaUp AlphaDown OnlyPropFirstLastNom 
  [ WSep NameInitial ]* 
  ( WSep Ins(CapName) ) 
  ( WSep [ Ins(PropFirst) | Ins(PropLast) ]) 
@@ -1198,7 +1199,7 @@ Define PersonSurnameInitialism
  
 Define PersonUsername 
  LC( [ Field FSep [( Field Dash ) [ {nimimerkki} | {käyttäjä} ] ] FSep Field FSep Field FSep ] WSep ) 
- [ [ ["@" [ Alpha | 0To9 ]+ Field ] FSep Field FSep Field FSep Field FSep ] | SetQuotes( Prop | NounNom ) | Prop | [ [CamelCase] FSep Field FSep Field FSep Field FSep ] ] ; 
+ [ [ ["@" [ Alpha | 0To9 ]+ Field ] FSep Field FSep Field FSep Field FSep ] | SetQuotes( Prop | NounNom ) | Field AlphaUp Prop | [ [CamelCase] FSep Field FSep Field FSep Field FSep ] ] ; 
  
 Define PersonGrecoRoman 
  ( Ins(CapMisc) WSep ( [ [NumRoman] FSep Field FSep Field FSep Field FSep ] WSep ) ) 
@@ -1696,7 +1697,7 @@ Define LocAstColloc2
 !* "[Yyy:n kuu] Xxx" 
 Define LocAstColloc3 
  LC([ Ins(CapNameGen) | Ins(PropGen) ] WSep [ Field FSep [{kuu}] FSep Field FSep Field FSep ] WSep ) 
- [ Ins(CapNameGen) | Prop ] ; 
+ [ Ins(CapNameGen) | AlphaUp Prop ] ; 
  
 Define LocAstGazMWord 
  wf_lemma_x2( OptCap({Iso}), {karhu} ) | 
@@ -2674,7 +2675,10 @@ Define LocPlace
 Define LocFictional 
  [ inflect_sg( {Alderaan} | {Corneria} | {Coruscant} | {Dagobah} | {Dantooine} | {Esgaroth} | {Essos} | {Gallifrey} | {Gondor} | {Hoth} | {Hyrule} | {Ivalice} | {Kashyyk} | {Keskimaa} | {Krypton} | {Laputa} | {Lemuria} | {Lorien} | {Lórien} | {Lothlórien} | {Lylat} | {Mikä-Mikä-Maa} | {Mordor} | {Naboo} | {Narnia} | {Neverwinter} | {Numenor} | {Númenor} | {Oz} | {Rivendell} | {Rohan} | {Shangri-La} | {Sienivaltakunta} | {Smaragdikaupunki} | {Tatooine} | {Valinor} | {Westeros} | {Yavin} | {Agartha} | {Asgard} | {Ásgarðr} | {Atlantis} | {Avalon} | {Camelot} | {Eden} | {Eeden} | {Elysion} | {Gomorra} | {Hawaiki} | {Hyperborea} | {Lukomorje} | {Midgard} | {Miðgarðr} | {Nibiru} | {Niflheim} | {Shambala} | {Sodoma} | {Thule} | {Valhalla} | {Zerzura} ) | 
 [ [{El}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Dorado}) | 
-[ [{Twin}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Peaks}) 
+[ [{Twin}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Peaks}) | 
+[ [{San}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Andreas}) | 
+[ [{Los}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({Santos}) | 
+[ [{Liberty}] FSep Field FSep Field FSep Field FSep ] WSep inflect_sg({City}) 
  ] 
  EndTag(EnamexLocPpl) ; 
  
@@ -2961,7 +2965,7 @@ Define CultGroupSuffixed2
  CapWord WSep 
  ( ( LowerWord WSep ) ( LowerWord WSep ) 
  NotConj WSep ) 
- DashExt [ Field FSep Field [{orkesteri} | {yhtye} | {kuoro} | {bändi} | {duo} | {soittokunta} | [{tanssi}|{teatteri}|{baletti}][{ryhmä}|{seurue}] | {kollektiivi} | {sirkus}({ryhmä}) ] FSep Field FSep Field FSep ] ; 
+ DashExt [ Field FSep Field [{orkesteri} | {yhtye} | {kuoro} | {bändi} | {duo} | {soittokunta} | [{tanssi}|{teatteri}|{baletti}|{solisti}][{ryhmä}|{seurue}] | {kollektiivi} | {sirkus}({ryhmä}) ] FSep Field FSep Field FSep ] ; 
  
 Define CultGroupSuffixed3A 
  [ [ AlphaUp Field ] - Cap( {rap} | Field (Dash) {rock} | Field {pop} | {jazz} | {eurodance} | {ambient} | {house} | {studio} | 
@@ -2975,7 +2979,7 @@ Define CultGroupCaptured
 ! "Adolf Fredriks flickkör", "Bo Kaspers orkester", "Espoo Big Band" 
 Define CultGroupSuffixed4 
  [ Ins(CapMisc) WSep ]* 
- [ CapNameNSB | PropNom ] WSep 
+ [ CapNameNSB | AlphaUp PropNom ] WSep 
  inflect_sg( Field [ {Band} | {Ensemble} | {Orchestra} | ["o"|"O"]{rkester} | {kör} | {Kör} | {Duo} | {Sinfonietta} 
  | {Trio} | {Quartet} | {Quintet} | {Singers} | {Dancers} | {Ballet} | {Staatsballet} ] ) ; 
  
@@ -4011,7 +4015,7 @@ Define CorpSuffixedFin2A
 !* Tunnista "Xxxx Oy" virkkeen alussa kun seuraava sana ei ala isolla alkukirjaimella tai yhdysviivalla 
 Define CorpSuffixedFin2B 
  ( [ AbbrBase | NameInitial | Ins(CapWord) WSep [ ["&"] FSep Field FSep Field FSep Field FSep ] ] WSep ) 
- [ PropNom | Ins(CapName) | AbbrBase | CapWordNom ] WSep 
+ [ AlphaUp PropNom | Ins(CapName) | AbbrBase | CapWordNom ] WSep 
  [ [ AlphaUp [ Field FSep [{oyj} | {oy} ({:öö}) | {ky} | {ab} | {abp} | {osakeyhtiö} ] FSep Field FSep Field FSep ] NRC( WSep [ AlphaUp | Dash AlphaDown ]) ] 
  | [ [ [[ {Oy} | {Ab} | {OY} | {Ky} ] ":" CaseSfx ] FSep Field FSep Field FSep Field FSep ] ] ] ; 
  
@@ -5156,23 +5160,24 @@ Define OrgSociety1
  [ Field FSep Field [{seura} | {kannatusyhdistys}] FSep Field [{NUM=SG} ] Field FSep Field FSep ] ; 
  
 !** "Suomen Saunaseura", "Turun Ratagolfseura", "Suomi-Nigeria Ystävyysseura" 
+!** "Helsingin Pörssiklubi" 
 Define OrgSociety2 
- [ CapWordGen EndTag(EnamexLocPpl2) | CapWordNom ] WSep 
+ [ CapWordGen EndTag(EnamexLocPpl2) | CapWordNomNSB ] WSep 
  ( TruncPfx WSep [ Field FSep [{ja}] FSep Field FSep Field FSep ] WSep ) 
- [ Field FSep Field [AlphaDown {seura}] FSep Field [{NUM=SG} ] Field FSep Field FSep ] ; 
+ [ Field FSep Field [AlphaDown [ {seura} | {klubi} ]] FSep Field [{NUM=SG} ] Field FSep Field FSep ] ; 
  
 !** "Aleksis Kiven Seura", "Lauri Viita -seura", "Suomi-Unkari Seura" [!] (but not "Väinö Linnan seura") 
 Define OrgSociety3 
  [ CapWordGen EndTag(EnamexLocPpl2) | CapWordNom ] WSep 
  (CapWordNomGen WSep) 
- [ Dash | UppercaseAlpha ] [ Field FSep Field [{seura}] FSep Field [{NUM=SG} ] Field FSep Field FSep ] ; 
+ [ Dash | UppercaseAlpha ] [ Field FSep Field [[ {seura} | {klubi} ]] FSep Field [{NUM=SG} ] Field FSep Field FSep ] ; 
  
 Define OrgSociety4 
  AlphaUp AlphaDown [ Field FSep Field [Dash {seura}] FSep Field [{NUM=SG} ] Field FSep Field FSep ] ; 
  
 Define OrgSociety5 
  LC( NoSentBoundary ) 
- AlphaUp AlphaDown [ Field FSep Field [AlphaDown [ {seura} | {yhdistys} ]] FSep Field [{NUM=SG} ] Field FSep Field FSep ] ; 
+ AlphaUp AlphaDown [ Field FSep Field [AlphaDown [ {seura} | {yhdistys} | {klubi} ]] FSep Field [{NUM=SG} ] Field FSep Field FSep ] ; 
  
 !** "Suomen Veturimiesyhdistys", 
 Define OrgSociety6 
@@ -6667,7 +6672,7 @@ Define ProProjectHyphen3
  
 Define ProProjectSuffixed 
  [ Ins(CapMisc) WSep ]* 
- [ Ins(CapMisc) | PropNom ] WSep 
+ [ Ins(CapMisc) ] WSep 
  inflect_sg( {Project} | {Operation} ) ; 
  
 ! "Project MKUltra", "Operation Desert Storm" 
@@ -7768,8 +7773,8 @@ Define ProdMiscHyphen
  
 Define ProdMiscColloc1 
  LC( [ Field FSep [{uusi} | {punainen} | {musta} | {valkoinen} | {hopeinen} | {kiiltävä} | {tuliterä} ] FSep Field FSep Field FSep ] WSep ) 
- [ [ [ [ [ Field Ins(CapNameNom) | PropNom | Ins(CapMisc) ] WSep ]* [ Ins(CapName) | Abbr ]::0.50 ] ] | 
- [ [ [ Field Ins(CapNameNom) | PropNom | Ins(CapMisc) ] WSep ]+ NumWord ] ] ; 
+ [ [ [ [ [ Field Ins(CapNameNom) | Field AlphaUp PropNom | Ins(CapMisc) ] WSep ]* [ Ins(CapName) | Abbr ]::0.50 ] ] | 
+ [ [ [ Field Ins(CapNameNom) | Field AlphaUp PropNom | Ins(CapMisc) ] WSep ]+ NumWord ] ] ; 
  
 Define ProdMiscColloc2 
  LC( ( Ins(CapMisc) WSep ) [ Ins(CapNameGenNSB) | Ins(PropGen) ] WSep ) 
@@ -8563,7 +8568,7 @@ Define ExceptJosKun
  
 Define ExceptCommonNounPersName1 
  LC( SentBoundary | OrdinalWord WSep ) 
- [ Field [[ {Aina} ({kin}) | {Lunasta} | {Meri} | {Ainoa} | {Mai}[{ssa}|{hin}|{sta}|{lle}|{lta}] | {Halpa} | {Alun} | {Jo} | {Alla} | {Ole}("n") | {Onne} ? | {Rauha} | {Toivo} | {Lintu} | {Alan} | {Portin} | {Hiljaa} | {Vappu} | {Anna}("n"|"t"|{mme}|{tte}) ] ({pa}|{kin}|{han}|{kaan}) | {Aku}["n"|{ssa}|{sta}] ] FSep Field FSep Field FSep Field FSep ] 
+ [ Field [[ {Aina} ({kin}) | {Lunasta} | {Meri} | {Pian} | {Ainoa} | {Mai}[{ssa}|{hin}|{sta}|{lle}|{lta}] | {Halpa} | {Alun} | {Jo} | {Alla} | {Ole}("n") | {Onne} ? | {Rauha} | {Toivo} | {Lintu} | {Alan} | {Portin} | {Hiljaa} | {Vappu} | {Anna}("n"|"t"|{mme}|{tte}) | {Aku}["n"|{ssa}|{sta}] ] ({pa}|{kin}|{han}|{kaan}) ] FSep Field FSep Field FSep Field FSep ] 
  EndTag(Exc003) ; 
  
 Define ExceptCommonNounPersName2 
@@ -8575,19 +8580,18 @@ Define ExceptCommonNounPersName2
  {vappu} | {taito} | {lukko} | {kärppä} | {ilves} | {mieli} | {miele} AlphaDown+ | {motti} | {mantere} | {manner} | {lehti} | {tästedes} | {vastedes} | 
  {valo} | {toimi} | {kärki} | AlphaDown+ [{lainen}|{läinen}] | {aurinko} | {ankara} | {elastinen} | {kirkas} | {blondi} | {yö} | {mamba} | {elo} | 
  {rajaton} | {onni} | {raptori} | {dingo} | {itä} | {länsi} | {rautatie} | {sisarus} | {asevoima}("t") | {kai} | {tehosekoitin} | {tuska} | 
- {provinssi} | {suurlähettiläs} | {manifesti} | {paavius} | {naiivius} | {määrä} | {miina} | {ansa} | {alanko} | {media} | {kiista} | {vuori} | {laakso} | {tori} | {areena} | {flow} (Apostr) | {pitkä} | {kylä} | {merituuli} | {hovi} | {etelä} | {kuola} | Field {bisnes} | {erikseen} | {palava} | {urakka} | {siksi} | {sitä} | {nirvana} | {provinssi} | {luola} | {runko} | {hummeri} ] FSep Field FSep Field FSep ] 
- EndTag(Exc003A) ; 
+ {provinssi} | {suurlähettiläs} | {manifesti} | {paavius} | {naiivius} | {määrä} | {miina} | {ansa} | {alanko} | {media} | {kiista} | {vuori} | {laakso} | {tori} | {areena} | {flow} (Apostr) | {pitkä} | {kylä} | {merituuli} | {hovi} | {etelä} | {kuola} | Field {bisnes} | {erikseen} | {palava} | {urakka} | {siksi} | {sitä} | {nirvana} | {provinssi} | {luola} | {runko} | {hummeri} | {tarkka} | {vaara} | {summa} | {lähde} | {pitkä} | {halpa} | {valmis} ] FSep Field FSep Field FSep ] EndTag(Exc004) ; 
  
 Define ExceptMiesPoika 
  LC( SentBoundary | OrdinalWord WSep ) 
  [ Field FSep [{mies} | {he} | {liika} |{pian} | {lista} | {avain} | {joki} | {kohta} | {avata} | {se} | {senkin} | {olla} | {ainoa} | {poika} | {monet} | {moni} | {muu} | {jokin} | {jotta} | {ainakin} | {vanha} | {laina} | {ryhmä} | {jatkettu} | {linkki} | {internet} | {hakkeri} | {ainakaan} | {talo} | {tuleva} | {harva} | {tietty} | {miljoon}("a") | {oma} | {viisi} | {korke}("e") | {jakaa} | {metropoli} | {imago} | {varhaisteini} ] FSep Field FSep Field FSep ] 
- EndTag(Exc004) ; 
+ EndTag(Exc005) ; 
  
 Define LangOrLoc @txt"gMiscLanguage.txt" ; 
  
 Define ExceptInLanguage 
  [ Field FSep [Ins(LangOrLoc)] FSep Field [{[NUM=SG][CASE=TRA]}] Field FSep Field FSep ] 
- EndTag(Exc004) ; 
+ EndTag(Exc006) ; 
  
 Define ExceptLanguage1 
  [ Field FSep [Ins(LangOrLoc)] FSep Field [{[NUM=SG]}[{[CASE=GEN]}|{[CASE=INE]}] ] Field FSep Field FSep ] WSep 
@@ -8595,23 +8599,23 @@ Define ExceptLanguage1
  [ Field FSep [({kirja}|{yleis}|{puhe}) {kieli} | {syntaksi} | {kielioppi} | {lauseoppi} | {ääntämys} | {äännejärjestelmä} | 
  {sanajärjestys} | {ortografia} | {oikeinkirjoitus} | {essee} | {fonologia} | {sana} | Field {taivutus} | 
  Field {verbi} | {adjektiivi} | {sanaluokka} | {sijamuoto} | {kirjaimisto} | {kirjoitusjärjestelmä} ] FSep Field FSep Field FSep ] 
- EndTag(Exc004) ; 
+ EndTag(Exc007) ; 
  
 Define ExceptLanguage2 
  [ Field FSep [Ins(LangOrLoc)] FSep Field [{[NUM=SG][CASE=PAR]}] Field FSep Field FSep ] 
  RC( [ WSep AuxVerb ]^{0,4} 
  WSep [ Field FSep [{puhua} | {kirjoittaa} | {lukea} | {käyttää} | {lausua} | {ääntää} | 
- {opettaa} | {opiskella} | {harjoitella} ] FSep Field [] Field FSep Field FSep ]) EndTag(Exc004) ; 
+ {opettaa} | {opiskella} | {harjoitella} ] FSep Field [] Field FSep Field FSep ]) EndTag(Exc008) ; 
  
 Define ExceptLanguage3 
  LowercaseAlpha [ Field FSep [Ins(LangOrLoc) ] FSep Field [] Field FSep Field FSep ] 
- EndTag(Exc004) ; 
+ EndTag(Exc009) ; 
  
 Define ExceptNotTurkey 
  [ [{Turkin} ] FSep Field FSep Field FSep Field FSep ] WSep 
  [ Field FSep [{hoito} | {hoitaminen} | {laatu} | {kiilto} | {väri} | {harjaus} | {harjaaminen} | {hiha} | {kunto} | 
  {pituus} | {leikkaaminen} | {hoitaa} | {pesu} | {harjata} | {kasvu} | {trimmaus} | {väritys} | {hilseily} 
- {paksuus} | {likaisuus} | {kampaaminen} | {leikkuu} | {värjääminen} ] FSep Field FSep Field FSep ] EndTag(Exc004) ; 
+ {paksuus} | {likaisuus} | {kampaaminen} | {leikkuu} | {värjääminen} ] FSep Field FSep Field FSep ] EndTag(Exc010) ; 
  
 !---------------- 
  
@@ -8619,14 +8623,14 @@ Define ExceptNotTurkey
 Define ExceptChannel 
  [ Field FSep [[ {tv} | {youtube} ] 
  Dash [ {kanava} | {video} ] ] FSep Field FSep Field FSep ] 
- EndTag(Exc005) ; 
+ EndTag(Exc011) ; 
  
 !* "Netflix-sarja", "Hollywood-elokuva" ≠ "Netflix-niminen sarja", "Hollywood-niminen elokuva" 
 Define ExceptFilm 
  [ Field FSep [["b"|"h"]{ollywood} Dash AlphaDown* [{elokuva}|{leffa}|{filmi}|{filmatisointi}|{sovitus}] | 
  [{netflix}|{tv}|{youtube}|{hbo}] Dash AlphaDown* [{sarja}|{elokuva}|{leffa}|{filmi}|{filmatisointi}|{sovitus}] | 
  {spotify-kappale} 
- ] FSep Field FSep Field FSep ] EndTag(Exc006) ; 
+ ] FSep Field FSep Field FSep ] EndTag(Exc012) ; 
  
 !* "4G:n", "3G-verkko", "MP3-soitin", "Wlan-asema", "DVD-elokuva" 
 Define ExceptMisc 
@@ -8636,10 +8640,10 @@ Define ExceptMisc
  {VHS} | {3d} | {3D} | {Blu-ray} | ("J"|{MMO}){RPG} | {DIY} | {VPN} | {Web} | {Tdd} | {Wlan} | {Telnet} | {Internet} | {Televisio} 
  [ {LGBT} | {HLBT} ] UppercaseAlpha* | {F1} | {F2} | {F3} | {Startup} | {LED} | {LP} | {GPS} | {Adware} | 
  {Wi}(Dash)[{fi}|{Fi}] | {IoT} ] [ Dash | ":" ] Word 
- EndTag(Exc010) ; 
+ EndTag(Exc013) ; 
  
 Define ExceptChampionship 
- [ Field FSep [[ {sm} | {em} | {mm} ] Dash AlphaDown* [ {kisa} | {kilpailu} | {sarja} | {ottelu} | {hopea} | {pronssi} | {kulta} | {mitali} ] ] FSep Field FSep Field FSep ] EndTag(Exc010) ; 
+ [ Field FSep [[ {sm} | {em} | {mm} ] Dash AlphaDown* [ {kisa} | {kilpailu} | {sarja} | {ottelu} | {hopea} | {pronssi} | {kulta} | {mitali} ] ] FSep Field FSep Field FSep ] EndTag(Exc014) ; 
  
 ! "1024 x 860 -näyttö", "30 x 40 x 50" 
 Define ExceptDimensions 
@@ -8647,52 +8651,53 @@ Define ExceptDimensions
  NumNom WSep [ ["x" | "X" | "×" | {kertaa} ] FSep Field FSep Field FSep Field FSep ] WSep 
  NumNom 
  ( WSep Dash AlphaDown Word ) 
- EndTag(Exc013) ; 
+ EndTag(Exc015) ; 
  
 Define ExceptMiscMWord 
  ( CapNameNomNSB WSep ) 
  ( Word WSep ) 
  Word WSep 
  Dash [ Field FSep Field [@txt"gMiscSuffixWord.txt" ] FSep Field FSep Field FSep ] 
- EndTag(Exc012) ; 
+ EndTag(Exc016) ; 
  
 Define ExceptPicture 
  ( Word WSep ) ( Word WSep ) 
  ( AlphaUp Field ) Dash [ Field FSep [( Field Dash ) {kuva} ] FSep Field FSep Field FSep ] 
- EndTag(Exc013) ; 
+ EndTag(Exc017) ; 
  
 Define ExceptUnit 
  ( NumNom WSep [ [Dash] FSep Field FSep Field FSep Field FSep ] WSep ) 
  NumNom WSep 
  [ Field FSep Field [{prosentti} | {miljoona} | {miljardi} ] FSep Field FSep Field FSep ] 
- EndTag(Exc022) ; 
+ EndTag(Exc018) ; 
  
 Define ExceptNotYear 
  [ [OptCap( {tänä} | {ensi} | {viime} | {edellisenä} | {kuluvana} | {seuraavana} | {tulevana} ) ] FSep Field FSep Field FSep Field FSep ] WSep 
  [ Field FSep [{vuonna} | {vuosi} ] FSep Field FSep Field FSep ] WSep 
  [ [1To9 0To9+ ( Dash 1To9 0To9+ ) ] FSep Field FSep Field FSep Field FSep ] 
- EndTag(Exc023) ; 
+ EndTag(Exc019) ; 
  
 Define ExceptStorm 
  [ Field FSep [{hurrikaani} | {hirmumyrsky} | {taifuuni} ] FSep Field [] Field FSep Field FSep ] WSep 
  CapName 
- EndTag(Exc024) ; 
+ EndTag(Exc020) ; 
  
 !* Exclude dates that do not refer to a specific month (of a specific year) 
 Define ExceptNotDate 
  LC( [ [ Field FSep [{aina} | {yleensä} | {ennen} | {viettää} | {vuosittain} | {yleensä} | {tavallisesti} ] FSep Field FSep Field FSep ] | 
  [ [{vietetään} ] FSep Field FSep Field FSep Field FSep ] ] WSep ) 
  [ Field FSep [MonthPfx {kuu} ] FSep Field FSep Field FSep ] 
- EndTag(Exc025) ; 
+ EndTag(Exc021) ; 
  
 Define ExceptNotPlanetEarth 
  LC( [ # | ".#." WSep | SentencePunct WSep | OrdinalWord WSep ] ) 
  [ [{Maan} ] FSep Field FSep Field FSep Field FSep ] WSep 
  [ Field FSep [{pääkaupunki} | {asukasluku} | {väkiluku} ] FSep Field FSep Field FSep ] 
- EndTag(Exc026) ; 
+ EndTag(Exc022) ; 
  
 Define ExceptProductCommunity 
- @txt"gStatPRO.txt" Dash [ Field FSep Field [Dash [ {ryhmä} | {yhteisö} | {tiimi} | {projekti} ] ] FSep Field FSep Field FSep ] ; 
+ @txt"gStatPRO.txt" Dash [ Field FSep Field [Dash [ {ryhmä} | {yhteisö} | {tiimi} | {projekti} ] ] FSep Field FSep Field FSep ] 
+ EndTag(Exc023) ; 
  
  
 !* Category HEAD 

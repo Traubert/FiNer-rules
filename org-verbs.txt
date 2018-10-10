@@ -110,6 +110,7 @@ satsata
 selvittää
 sensuroida
 sinnitellä
+sijoittaa
 sitoutua
 sovitella
 sponsoroida
@@ -148,6 +149,8 @@ uskaltaa
 uudistaa
 uutisoida
 vaatia
+valmistaa
+valmistella
 vahvistaa
 vakuuttaa
 vannoa
