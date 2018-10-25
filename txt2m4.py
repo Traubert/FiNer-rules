@@ -44,10 +44,10 @@ def lemma_exact(s):
         pfx = '"'+s[0]+'" '
 
     s = s.lower()
-    if s == 'yhdistynyt' or s == 'yhdistynyt%sg':
-        return pfx+'lemma_exact_morph({yhdistyä}, {[VOICE=ACT][PCP=NUT]})'
-    if s == 'yhdistynyt%pl':
-        return pfx+'lemma_exact_morph({yhdistyä}, {[VOICE=ACT][PCP=NUT]} Field {NUM=PL})'
+    #if s == 'yhdistynyt' or s == 'yhdistynyt%sg':
+    #    return pfx+'lemma_exact_morph({yhdistyä}, {[VOICE=ACT][PCP=NUT]})'
+    #if s == 'yhdistynyt%pl':
+    #    return pfx+'lemma_exact_morph({yhdistyä}, {[VOICE=ACT][PCP=NUT]} Field {NUM=PL})'
     if s.endswith('%pl'):
         return pfx+'lemma_exact_morph({'+s[:-3]+'}, {NUM=PL})'
     if s.endswith('%sg'):

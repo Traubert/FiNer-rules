@@ -15,6 +15,7 @@ Conquest
 Conspiracy
 Darkness
 Defenders
+densetsu
 Densetsu
 Destiny
 Diary
@@ -47,6 +48,7 @@ Mayhem
 Medley
 Memories
 Minuet
+monogatari
 Monster
 Monsters
 Movie

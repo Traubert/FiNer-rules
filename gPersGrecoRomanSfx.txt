@@ -16,6 +16,7 @@ filos
 filus
 foros
 genes
+ianos
 ianus
 iatus
 ienus

@@ -13,12 +13,12 @@ Washington d . c .
 Washington d. c.
 Washington dc.
 Antigua%sg ja Barbuda
-Bosnia%sg ja Hertsegovina
+bosnia%sg ja Hertsegovina
 Dominikaaninen%sg tasavalta
-Kolmas%sg valtakunta
-Kultainen%sg orda
-Pyhä%sg saksalais-roomalainen%sg keisarikunta
-Pyhä%sg saksalais-roomalainen%sg valtakunta
+kolmas%sg valtakunta
+kultainen%sg orda
+pyhä%sg saksalais-roomalainen%sg keisarikunta
+pyhä%sg saksalais-roomalainen%sg valtakunta
 Saint Kitts%sg ja Nevis
 Saint Vincent%sg ja Grenadiini
 Sao Tome%sg ja Principe

@@ -17,4 +17,5 @@ Pyrenee
 Skandi
 Sudeetti
 Svekokarelidi
+Uralvuori
 Vogeesi

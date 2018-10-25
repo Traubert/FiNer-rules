@@ -16,8 +16,10 @@ Keskimaa
 Krypton
 Laputa
 Lemuria
+Liberty City
 Lorien
 Lórien
+Los Santos
 Lothlórien
 Lylat
 Mikä-Mikä-Maa
@@ -30,6 +32,7 @@ Númenor
 Oz
 Rivendell
 Rohan
+San Andreas
 Shangri-La
 Sienivaltakunta
 Smaragdikaupunki
@@ -38,6 +41,3 @@ Twin Peaks
 Valinor
 Westeros
 Yavin
-San Andreas
-Los Santos
-Liberty City

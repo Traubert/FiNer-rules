@@ -157,7 +157,7 @@ Define CapWordNSB LC( NoSentBoundary ) AlphaUp Word ;
 
 Define AndOfTheStr [ {for} | {by} | {of} | {the} | {and} | "&" | {to} | {with} | {against} | {at} | {in} | {de} | {för} | {vid} | {och}
        		   | {i} | {till} | {für} | {degli} | {della} | {delle} | {und} | {an} | {no} | {et} | {dei} | {di} | {des}
-		   | {la} | {y} | {e} | {est} | {non} | {pas} | {el} | {av} | {os} | {as} | ( "d" Apostr ) {un}("e") ] ;
+		   | {la} | {y} | {e} | {est} | {non} | {pas} | {para} | {el} | {av} | {os} | {as} | ( "d" Apostr ) {un}("e") ] ;
 
 Define AndOfThe wordform_exact( AndOfTheStr ) ;
 Define DeLa 	wordform_exact( "d" ( Apostr ) AlphaDown* ) ( WSep wordform_exact(Apostr) ) ( WSep LowerWord ) ;
@@ -214,8 +214,9 @@ Define PosAdjNom morphtag(AdjPcp Field {CASE=NOM}) ;
 Define PosAdjGen morphtag(AdjPcp Field {CASE=GEN}) ;
 
 Define PosNum morphtag({POS=NUMERAL}) ;
-Define PosNumCard [ morphtag({[POS=NUMERAL][SUBCAT=CARD]}) | morphtag_exact({[POS=NUMERAL]} ({NUM=} Field) ) ] ;
 Define PosNumOrd morphtag({[POS=NUMERAL][SUBCAT=ORD]}) ;
+Define PosNumCard [PosNum - PosNumOrd] ;
+!Define PosNumCard [ morphtag({POS=NUMERAL} Field [{SUBCAT=CARD}|{SUBCAT=DECIMAL}]) | morphtag_exact({POS=NUMERAL} ( Field {NUM=} Field) ) ] ;
 Define NumNom wordform_exact( 0To9+ [ " " 0To9 0To9 0To9 ]* ) ;
 
 Define CaseNom morphtag({CASE=NOM}) ;
@@ -225,7 +226,8 @@ Define CasePar morphtag({CASE=PAR}) ;
 Define PosNoun morphtag({POS=NOUN}) ;
 Define NounNom morphtag({POS=NOUN} Field {CASE=NOM}) ;
 Define NounGen morphtag({POS=NOUN} Field {CASE=GEN}) ;
-Define NounGenPl morphtag({POS=NOUN} Field {NUM=SG} Field {CASE=GEN}) ;
+Define NounGenSg morphtag({POS=NOUN} Field {NUM=SG} Field {CASE=GEN}) ;
+Define NounGenPl morphtag({POS=NOUN} Field {NUM=PL} Field {CASE=GEN}) ;
 
 Define CoordConj morphtag({[SUBCAT=CONJUNCTION][CONJ=COORD]}) ;
 Define NotConj [ wordform_exact( [ Ins(AlphaUp) | Ins(AlphaDown) | 0To9 ] Field ) - CoordConj ] ;
@@ -245,13 +247,13 @@ Define PropGeoLocInt morphtag_semtag({NUM=SG} Field {CASE=}[{INE}|{ILL}|{ELA}], 
 Define PropGeoLocExt morphtag_semtag({NUM=SG} Field {CASE=}[{ADE}|{ALL}|{ABL}], {PROP=GEO}) ;
 
 Define PropFirst semtag({PROP=FIRST}) ;
-Define PropFirstNom morphtag_semtag({CASE=NOM}, {PROP=FIRST}) ;
+Define PropFirstNom morphtag_semtag({CASE=NOM}, {PROP=FIRST}) - lemma_exact({le}) ;
 Define PropFirstGen morphtag_semtag({CASE=GEN}, {PROP=FIRST}) ;
 Define PropLast semtag({PROP=LAST}) ;
 Define PropLastNom morphtag_semtag({CASE=NOM}, {PROP=LAST}) ;
 Define PropLastGen morphtag_semtag({CASE=GEN}, {PROP=LAST}) ;
 Define PropFirstLast [ PropFirst | PropLast ] ;
-Define PropFirstLastNom [ PropFirstNom | PropLastNom ] ;
+Define PropFirstLastNom [ PropFirstNom | PropLastNom ] - lemma_exact({le}) ;
 Define PropFirstLastGen [ PropFirstGen | PropLastGen ] ;
 
 Define PropOrg semtag({PROP=ORG}) ;
@@ -267,11 +269,10 @@ Define AuxVerb lemma_exact( {ei} | {olla} ) ;
 
 Define PunctWord morphtag({POS=PUNCTUATION}) ;
 
-Define Abbr morphtag({ABBREVIATION}) ;
-Define AbbrNom [ morphtag({ABBREVIATION} Field {[NUM=SG][CASE=NOM]})
-       	       | morphtag_exact({[POS=PARTICLE][SUBCAT=ABBREVIATION]})
-	       | wordform_exact( AlphaUp+ [ 1To9+ | AlphaUp+ ]+ )
-	       ] ;
+Define AbbrStr [ UppercaseAlpha [ 0To9 | UppercaseAlpha ]^{1,4} FinSuff ] ;
+Define Abbr    wordform_exact( Ins(AbbrStr) FinSuff ) ;
+Define AbbrNom wordform_exact( Ins(AbbrStr) ) ;
+Define AbbrGen wordform_exact( Ins(AbbrStr) ( ":" ) "n" ) ;
 
 Define CapWordNom whole_word(`CapWordPart {[CASE=NOM]} Word') ;
 Define CapWordGen whole_word(`CapWordPart {[CASE=GEN]} Word') ;
@@ -307,10 +308,10 @@ Define CapNomWithN
 		| {Women} | {Men} | {Nation} | {Motion} | {Time} | {Queen} | {Champion} | {Indian} | {Norwegian} | {Australian} | {Ten}
 		| {An} | {Milton} | {Hilton} | {Titan} | {Aryan} | {Austrian} | {German} | {Silicon} | {Icon} | {Falcon} | {Recon}
 		| {Lexicon} | {In} | {Teen} | {Canadian} | {Min} | {Don} | {Photon} | {Proton} | {Neutron} | {Electron}
-		| {Hadron} | {Un} | {Den} | {Great} | {Invasion} | {Within} | {Revolution}
+		| {Hadron} | {Un} | {Den} | {Great} | {Invasion} | {Within} | {Revolution} | {Pen} | {Can} | {Ten}
 		| {Independent} | {Ålands} | {Malaysian} | {Golden} | {Japan} | {Collection} | {Operation} | {Dragon}
 		| {Edition} | {Fusion} | {Mission} | {Horizon} | {Caravan} | {Titan} | {Mr.} | {Dr.} | {Million} | {Billion}
-		| AlphaUp AlphaDown* [ AlphaDown - "a" ] {ation} | AlphaUp AlphaDown* {lution} ]
+		| AlphaUp AlphaDown* [ AlphaDown - "a" ] {ation} | AlphaUp AlphaDown* {lution} | AlphaUp AlphaDown+ {ación} ]
 		) ;
 
 Define CapForeign   [ Ins(AlphaUp) morphtag({SUBCAT=FOREIGN}) ] ;
@@ -334,7 +335,7 @@ Define DashName2
 
 ! XXX -nimeä kantava
 Define DashName3
-       Dash wordform_ends({nimeä}) WSep morphtag({PCP=VA}) WSep ;
+       Dash wordform_ends({nimeä}) WSep [ lemma_morph([{ava}|{ävä}|{eva}|{evä}], {POS=ADJECTIVE}) | morphtag({PCP=VA}) ] WSep ;
 
 Define DashName4
        Dash LowerWord WSep lemma_exact( {ja} | {sekä} ) WSep Dash ;

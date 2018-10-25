@@ -43,4 +43,5 @@ Ins(AlphaUp) [ lemma_exact( {nenäpäivä} | {provinssi} | {ravintolapäivä} | 
   lemma_exact_morph({euroviisu}, {NUM=PL}) |
   lemma_exact_morph({kuninkuusravi}, {NUM=PL}) |
   lemma_exact_morph({tangomarkkina}, {NUM=PL}) ] |
-[ lemma_exact( {itä-länsi} | {itä-länsi-ottelu} ) ]
+[ lemma_exact( {itä-länsi} | {itä-länsi-ottelu} ) |
+  lemma_exact_morph({suuri}, {NUM=SG}) WSep wordform_exact({Pohjan}) WSep lemma_exact({sota}) ]

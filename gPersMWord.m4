@@ -190,6 +190,7 @@ wordform_exact({Jason}) WSep inflect_sg({Derulo}) |
 wordform_exact({Jay}) WSep inflect_sg({Stanley}) |
 wordform_exact({Jay}) WSep inflect_sg({Z}) |
 wordform_exact({JB}) WSep inflect_sg({Straubel}) |
+wordform_exact({Jean-Marie}) WSep wordform_exact({Le}) WSep inflect_sg({Pen}) |
 wordform_exact({Jeff}) WSep inflect_sg({Barr}) |
 wordform_exact({Jeff}) WSep inflect_sg({Bezos}) |
 wordform_exact({Jeff}) WSep inflect_sg({Moss}) |

@@ -1,4 +1,4 @@
-inflect_sg( {007} | {Americans} | {Avatar} | {Avengers} | {Batman} | {Blackadder} | {CSI} | {Deadwood} | {Fargo} | {Frasier} | {Frozen} | {Idols} | {Lost} | {Minions} | {Oz} | {Seinfeld} | {Sel8nne} | {Shrek} | {Simpsons} | {Skyfall} | {Sopranos} | {Spectre} | {Spider-Man} | {Strömsö} | {Superman} | {Transformers} | {Twilight} | {X-Factor} | {X-Files} | {X-Men} | {Zootopia} ) |
+inflect_sg( {007} | {Americans} | {Avatar} | {Avengers} | {Batman} | {Blackadder} | {CSI} | {Deadwood} | {Fargo} | {Frasier} | {Frozen} | {Idols} | {Lost} | {Minions} | {Oz} | {Seinfeld} | {Shrek} | {Simpsons} | {Skyfall} | {Sopranos} | {Spectre} | {Spider-Man} | {Strömsö} | {Superman} | {Transformers} | {Twilight} | {X-Factor} | {X-Files} | {X-Men} | {Zootopia} ) |
 wordform_exact({American}) WSep inflect_sg({Idol}) |
 wordform_exact({Battlestar}) WSep inflect_sg({Galactica}) |
 wordform_exact({Breaking}) WSep inflect_sg({Bad}) |
@@ -27,6 +27,7 @@ wordform_exact({Mad}) WSep inflect_sg({Men}) |
 wordform_exact({Million}) WSep wordform_exact({Dollar}) WSep inflect_sg({Baby}) |
 wordform_exact({Mission}) WSep inflect_sg({Impossible}) |
 wordform_exact({Mission}) WSep wordform_exact({:}) WSep inflect_sg({Impossible}) |
+wordform_exact({Panssarilaiva}) WSep inflect_sg({Potemkin}) |
 wordform_exact({Peyton}) WSep inflect_sg({Place}) |
 wordform_exact({Pirates}) WSep wordform_exact(OptCap({of})) WSep wordform_exact(OptCap({the})) WSep inflect_sg({Caribbean}) |
 wordform_exact({Rogue}) WSep inflect_sg({One}) |
@@ -69,4 +70,5 @@ Ins(AlphaUp) [ lemma_exact( {dokumenttiprojekti} | {huvitutti} | {kotikatu} | {p
   lemma_exact_morph({kaunari}, {NUM=PL}) |
   lemma_exact_morph({kaunis}, {NUM=PL}) WSep wordform_exact({ja}) WSep lemma_exact_morph({rohkea}, {NUM=PL}) |
   lemma_exact_morph({salattu}, {NUM=PL}) WSep lemma_exact_morph({elämä}, {NUM=PL}) |
-  lemma_exact_morph({salkkari}, {NUM=PL}) ]
+  lemma_exact_morph({salkkari}, {NUM=PL}) |
+  lemma_exact_morph({sel8nne}, {NUM=SG}) ]

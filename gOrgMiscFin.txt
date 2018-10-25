@@ -38,6 +38,8 @@ Muslimiveljeskunta
 NSA
 Pentagon
 Poliisihallitus
+Punainen Risti%wf
+Punaisen Ristin%wf
 Salainen palvelu
 S-ryhmä
 Suomen Sisu
@@ -46,7 +48,6 @@ Tekijänoikeuden tiedotus- ja valvontakeskus
 TTVK
 Väestörekisterikeskus
 Valtiokonttori
-Valtion teknillinen tutkimuskeskus
 Valvira
 Verohallinto
 Viestintävirasto
@@ -54,8 +55,9 @@ Yhdysvaltain avaruushallinto
 Kansainvälinen%sg tähtitieteellinen%sg unioni
 Liikkuva%sg poliisi%sg
 Pohjoismainen%sg vastarintaliike%sg
-Punainen%sg Ristiä
 Punainen%sg Risti%sg
 Pyhä%sg istuin%sg
+Pyhä%sg istuin%wf
 Salainen%sg palvelu%sg
+Valtion teknillinen%sg tutkimuskeskus
 yhdistynyt%pl kansakunta%pl

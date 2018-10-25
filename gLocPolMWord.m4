@@ -25,6 +25,7 @@ wordform_exact({Jersey}) WSep inflect_sg({City}) |
 wordform_exact({Kansas}) WSep inflect_sg({City}) |
 wordform_exact({Kap}) WSep inflect_sg({Verde}) |
 wordform_exact({Key}) WSep inflect_sg({West}) |
+wordform_exact({Kiovan}) WSep inflect_sg({Rus}) |
 wordform_exact({Las}) WSep inflect_sg({Vegas}) |
 wordform_exact({Le}) WSep inflect_sg({Havre}) |
 wordform_exact({Le}) WSep inflect_sg({Mans}) |
@@ -89,14 +90,14 @@ wordform_exact({Sao}) WSep "T" lemma_exact_morph({tome}, {NUM=SG}) WSep wordform
 wordform_exact({São}) WSep "T" lemma_exact_morph({tomé}, {NUM=SG}) WSep wordform_exact({ja}) WSep "P" lemma_exact({príncipe}) |
 Ins(AlphaUp) [ lemma_exact( {usa} ) |
   lemma_exact_morph({antigua}, {NUM=SG}) WSep wordform_exact({ja}) WSep "B" lemma_exact({barbuda}) |
-  lemma_exact_morph({bosnia}, {NUM=SG}) WSep wordform_exact({ja}) WSep "H" lemma_exact({hertsegovina}) |
   lemma_exact_morph({dominikaaninen}, {NUM=SG}) WSep lemma_exact({tasavalta}) |
+  lemma_exact_morph({trinidad}, {NUM=SG}) WSep wordform_exact({ja}) WSep "T" lemma_exact({tobago}) |
+  lemma_exact_morph({wallis}, {NUM=SG}) WSep wordform_exact({ja}) WSep "F" lemma_exact({futuna}) ] |
+[ lemma_exact_morph({bosnia}, {NUM=SG}) WSep wordform_exact({ja}) WSep "H" lemma_exact({hertsegovina}) |
   lemma_exact_morph({kolmas}, {NUM=SG}) WSep lemma_exact({valtakunta}) |
   lemma_exact_morph({kultainen}, {NUM=SG}) WSep lemma_exact({orda}) |
   lemma_exact_morph({pyhä}, {NUM=SG}) WSep lemma_exact_morph({saksalais-roomalainen}, {NUM=SG}) WSep lemma_exact({keisarikunta}) |
   lemma_exact_morph({pyhä}, {NUM=SG}) WSep lemma_exact_morph({saksalais-roomalainen}, {NUM=SG}) WSep lemma_exact({valtakunta}) |
-  lemma_exact_morph({trinidad}, {NUM=SG}) WSep wordform_exact({ja}) WSep "T" lemma_exact({tobago}) |
-  lemma_exact_morph({wallis}, {NUM=SG}) WSep wordform_exact({ja}) WSep "F" lemma_exact({futuna}) ] |
-[ lemma_exact_morph({yhdistyä}, {[VOICE=ACT][PCP=NUT]} Field {NUM=PL}) WSep lemma_exact({arabiemiirikunta}) |
-  lemma_exact_morph({yhdistyä}, {[VOICE=ACT][PCP=NUT]} Field {NUM=PL}) WSep lemma_exact({arabiemiraatti}) |
-  lemma_exact_morph({yhdistyä}, {[VOICE=ACT][PCP=NUT]}) WSep lemma_exact({kuningaskunta}) ]
+  lemma_exact_morph({yhdistynyt}, {NUM=PL}) WSep lemma_exact({arabiemiirikunta}) |
+  lemma_exact_morph({yhdistynyt}, {NUM=PL}) WSep lemma_exact({arabiemiraatti}) |
+  lemma_exact_morph({yhdistynyt}, {NUM=SG}) WSep lemma_exact({kuningaskunta}) ]

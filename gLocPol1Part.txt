@@ -97,6 +97,7 @@ Forssa
 Fremantle
 Fukuoka
 Fukushima
+Fulham
 Galapagos
 Ganymede
 Genova
@@ -360,6 +361,7 @@ Vesivehmaa
 Vichyn Ranska
 Vierumäki
 Vihti
+Viipuri
 Vilna
 Virginia
 Vöyri

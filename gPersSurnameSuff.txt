@@ -9,7 +9,6 @@ arsen
 baatar
 bach
 bäck
-backa
 bauer
 baum
 berger
@@ -18,6 +17,7 @@ bladh
 blatt
 blom
 brecht
+bright
 čeff
 ček
 čenka

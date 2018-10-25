@@ -145,7 +145,7 @@ Define CapWordNSB LC( NoSentBoundary ) AlphaUp Word ;
 
 Define AndOfTheStr [ {for} | {by} | {of} | {the} | {and} | "&" | {to} | {with} | {against} | {at} | {in} | {de} | {för} | {vid} | {och}
        		   | {i} | {till} | {für} | {degli} | {della} | {delle} | {und} | {an} | {no} | {et} | {dei} | {di} | {des}
-		   | {la} | {y} | {e} | {est} | {non} | {pas} | {el} | {av} | {os} | {as} | ( "d" Apostr ) {un}("e") ] ;
+		   | {la} | {y} | {e} | {est} | {non} | {pas} | {para} | {el} | {av} | {os} | {as} | ( "d" Apostr ) {un}("e") ] ;
 
 Define AndOfThe [ [AndOfTheStr ] FSep Field FSep Field FSep Field FSep ] ;
 Define DeLa 	[ ["d" ( Apostr ) AlphaDown* ] FSep Field FSep Field FSep Field FSep ] ( WSep [ [Apostr] FSep Field FSep Field FSep Field FSep ] ) ( WSep LowerWord ) ;
@@ -202,8 +202,9 @@ Define PosAdjNom [ Field FSep Field FSep Field [AdjPcp Field {CASE=NOM}] Field F
 Define PosAdjGen [ Field FSep Field FSep Field [AdjPcp Field {CASE=GEN}] Field FSep Field FSep ] ;
 
 Define PosNum [ Field FSep Field FSep Field [{POS=NUMERAL}] Field FSep Field FSep ] ;
-Define PosNumCard [ [ Field FSep Field FSep Field [{[POS=NUMERAL][SUBCAT=CARD]}] Field FSep Field FSep ] | [ Field FSep Field FSep [{[POS=NUMERAL]} ({NUM=} Field) ] FSep Field FSep ] ] ;
 Define PosNumOrd [ Field FSep Field FSep Field [{[POS=NUMERAL][SUBCAT=ORD]}] Field FSep Field FSep ] ;
+Define PosNumCard [PosNum - PosNumOrd] ;
+!Define PosNumCard [ [ Field FSep Field FSep Field [{POS=NUMERAL} Field [{SUBCAT=CARD}|{SUBCAT=DECIMAL}]] Field FSep Field FSep ] | [ Field FSep Field FSep [{POS=NUMERAL} ( Field {NUM=} Field) ] FSep Field FSep ] ] ;
 Define NumNom [ [0To9+ [ " " 0To9 0To9 0To9 ]* ] FSep Field FSep Field FSep Field FSep ] ;
 
 Define CaseNom [ Field FSep Field FSep Field [{CASE=NOM}] Field FSep Field FSep ] ;
@@ -213,7 +214,8 @@ Define CasePar [ Field FSep Field FSep Field [{CASE=PAR}] Field FSep Field FSep 
 Define PosNoun [ Field FSep Field FSep Field [{POS=NOUN}] Field FSep Field FSep ] ;
 Define NounNom [ Field FSep Field FSep Field [{POS=NOUN} Field {CASE=NOM}] Field FSep Field FSep ] ;
 Define NounGen [ Field FSep Field FSep Field [{POS=NOUN} Field {CASE=GEN}] Field FSep Field FSep ] ;
-Define NounGenPl [ Field FSep Field FSep Field [{POS=NOUN} Field {NUM=SG} Field {CASE=GEN}] Field FSep Field FSep ] ;
+Define NounGenSg [ Field FSep Field FSep Field [{POS=NOUN} Field {NUM=SG} Field {CASE=GEN}] Field FSep Field FSep ] ;
+Define NounGenPl [ Field FSep Field FSep Field [{POS=NOUN} Field {NUM=PL} Field {CASE=GEN}] Field FSep Field FSep ] ;
 
 Define CoordConj [ Field FSep Field FSep Field [{[SUBCAT=CONJUNCTION][CONJ=COORD]}] Field FSep Field FSep ] ;
 Define NotConj [ [ [[ Ins(AlphaUp) | Ins(AlphaDown) | 0To9 ] Field ] FSep Field FSep Field FSep Field FSep ] - CoordConj ] ;
@@ -233,13 +235,13 @@ Define PropGeoLocInt [ Field FSep Field FSep Field [{NUM=SG} Field {CASE=}[{INE}
 Define PropGeoLocExt [ Field FSep Field FSep Field [{NUM=SG} Field {CASE=}[{ADE}|{ALL}|{ABL}]] Field FSep Field [{PROP=GEO}] Field FSep ] ;
 
 Define PropFirst [ Field FSep Field FSep Field FSep Field [{PROP=FIRST}] Field FSep ] ;
-Define PropFirstNom [ Field FSep Field FSep Field [{CASE=NOM}] Field FSep Field [{PROP=FIRST}] Field FSep ] ;
+Define PropFirstNom [ Field FSep Field FSep Field [{CASE=NOM}] Field FSep Field [{PROP=FIRST}] Field FSep ] - [ Field FSep [{le}] FSep Field FSep Field FSep ] ;
 Define PropFirstGen [ Field FSep Field FSep Field [{CASE=GEN}] Field FSep Field [{PROP=FIRST}] Field FSep ] ;
 Define PropLast [ Field FSep Field FSep Field FSep Field [{PROP=LAST}] Field FSep ] ;
 Define PropLastNom [ Field FSep Field FSep Field [{CASE=NOM}] Field FSep Field [{PROP=LAST}] Field FSep ] ;
 Define PropLastGen [ Field FSep Field FSep Field [{CASE=GEN}] Field FSep Field [{PROP=LAST}] Field FSep ] ;
 Define PropFirstLast [ PropFirst | PropLast ] ;
-Define PropFirstLastNom [ PropFirstNom | PropLastNom ] ;
+Define PropFirstLastNom [ PropFirstNom | PropLastNom ] - [ Field FSep [{le}] FSep Field FSep Field FSep ] ;
 Define PropFirstLastGen [ PropFirstGen | PropLastGen ] ;
 
 Define PropOrg [ Field FSep Field FSep Field FSep Field [{PROP=ORG}] Field FSep ] ;
@@ -255,11 +257,10 @@ Define AuxVerb [ Field FSep [{ei} | {olla} ] FSep Field FSep Field FSep ] ;
 
 Define PunctWord [ Field FSep Field FSep Field [{POS=PUNCTUATION}] Field FSep Field FSep ] ;
 
-Define Abbr [ Field FSep Field FSep Field [{ABBREVIATION}] Field FSep Field FSep ] ;
-Define AbbrNom [ [ Field FSep Field FSep Field [{ABBREVIATION} Field {[NUM=SG][CASE=NOM]}] Field FSep Field FSep ]
-       	       | [ Field FSep Field FSep [{[POS=PARTICLE][SUBCAT=ABBREVIATION]}] FSep Field FSep ]
-	       | [ [AlphaUp+ [ 1To9+ | AlphaUp+ ]+ ] FSep Field FSep Field FSep Field FSep ]
-	       ] ;
+Define AbbrStr [ UppercaseAlpha [ 0To9 | UppercaseAlpha ]^{1,4} FinSuff ] ;
+Define Abbr    [ [Ins(AbbrStr) FinSuff ] FSep Field FSep Field FSep Field FSep ] ;
+Define AbbrNom [ [Ins(AbbrStr) ] FSep Field FSep Field FSep Field FSep ] ;
+Define AbbrGen [ [Ins(AbbrStr) ( ":" ) "n" ] FSep Field FSep Field FSep Field FSep ] ;
 
 Define CapWordNom LC(WordBoundary)  [CapWordPart {[CASE=NOM]} Word]  RC(WordBoundary) ;
 Define CapWordGen LC(WordBoundary)  [CapWordPart {[CASE=GEN]} Word]  RC(WordBoundary) ;
@@ -294,10 +295,10 @@ Define CapNomWithN
 		| {Women} | {Men} | {Nation} | {Motion} | {Time} | {Queen} | {Champion} | {Indian} | {Norwegian} | {Australian} | {Ten}
 		| {An} | {Milton} | {Hilton} | {Titan} | {Aryan} | {Austrian} | {German} | {Silicon} | {Icon} | {Falcon} | {Recon}
 		| {Lexicon} | {In} | {Teen} | {Canadian} | {Min} | {Don} | {Photon} | {Proton} | {Neutron} | {Electron}
-		| {Hadron} | {Un} | {Den} | {Great} | {Invasion} | {Within} | {Revolution}
+		| {Hadron} | {Un} | {Den} | {Great} | {Invasion} | {Within} | {Revolution} | {Pen} | {Can} | {Ten}
 		| {Independent} | {Ålands} | {Malaysian} | {Golden} | {Japan} | {Collection} | {Operation} | {Dragon}
 		| {Edition} | {Fusion} | {Mission} | {Horizon} | {Caravan} | {Titan} | {Mr.} | {Dr.} | {Million} | {Billion}
-		| AlphaUp AlphaDown* [ AlphaDown - "a" ] {ation} | AlphaUp AlphaDown* {lution} ]
+		| AlphaUp AlphaDown* [ AlphaDown - "a" ] {ation} | AlphaUp AlphaDown* {lution} | AlphaUp AlphaDown+ {ación} ]
 		] FSep Field FSep Field FSep Field FSep ] ;
 
 Define CapForeign   [ Ins(AlphaUp) [ Field FSep Field FSep Field [{SUBCAT=FOREIGN}] Field FSep Field FSep ] ] ;
@@ -321,7 +322,7 @@ Define DashName2
 
 ! XXX -nimeä kantava
 Define DashName3
-       Dash [ Field [{nimeä}] FSep Field FSep Field FSep Field FSep ] WSep [ Field FSep Field FSep Field [{PCP=VA}] Field FSep Field FSep ] WSep ;
+       Dash [ Field [{nimeä}] FSep Field FSep Field FSep Field FSep ] WSep [ [ Field FSep Field [[{ava}|{ävä}|{eva}|{evä}]] FSep Field [{POS=ADJECTIVE}] Field FSep Field FSep ] | [ Field FSep Field FSep Field [{PCP=VA}] Field FSep Field FSep ] ] WSep ;
 
 Define DashName4
        Dash LowerWord WSep [ Field FSep [{ja} | {sekä} ] FSep Field FSep Field FSep ] WSep Dash ;

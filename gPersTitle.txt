@@ -74,6 +74,7 @@ farmaseutti
 filmitähti
 filosofi
 fitness-ohjaaja
+guru
 hakkeri
 hallintonotaari
 hallitusneuvos

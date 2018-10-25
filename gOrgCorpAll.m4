@@ -549,6 +549,7 @@ wordform_exact({US}) WSep wordform_exact({Marshals}) WSep inflect_sg({Service}) 
 wordform_exact({Us-Parts}) WSep inflect_sg({Finn-Am}) |
 wordform_exact({US}) WSep wordform_exact({Securities}) WSep wordform_exact(OptCap({and})) WSep wordform_exact({Exchange}) WSep inflect_sg({Commission}) |
 wordform_exact({UT}) WSep wordform_exact({San}) WSep inflect_sg({Diego}) |
+wordform_exact({Valmet}) WSep inflect_sg({Oyj}) |
 wordform_exact({Valor}) WSep wordform_exact({Equity}) WSep inflect_sg({Partners}) |
 wordform_exact({Veikko}) WSep inflect_sg({Still}) |
 wordform_exact({Verizon}) WSep inflect_sg({Communications}) |
