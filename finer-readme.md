@@ -20,7 +20,7 @@ A general overview of the categories and their respective subcategories (as of S
 | Geography    | `EnamexLocGpl` |
 | Street       | `EnamexLocStr` |
 | Structure    | `EnamexLocFnc` |
-| Astrology    | `EnamexLocAst` |
+| Astronomy    | `EnamexLocAst` |
 
 **ORGANIZATION**
 
@@ -39,6 +39,7 @@ A general overview of the categories and their respective subcategories (as of S
 | Subcategory  | Tag            |
 |--------------|----------------|
 | People       | `EnamexPrsHum` |
+| Animals      | `EnamexPrsAnm` |
 | Mythical     | `EnamexPrsMyt` |
 | Title        | `EnamexPrsTit` |
 
@@ -98,7 +99,7 @@ A more detailed description of each category is given below. It should be noted 
     - rooms and spaces (auditoriums, halls...)
     - designated areas and zones (military bases, garrisons, cemeteries...)
     - harbors, airports, railway and bus stations
-  - **EnamexLocAst**: Astrology
+  - **EnamexLocAst**: Astronomy
     - _Maa_, _Aurinko_, _Kuu_ ('Earth', 'Sun', 'Moon') when capitalized
     - other celestial bodies: planets, planetoids, moons/satellites, asteroids, comets etc.
     - solar systems
@@ -151,13 +152,15 @@ A more detailed description of each category is given below. It should be noted 
     - law enforcement
     - military, armed forces
 - **EnamexPrs**: People & Beings
-  - **EnamexPrsHum**: (Human) persons
+  - **EnamexPrsHum**: (Human) persons (real or fictional)
     - personal names (including given names, family names, patronymics etc.)
     - families and family names
     - aliases, pseudonyms, nicknames, usernames
+  - **EnamexPrsAnm**: Animals
+    - pets, domestic animals etc. with names
   - **EnamexPrsMyt**: Mythical beings
     - deities
-    - mythical and fictional creatures
+    - mythical and fictional creatures (may be moved to `EnamexPrsAnm` in the future)
   - **EnamexPrsTit**: Titles
     - titles that precede personal names; not actually proper names
 - **EnamexProXxx**: Products (including artwork and artifacts), e.g.
@@ -172,9 +175,11 @@ A more detailed description of each category is given below. It should be noted 
   - agreements and treaties
   - legislation (laws, acts...)
   - projects, operations
-  - weapons
+  - weapons (mostry firearms and explosives)
+  - awards, prizes, trophies
   - vehicles and vessels (cars, trains, ships, aircraft, space shuttles...) 
-  - rare instances of food
+  - food & beverages
+  - fruit and vegetable cultivars (capitalized)
   - rare instances or relics and artifacts
 - **EnamexEvtXxx**: Events
   - wars, conflicts, battles
@@ -242,5 +247,4 @@ A dated online demo version with limited functionality is available for use [her
 [CSC](http://csc.fi/) users can also use a pre-installed version of FiNER on the [Taito](http://research.csc.fi/taito-user-guide) supercluster and [Mylly](http://www.kielipankki.fi/tuki/mylly/).
 
 ## Known issues
-- FiNER may slow down considerably or get stuck altogether if the input contains several consecutive strings written in all caps. These should be converted into lowercase or split into sequences of e.g. four strings.
-- The transducers compiled from the pmatch rules are large (approx. 600 MB in total).
+- The transducers compiled from the rules have a combined size of ~700 MB

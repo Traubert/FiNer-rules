@@ -43,7 +43,7 @@ If the list is converted into a `m4` with `txt2m4.py`, the script uses the final
 
 ### txt2m4.py
 
-Converts `txt` files into a set of pmatch expressions that are saved into a `m4` file. Multiple files can be given as input. The way the names are converted is determined by the filename. 
+Takes one or more `txt` files and outputs pmatch/m4 expressions matching the names in the file(s). Multiple files can be given as input. The way the names are converted is indicated by the input filename. 
 
 Some names contain special flag symbols that indicate words that inflect (or do not inflect) in a specific way:
 
@@ -53,13 +53,11 @@ Some names contain special flag symbols that indicate words that inflect (or do 
 
 For instance, the band name _Mariska ja Pahat Sudet_ is formulated in the gazetteer file `gCultPerformingGroupFin.txt` as `Mariska%sg ja Paha%pl Susi%pl`, meaning that the first word in the name inflects in singular and the last two in plural.
 
-A hash in a file name (`#`) stands for any word form that begins with a number.
-
-The resulting `m4` files can be imported into the rule sets with the function `m4_include('filename.m4')`.
+A hash in a name (`#`) stands for any word form that begins with a number.
 
 ### convert-m4gaz.sh
 
-Gathers smaller gazetteers belonging to the same subcategory and converts them into larger `m4` files by using `txt2m4.py`. 
+Converts `.txt` gazetteers into `m4` files by using `txt2m4.py`. The resulting `m4` files can be imported into the rule sets with the function `m4_include('filename.m4')`.
 
 ### Verb lists (org-verb.txt, per-verb.txt)
 
