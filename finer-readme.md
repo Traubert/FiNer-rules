@@ -248,7 +248,7 @@ A dated online demo version with limited functionality is available for use [her
 
 ### Command line use
 
-`finnish-nertag` is used on the command line as follows:
+`finnish-nertag` can be used on the command line as follows:
 
     $ finnish-nertag <<< "Helsingin yliopisto"
     Helsingin      <EnamexOrgEdu>
@@ -258,7 +258,9 @@ The tool has the following options:
 
 - `--no-tokenize`: Turn off automatic input tokenization; useful when tagging per-tokenized token-per-line input.
 - `--show-analyses`: Show lemmas, morphological tags and semantic tags in the output; these are diplayed in their respective tab-separated fields.
-- `--show-nested`: Show nested entities i.e. "names within names"; the nested entities' tags are displayed in their respective fields, e.g.
+- `--show-nested`: Show nested entities i.e. "names within names"
+
+The nested entities' tags are displayed in their respective fields, e.g.
 
     $ finnish-nertag --show-analyses <<< "Helsingin yliopisto" 
     Helsingin	   <EnamexOrgEdu>  <EnamexLocPpl/>
