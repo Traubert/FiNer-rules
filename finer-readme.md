@@ -227,7 +227,7 @@ The final output consists of two tab-separated columns, the first of which conta
 
     Pernoossa	<EnamexLocPpl/>
     asuva	
-    Heikki	<EnamexPrsHum>
+    Henrikki	<EnamexPrsHum>
     Anttonen	</EnamexPrsHum>
     on	
     ostanut	
@@ -240,11 +240,29 @@ The final output consists of two tab-separated columns, the first of which conta
 
 ## Availability & Use
 
-The most recent distribution of `finnish-tagtools` (v.1.1, May 2018) can be found [here](http://korp.csc.fi/download/finnish-tagtools/v1.1/). This package includes `finnish-nertag`, which implements a pipeline in which FiNER is the ner-tagging stage.
+The most recent distribution of `finnish-tagtools` (v.1.3 / November 2018) for UNIX/Linux can be found [here](http://urn.fi/urn:nbn:fi:lb-201811143). Major changes from version 1.1 are listed in the resource's [Metashare entry](http://urn.fi/urn:nbn:fi:lb-201811141). This package includes `finnish-nertag`, which implements a pipeline in which FiNER is the ner-tagging stage. The user can install the tools on their system or run them in the local directory without installing.
 
 A dated online demo version with limited functionality is available for use [here](http://korp.csc.fi/cgi-bin/fintag/fintag.py).
 
 [CSC](http://csc.fi/) users can also use a pre-installed version of FiNER on the [Taito](http://research.csc.fi/taito-user-guide) supercluster and [Mylly](http://www.kielipankki.fi/tuki/mylly/).
+
+### Command line use
+
+`finnish-nertag` is used on the command line as follows:
+
+    $ finnish-nertag <<< "Helsingin yliopisto"
+    Helsingin      <EnamexOrgEdu>
+    yliopisto      </EnamexOrgEdu>
+
+The tool has the following options:
+
+- `--no-tokenize`: Turn off automatic input tokenization; useful when tagging per-tokenized token-per-line input.
+- `--show-analyses`: Show lemmas, morphological tags and semantic tags in the output; these are diplayed in their respective tab-separated fields.
+- `--show-nested`: Show nested entities i.e. "names within names"; the nested entities' tags are displayed in their respective fields, e.g.
+
+    $ finnish-nertag --show-analyses <<< "Helsingin yliopisto" 
+    Helsingin	   <EnamexOrgEdu>  <EnamexLocPpl/>
+    yliopisto	   </EnamexOrgEdu>
 
 ## Known issues
 - The transducers compiled from the rules have a combined size of ~700 MB
