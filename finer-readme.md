@@ -1,10 +1,17 @@
 # FiNER – Finnish Named-Entity Recognizer
+## v. 1.3.1 / 2018-12-11
+
+**NOTE: This page documents FiNER as found in finnish-tagtools 1.3.1 (December 2018). For the documentation of the most recent version of FiNER + links to up-to-date distributions, click [here](https://github.com/Traubert/FiNer-rules).**
 
 FiNER is a rule-based named-entity recognition tool for Finnish. It uses tools based on the CRF-based tagger [FinnPos](https://github.com/mpsilfve/FinnPos), the Finnish morphology package [OmorFi](https://github.com/flammie/omorfi), and the FinnTreeBank corpus for tokenization and morphological analysis, and a set of pattern-matching (`pmatch`) rules for recognizing and categorizing proper names and other expressions in plaintext input.
 
 The pattern-matching rules are built and compiled using the [Helsinki Finite-State Technology](https://hfst.github.io/) toolkit.
 
-Information on rule compilation and gazetteer usage can be found [here](files-readme.md). Additional technical and methodological documentation is available [here](technical.md).
+## Technical documentation
+
+Methodological information (e.g. the structure of the pmatch rule sets) and technical documentation can be found [here](https://github.com/Traubert/FiNer-rules/blob/master/technical.md).
+
+Information on rule compilation and gazetteer usage is available here [here](files-readme.md).
 
 ## Ontology & Name hierarchy
 
@@ -151,6 +158,7 @@ A more detailed description of each category is given below. It should be noted 
     - criminal, terrorist, and paramilitary organizations
     - law enforcement
     - military, armed forces
+    - religious organizations (churches, congregations, cults, sects...)
 - **EnamexPrs**: People & Beings
   - **EnamexPrsHum**: (Human) persons (real or fictional)
     - personal names (including given names, family names, patronymics etc.)
@@ -240,9 +248,9 @@ The final output consists of two tab-separated columns, the first of which conta
 
 ## Availability & Use
 
-The most recent distribution of `finnish-tagtools` (v.1.3 / November 2018) for UNIX/Linux can be found [here](http://urn.fi/urn:nbn:fi:lb-201811143). Major changes from version 1.1 are listed in the resource's [Metashare entry](http://urn.fi/urn:nbn:fi:lb-201811141). This package includes `finnish-nertag`, which implements a pipeline in which FiNER is the ner-tagging stage. The user can install the tools on their system or run them in the local directory without installing.
+A zip package containing **finnish-tagtools 1.3.1** (December 2018) for UNIX/Linux is available for download [here](http://urn.fi/urn:nbn:fi:lb-201811143). Major changes from previous versions are listed in the resource's [Metashare entry](http://urn.fi/urn:nbn:fi:lb-201811141). This package includes `finnish-nertag`, which implements a pipeline in which FiNER is the ner-tagging stage. Users can install the tools on their systems or run them in the local directory without installing.
 
-A dated online demo version with limited functionality is available for use [here](http://korp.csc.fi/cgi-bin/fintag/fintag.py).
+An online demo version of `finnish-tagtools` is available for use [here](http://195.148.30.97/cgi-bin/fintag.py).
 
 [CSC](http://csc.fi/) users can also use a pre-installed version of FiNER on the [Taito](http://research.csc.fi/taito-user-guide) supercluster and [Mylly](http://www.kielipankki.fi/tuki/mylly/).
 
@@ -251,20 +259,24 @@ A dated online demo version with limited functionality is available for use [her
 `finnish-nertag` can be used on the command line as follows:
 
     $ finnish-nertag <<< "Helsingin yliopisto"
-    Helsingin      <EnamexOrgEdu>
-    yliopisto      </EnamexOrgEdu>
+    Helsingin	<EnamexOrgEdu>
+    yliopisto	</EnamexOrgEdu>
 
 The tool has the following options:
 
-- `--no-tokenize`: Turn off automatic input tokenization; useful when tagging per-tokenized token-per-line input.
-- `--show-analyses`: Show lemmas, morphological tags and semantic tags in the output; these are diplayed in their respective tab-separated fields.
+- `--no-tokenize`: Turn off automatic input tokenization; this option should be used when tagging per-tokenized token-per-line input.
+- `--show-analyses`: Show lemmas, morphological tags and semantic tags in the output; these are diplayed in their respective tab-separated fields. lemma forms and morphological analyses are required if the user wishes to create lemmatized frequency lists from the output. 
 - `--show-nested`: Show nested entities i.e. "names within names"
 
-The nested entities' tags are displayed in their respective fields, e.g.
+Nested entities are displayed in their respective fields, e.g.
 
-    $ finnish-nertag --show-analyses <<< "Helsingin yliopisto" 
-    Helsingin	   <EnamexOrgEdu>  <EnamexLocPpl/>
-    yliopisto	   </EnamexOrgEdu>
+    $ finnish-nertag --show-analyses <<< "Helsingin yliopisto, Mikkelin hiippakunnan tuomiokapituli" 
+    Helsingin	<EnamexOrgEdu>	<EnamexLocPpl/>
+    yliopisto	</EnamexOrgEdu>
+    ,				
+    Mikkelin	<EnamexOrgCrp>	<EnamexLocPpl>	<EnamexLocPpl/>	
+    hiippakunnan		</EnamexLocPpl>			
+    tuomiokapituli	</EnamexOrgCrp>				
 
 ## Known issues
 - The transducers compiled from the rules have a combined size of ~700 MB
