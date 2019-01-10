@@ -9,11 +9,18 @@ FiNER’s Pmatch patterns are designed for token-per-line input, where the token
 	sijaitsee	sijaita	[POS=VERB][VOICE=ACT][MOOD=INDV][TENSE=PRESENT][PERS=SG3]	_
 	Espoossa	espoo	[POS=NOUN][PROPER=PROPER][PROP=GEO][NUM=SG][CASE=INE]	[PROP=GEO]
 	.	.	[POS=PUNCTUATION]	_
-	
 
-Words with certain morphological features can be matched by formulating a regular expression that matches lines containing the desired morphological tags. For instance, a capitalized, pluralized noun equals a regular expression that matches lines starting with an uppercase letter whose third field contains the substrings `[POS=NOUN]` and `[NUM=PL]`.
+Words with certain morphological features can be matched by formulating a regular expression that matches lines containing the desired morphological tags. For instance, a capitalized, pluralized noun equals a regular expression that matches lines starting with an uppercase letter whose third field contains the substrings `[POS=NOUN]` and `[NUM=PL]`. In the pmatch formalism, it can be 
 
-In Pmatch, a regular expression can be assigned a tag, in which case input sequences matched by said regular expression are enclosed in XML-style tags corresponding the assigned tag. The formalism also allows the user the user to name certain regular expressions and use these definitions like variables or functions to formulate more complex patterns. This is particularly useful for FiNER, as these features allow rules meant for tab-separated token-per-line input with contains morphological and semantic information to be legible and easy to modify. 
+      UppercaseAlpha Field FSep Field FSep Field {[POS=NOUN]} Field {[NUM=PL]} Field FSep Field FSep
+
+where `FSep` is the field separator i.e. the tab `\t`, `Field` matches a (potentially empty) field i.e. zero or more characters that are not field separators (`[ ? - FSep]*`). The HFST Pmatch formalism also allows the user the user to name certain regular expressions and use these defined sets of strings to formulate more complex patterns. This is particularly useful when writing NER rules for Finnish, since the formalism allow regular expression meant for matching strings tab-separated token-per-line input with morhological and lexical semantic information to be expressed as legible rules that are easy to modify.
+
+User-defined pmatch functions can used as shorthands for expressions that refer to specific parts of a line. For instance, the function `lemma_exact(S)` is a shorthand for the expression `Field FSep S FSep Field FSep Field FSep`, which matches all inflected forms of the word `S` in the input. 
+
+In Pmatch, a regular expression can be assigned a tag with the function `EndTag()`, in which case input sequences matched by said regular expression are enclosed in XML-style tags corresponding the assigned tag. For instance, expressions that match names of companies end with the function `EndTag(EnamexOrgCrp)`.
+
+More information on finite-state pattern matching and HFST Pmatch operators can be found in [Lauri Karttunen's Pmatch tutorial](https://web.stanford.edu/~laurik/publications/pmatch.pdf) and on [HFST Wiki](https://github.com/hfst/hfst/wiki/Regular-Expression-Operators).
 
 ### Rule types
 
@@ -30,7 +37,7 @@ FiNER makes use of several strategies in identifying names as well as determinin
 
 ### Weights
 
-The patterns are weighted; thus, if several patterns match the same sequence, more specific and reliable patterns over fallback options. For instance, names listed in gazetteers are are largely unambiguous and are thus assigned lower weights, which allows them to take precedence over broader patterns that rely on suffixed elements or overall string shape. The system can therefore reliably identify _MacBook Air_ as a product and not as an airline, or match _Bollywood-elokuva_ ’a Bollywood film’ without tagging it as a product. A pattern's weight is thus largely determined by its structure, but they were fine-tuned to maximize the system's performance on development corpora.
+The patterns are weighted; thus, if several patterns match the same sequence, more specific and reliable patterns over fallback options. For instance, names listed in gazetteers are are largely unambiguous and are thus assigned lower weights, which allows them to take precedence over broader patterns that rely on suffixed elements or overall string shape. The system can therefore reliably identify _MacBook Air_ as a product and not as an airline, or have an exception rule match _Bollywood-elokuva_ ’a Bollywood film’ and prevent it from being tagged as a product name. A pattern's weight is thus largely determined by its structure, but they were fine-tuned to maximize the system's performance on development corpora.
 
 ### Nested annotations
 

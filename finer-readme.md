@@ -1,7 +1,7 @@
 # FiNER – Finnish Named-Entity Recognizer
 ### v. 1.3.1 / 2018-12-11
 
-**NOTE: This page documents FiNER as found in v. 1.3.1 of `finnish-tagtools` (December 2018). For the documentation of the latest version of FiNER + links to up-to-date distributions, click [here](https://github.com/Traubert/FiNer-rules/finer-readme.md).**
+**NOTE: This page documents FiNER as found in v. 1.3.1 of `finnish-tagtools` (December 2018). For the documentation of the latest version of FiNER + links to up-to-date distributions, click [here](https://github.com/Traubert/FiNer-rules/blob/master/finer-readme.md).**
 
 FiNER is a rule-based named-entity recognition tool for Finnish. It uses tools based on the CRF-based tagger [FinnPos](https://github.com/mpsilfve/FinnPos), the Finnish morphology package [OmorFi](https://github.com/flammie/omorfi), and the FinnTreeBank corpus for tokenization and morphological analysis, and a set of pattern-matching (`pmatch`) rules for recognizing and categorizing proper names and other expressions in plaintext input.
 
@@ -9,9 +9,9 @@ The pattern-matching rules are built and compiled using the [Helsinki Finite-Sta
 
 ## Technical documentation
 
-Methodological information (including the structure of the pmatch rule sets) and technical documentation can be found [here](https://github.com/Traubert/FiNer-rules/blob/master/technical.md).
+Technical documentation (including a rough overview of the formalization of Finnish NER rules as well as the various strategies used by FiNER to identify names) can be found [here](https://github.com/Traubert/FiNer-rules/blob/master/technical.md).
 
-Information on rule compilation and gazetteer usage is available here [here](files-readme.md).
+Information on rule compilation and gazetteer usage is available [here](files-readme.md).
 
 ## Ontology & Name hierarchy
 
@@ -217,8 +217,8 @@ A more detailed description of each category is given below. It should be noted 
 ## Input
 
 FiNER accepts **plaintext** input written in **Standard Finnish**. More precisely, the input should be
-- plaintext, (e.g. `.txt`, `.tsv`, `.csv`). XML (`.html`, `.xml`) is also allowed if the element tags only occupy a single line, e.g. using HTML-style tags to structure the text is perfectly acceptable.
-- preferably untokenized – the rules are designed for token-per-line input where
+- plaintext, (e.g. `.txt`, `.tsv`, `.csv`). XML (`.html`, `.xml`) is also allowed if the element tags only span a single line, e.g. using HTML-style tags to structure the text is perfectly acceptable.
+- preferably untokenized – the pipeline handles both tokenization and morphological analysis. The rules are designed for morphologically analyzed token-per-line input where
   - sentences are separated by empty lines
   - abbreviations ending in full stops are single tokens (_esim._, _mm._, _j.n.e._)
   - numbers that use spaces as digit group separators are single tokens (_50 000_)
