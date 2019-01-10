@@ -275,7 +275,7 @@ The tool has the following options:
 
 Nested entities are displayed in their respective fields, e.g.
 
-    $ finnish-nertag --show-analyses <<< "Helsingin yliopisto, Mikkelin hiippakunnan tuomiokapituli" 
+    $ finnish-nertag --show-nested <<< "Helsingin yliopisto, Mikkelin hiippakunnan tuomiokapituli" 
     Helsingin	<EnamexOrgEdu>	<EnamexLocPpl/>
     yliopisto	</EnamexOrgEdu>
     ,				
