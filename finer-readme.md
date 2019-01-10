@@ -3,7 +3,7 @@
 
 **NOTE: This page documents FiNER as found in v. 1.3.1 of `finnish-tagtools` (December 2018). For the documentation of the latest version of FiNER + links to up-to-date distributions, click [here](https://github.com/Traubert/FiNer-rules/blob/master/finer-readme.md).**
 
-FiNER is a rule-based named-entity recognition tool for Finnish. It uses tools based on the CRF-based tagger [FinnPos](https://github.com/mpsilfve/FinnPos), the Finnish morphology package [OmorFi](https://github.com/flammie/omorfi), and the FinnTreeBank corpus for tokenization and morphological analysis, and a set of pattern-matching (`pmatch`) rules for recognizing and categorizing proper names and other expressions in plaintext input.
+FiNER is a rule-based named-entity recognition tool for Finnish, developed at the University of Helsinki for the FIN-CLARIN consortium. It uses tools based on the CRF-based tagger [FinnPos](https://github.com/mpsilfve/FinnPos), the Finnish morphology package [OmorFi](https://github.com/flammie/omorfi), and the FinnTreeBank corpus for tokenization and morphological analysis, and a set of pattern-matching (`pmatch`) rules for recognizing and categorizing proper names and other expressions in plaintext input.
 
 The pattern-matching rules are built and compiled using the [Helsinki Finite-State Technology](https://hfst.github.io/) toolkit.
 

@@ -45,7 +45,7 @@ FiNER performs nested annotation in tandem with surface-level annotation, as man
 
 ## Previous technical documentation
 
-These links contain documentation on earlier versions of FiNER: 
+These links contain documentation on earlier (pre v. 1.1 ) versions of FiNER from 2011-2017: 
 
 - [http://www.helsinki.fi/~jkuokkal/finer_dist/](http://www.helsinki.fi/~jkuokkal/finer_dist/)
 - Kettunen, Kimmo & Mäkelä, Eetu & Ruokolainen, Teemu & Kuokkala, Juha. & Löfberg, Laura (2017). Old Content and Modern Tools: Searching Named Entities in a Finnish OCRed Historical Newspaper Collection 1771–1910. _Digital Humanities Quarterly_. DOI: [http://www.digitalhumanities.org/dhq/vol/11/3/000333/000333.html](http://www.digitalhumanities.org/dhq/vol/11/3/000333/000333.html).
@@ -53,5 +53,5 @@ These links contain documentation on earlier versions of FiNER:
 ## Name hierarchy: main differences from SweNER
 
 - FiNER features an additional subcategory of organizations, namely `EnamexOrgEdu` for schools
-- categories `OBJ` (`EnamexObj_`) and `WRK` (`EnamexArt_`) are subsumed under Products (`EnamexProXxx`) without futher subcategorization.  
+- categories `OBJ` (`EnamexObj_`) and `WRK` (`EnamexArt_`) are subsumed under Products (`EnamexProXxx`) without futher subcategorization
 - all events (`EnamexEvn_`) are tagged as `EnamexEvtXxx` without further subcategorization.
