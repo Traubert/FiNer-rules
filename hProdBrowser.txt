@@ -1,0 +1,27 @@
+360 Safe Browser
+360 Secure Browser
+Chrome
+Chromium
+Coc Coc
+DuckDuckGo
+Edge
+Explorer
+Firefox
+Google Chrome
+IE
+Internet Explorer
+Microsoft Edge
+Mozilla Firefox
+Netscape
+Netscape Navigator
+Opera
+Pale Moon
+PhantomJS
+QQ Browser
+Safari
+Sougou Explorer
+Tor Browser
+UC Browser
+Vivaldi
+Yandex
+Yandex Browser
