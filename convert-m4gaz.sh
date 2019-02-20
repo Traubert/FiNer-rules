@@ -3,61 +3,94 @@
 # Convert lists of e.g. multi-word names into m4 files that can be used as gazetteers
 
 # EnamexOrg___
-python3 txt2m4.py \
-	gOrgCorpMWordMisc.txt \
-	gOrgRestaurant.txt \
-	gOrgCorpStore.txt \
-	gOrgAirline.txt \
-	gOrgFashion.txt > gOrgCorpAll.m4
+./txt2m4.py \
+    gaz/gOrgCorpMWordMisc.txt \
+    gaz/gOrgCorpMWordFin.txt \
+    gaz/gOrgRestaurant.txt \
+    gaz/gOrgCorpStore.txt \
+    gaz/gOrgAirline.txt \
+    gaz/gOrgFashion.txt > gaz/gOrgCorpAll.m4
 
-python3 txt2m4.py gOrgMiscFin.txt > gOrgMiscAll.m4
+./txt2m4.py gaz/gOrgMiscFin.txt gaz/gOrgMiscMWord.txt | tr -s ' \n' ' ' | sed 's/. Lst.AlphaUp.*//g' > gaz/gOrgMisc.m4
+./txt2m4.py gaz/gOrgMiscFin.txt gaz/gOrgMiscMWord.txt | tr -s ' \n' ' ' | egrep -o 'Lst.AlphaUp.*' > gaz/gOrgMiscFin.m4
 
-python3 txt2m4.py \
-	gCultInstitution.txt \
-	gCultPerformingGroupFin.txt \
-	gCultPerformingGroup.txt > gOrgCult.m4
+./txt2m4.py \
+    gaz/gCultInstitution.txt \
+    gaz/gCultPerformingGroupFin.txt \
+    gaz/gCultPerformingGroupCongr.txt \
+    gaz/gCultPerformingGroup.txt | tr -s ' \n' ' ' | sed 's/. Lst.AlphaUp.*//g' > gaz/gOrgCult.m4
 
-python3 txt2m4.py gCultPerformingGroupCongr.txt > gOrgCultCongr.m4
+./txt2m4.py \
+    gaz/gCultInstitution.txt \
+    gaz/gCultPerformingGroupFin.txt \
+    gaz/gCultPerformingGroupCongr.txt \
+    gaz/gCultPerformingGroup.txt | tr -s ' \n' ' ' | egrep -o 'Lst.AlphaUp.*' > gaz/gOrgCultCongr.m4
 
-python3 txt2m4.py gMediaMWord.txt gMediaMWordFin.txt > gOrgMedia.m4   
+./txt2m4string.py gaz/gMediaMWord.txt gaz/gMedia1Part.txt > gaz/gOrgMedia.m4   
+./txt2m4string.py \
+    gaz/gMediaMWordCongr.txt \
+    gaz/gMediaMWordFin.txt \
+    gaz/gMedia1PartFin.txt > gaz/gOrgMediaFin.m4
 
-python3 txt2m4.py gMediaMWordCongr.txt > gOrgMediaCongr.m4
+./txt2m4.py gaz/gMediaMWordCongr.txt > gaz/gOrgMediaCongr.m4
 
-python3 txt2m4.py gOrgAthTeam.txt > gOrgAthTeam.m4
+./txt2m4.py gaz/gOrgAthTeam.txt > gaz/gOrgAthTeam.m4
+
+./txt2m4.py gaz/gOrgParty.txt | tr -s ' \n' ' ' | sed 's/. Lst.AlphaUp.*//g' > gaz/gOrgPartyMisc.m4
+./txt2m4.py gaz/gOrgParty.txt | tr -s ' \n' ' ' | egrep -o 'Lst.AlphaUp.*' > gaz/gOrgPartyFin.m4
 
 # EnamexPrs___
-python3 txt2m4.py \
-	gPersMWordMisc.txt \
-	gPersMWordFin.txt > gPersMWord.m4
-python3 txt2m4.py \
-	gMythicalBeingFin.txt \
-	gMythicalBeing.txt > gPersFictional.m4
+./txt2m4.py gaz/gPersMWordMisc.txt gaz/gFictionalFigure.txt > gaz/gPersMWord.m4
+./txt2m4.py gaz/gPersMWordFin.txt gaz/gFictionalFigureFin.txt > gaz/gPersMWordFin.m4  
+
+./txt2m4.py \
+    gaz/gMythicalBeingFin.txt \
+    gaz/gMythicalBeing.txt > gaz/gPersFictional.m4
+
+./txt2m4.py gaz/gAnimalBeast.txt > gaz/gAnimalBeast.m4
 
 # EnamexLoc___
-python3 txt2m4.py gLocPolMWordMisc.txt gLocPolMWordFin.txt > gLocPolMWord.m4
-python3 txt2m4.py gLocPlace.txt gLocPlaceFin.txt > gLocPlace.m4
-python3 txt2m4.py gLocGeoMWordFin.txt > gLocGeoMWord.m4
-python3 txt2m4.py \
-	gLocFictional.txt \
-	gLocMythical.txt > gLocFictional.m4
+./txt2m4.py gaz/gLocPolMWordMisc.txt \
+	    gaz/gLocPolMWordFin.txt | tr -s ' \n' ' ' | sed 's/. Lst.AlphaUp.*//g' > gaz/gLocPolMWord.m4
+./txt2m4.py gaz/gLocPolMWordFin.txt | tr -s ' \n' ' ' | egrep -o 'Lst.AlphaUp.*' > gaz/gLocPolMWordFin.m4
+
+./txt2m4.py gaz/gLocPlace.txt gaz/gLocPlaceFin.txt > gaz/gLocPlace.m4
+
+./txt2m4.py gaz/gLocGeoMWordFin.txt | tr -s ' \n' ' ' | sed 's/. Lst.AlphaUp.*//g' > gaz/gLocGeoMWordW.m4
+./txt2m4.py gaz/gLocGeoMWordFin.txt | tr -s ' \n' ' ' | egrep -o 'Lst.AlphaUp.*' > gaz/gLocGeoMWordL.m4
+
+./txt2m4.py \
+    gaz/gLocFictional.txt \
+    gaz/gLocMythical.txt > gaz/gLocFictional.m4
 
 # EnamexPro___
-python3 txt2m4.py gProdMusic.txt gArtifact.txt > gProdMWord.m4
-python3 txt2m4.py gProdGame.txt > gProdGame.m4
-python3 txt2m4.py gProdVehicleBrand.txt > gProdVehicleBrand.m4
-python3 txt2m4string.py gProdVehicleBrand.txt > gProdVehicleBrandStr.m4
-python3 txt2m4.py gProdFilmTvMWord.txt gProdFilmTvMWordFin.txt > gProdFilmTvMWord.m4
-python3 txt2m4.py gProdLitFin.txt > gProdLitMWord.m4
-python3 txt2m4.py gProdDrug.txt > gProdDrug.m4
-python3 txt2m4.py gProdFoodDrink.txt > gProdFoodDrink.m4
-python3 txt2m4.py gProdCultivar.txt > gProdCultivar.m4
+./txt2m4.py gaz/gProdMusic.txt gaz/gArtifact.txt gaz/gProdMisc.txt gaz/gProdArt.txt > gaz/gProdMWord.m4
 
-python3 txt2m4string.py hProdDevice.txt > hProdDevice.m4
-python3 txt2m4string.py hProdOS.txt > hProdOS.m4
-python3 txt2m4string.py hProdAppStore.txt > hProdAppStore.m4
-python3 txt2m4string.py hProdSearchEngine.txt > hProdSearchEngine.m4
-python3 txt2m4string.py hProdBrowser.txt > hProdBrowser.m4
-python3 txt2m4string.py hProdTechMisc.txt > hProdTechMisc.m4
+./txt2m4.py gaz/gProdGame.txt > gaz/gProdGame.m4
+
+./txt2m4.py gaz/gProdVehicleBrand.txt > gaz/gProdVehicleBrand.m4
+
+./txt2m4string.py gaz/gProdVehicleBrand.txt > gaz/gProdVehicleBrandStr.m4
+
+./txt2m4.py gaz/gProdFilmTvMWord.txt gaz/gProdFilmTvMWordFin.txt | tr -s ' \n' ' ' | sed 's/. Lst.AlphaUp.*//g' > gaz/gProdFilmTvMWordW.m4
+./txt2m4.py gaz/gProdFilmTvMWord.txt gaz/gProdFilmTvMWordFin.txt | tr -s ' \n' ' ' | egrep -o 'Lst.AlphaUp.*' > gaz/gProdFilmTvMWordL.m4
+
+./txt2m4.py gaz/gProdLitFin.txt > gaz/gProdLitMWord.m4
+
+./txt2m4.py gaz/gProdDrug.txt > gaz/gProdDrug.m4
+
+./txt2m4.py gaz/gProdFoodDrink.txt | tr -s ' \n' ' ' | sed 's/. Lst.AlphaUp.*//g' > gaz/gProdFoodDrinkMisc.m4
+./txt2m4.py gaz/gProdFoodDrink.txt | tr -s ' \n' ' ' | egrep -o 'Lst.AlphaUp.*' > gaz/gProdFoodDrinkFin.m4 
+
+./txt2m4.py gaz/gProdCultivar.txt > gaz/gProdCultivar.m4
+
+./txt2m4string.py gaz/gProdDevice.txt > gaz/gProdDevice.m4
+./txt2m4string.py gaz/gProdOS.txt > gaz/gProdOS.m4
+./txt2m4string.py gaz/gProdAppStore.txt > gaz/gProdAppStore.m4
+./txt2m4string.py gaz/gProdSearchEngine.txt > gaz/gProdSearchEngine.m4
+./txt2m4string.py gaz/gProdBrowser.txt > gaz/gProdBrowser.m4
+./txt2m4string.py gaz/gProdTechMisc.txt > gaz/gProdTechMisc.m4
 
 # EnamexEvt___
-python3 txt2m4.py gEventMisc.txt gEventFin.txt gEventWarFin.txt > gEventMisc.m4
+./txt2m4.py gaz/gEventMisc.txt gaz/gEventFin.txt gaz/gEventWarFin.txt | tr -s ' \n' ' ' | sed 's/. Lst.AlphaUp.*//g' > gaz/gEventMisc.m4
+./txt2m4.py gaz/gEventMisc.txt gaz/gEventFin.txt gaz/gEventWarFin.txt | tr -s ' \n' ' ' | egrep -o 'Lst.AlphaUp.*' > gaz/gEventFin.m4

@@ -13,25 +13,10 @@ m4_include(`finer_defs.m4')
 !----------------------------------------------------------------------
 ! Expansion
 ! Assign identical NE tag to neighbouring untagged proper names in lists
+! NB: These rule take input with additional fields and field separators,
+! which must be accounted when marking word boundaries.
 !----------------------------------------------------------------------
 
-!* NB: These definitions may be outdated
-!Define XmlStartTag
-!       Word FSep "<" Alpha+ ">" WSep ;
-       
-!Define XmlEndTag
-!       Word FSep {</} Alpha+ ">" ;
-
-!Define NoTagS
-!       Word FSep WSep ;
-
-!Define PerStartTag Word FSep "<" Alpha* {Prs} Alpha* ">" WSep ;
-!Define OrgStartTag Word FSep "<" Alpha* {Org} Alpha* ">" WSep ;
-!Define ProStartTag Word FSep "<" Alpha* {Pro} Alpha* ">" WSep ;
-!Define LocStartTag Word FSep "<" Alpha* {Loc} Alpha* ">" WSep ;
-
-! These rule take input with additional fields and field separataors,
-! which must be accounted when marking word boundaries.
 Define FWSep
        FSep* WSep ;
 
@@ -152,21 +137,25 @@ Define Expand
        | ProQuoteAndQuote
        ] ;
 
-Define PersTitleStr [ [ Field @txt"gPersTitle.txt" ] -
-                    [ Field [ {digiassistentti} | {verkkolaitetoimittaja} | AlphaDown+ {toimittaja} | {välittäjä} | {markkinajohtaja} ] ] ] ;
+Define PersTitleStr [ [ Field @txt"gaz/gPersTitle.txt" ]
+                    - [ Field [ {digiassistentti} | {laitetoimittaja} | {järjestelmätoimittaja} |
+		      	      	{markkinajohtaja} | {syöjätär} ] ] ] ;
 
 Define TitleAdj
        lemma_exact( {johtava} | {vastaava} | {vt.} | {operatiivinen} | {entinen} ) ;
 
 Define PersTitle1
-       ( TitleAdj FWSep )
-       ( TruncPfx FWSep wordform_exact({ja}) FWSep )
-       lemma_exact_morph( PersTitleStr, [ Field {NUM=SG} Field ] - [ Field [{CASE=ESS}|{CASE=TRA}] Field ]) ;
-
+       [ ( TitleAdj FWSep )
+       	 ( TruncPfx FWSep wordform_exact({ja}) FWSep )
+       	 [ lemma_exact_morph( PersTitleStr, {[NUM=SG]}) - morphtag({CASE=ESS}|{CASE=TRA}) ] |
+       	 lemma_exact( @txt"gaz/gPersTitleAbbr.txt" ) ] ;
+	 
 Define PersTitle2
-       ( wordform_ends( AlphaDown+ [ {iikan} | {sofian} | {logian} | {tieteen} | {emian} | {tutkimuksen} | {nomian} ] ) FWSep wordform_exact({ja}) FWSep )
+       ( wordform_ends( AlphaDown+ [ {iikan} | {sofian} | {logian} | {tieteen} |
+       	 		{emian} | {tutkimuksen} | {nomian} ] ) FWSep wordform_exact({ja}) FWSep )
        ( TruncPfx FWSep wordform_exact({ja}) FWSep )
-       wordform_ends( AlphaDown+ [ {iikan} | {sofian} | {logian} | {tieteen} | {emian} | {tutkimuksen} | {nomian} ] ) FWSep
+       wordform_ends( AlphaDown+ [ {iikan} | {sofian} | {logian} | {tieteen} |
+       		      {emian} | {tutkimuksen} | {nomian} ] ) FWSep
        lemma_exact_morph( {opiskelija} | {kandidaatti} | {maisteri} | {dosentti} | {tohtori} | {professori}, [ Field {NUM=SG} Field ] - [ Field [{CASE=ESS}|{CASE=TRA}] Field ]) ;
 
 Define PersTitle3

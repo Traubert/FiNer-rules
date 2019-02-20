@@ -2,8 +2,10 @@
 
 sed -r 's/$/ /g' | tr -s '\t ' ' ' |
     sed -r 's/([^e]) CapMisc /\1 Ins(CapMisc) /g' |
+    sed -r 's/([^e]) CapMiscExt/\1 Ins(CapMiscExt)/g' |
     sed -r 's/([^e]) CapWord /\1 Ins(CapWord) /g' |
     sed -r 's/([^e]) CapName /\1 Ins(CapName) /g' |
+    sed -r 's/([^e]) Abbr /\1 Ins(Abbr) /g' |
     sed -r 's/([^e]) CapNameGen /\1 Ins(CapNameGen) /g' |
     sed -r 's/([^e]) CapNameNom /\1 Ins(CapNameNom) /g' |
     sed -r 's/([^e]) AndOfThe /\1 Ins(AndOfThe) /g' |

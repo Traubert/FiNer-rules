@@ -58,3 +58,4 @@ voihkaista
 voihkia
 tuupertua
 palella
+tokaista

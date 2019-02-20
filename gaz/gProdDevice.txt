@@ -1,0 +1,75 @@
+2DS
+Amiga
+Apple iPhone
+Apple Watch
+C64
+CBM 64
+Cold Fusion
+Commodore 64
+Dreamcast
+DS
+DSi
+EliteBook
+Famicom
+Fire Tablet
+Galaxy
+Galaxy Note
+Game Boy
+Game Boy Advance
+Game Boy Color
+GameCube
+Google Glass
+Google Watch
+iPad
+IPad
+iPhone
+Iphone
+IPhone
+iPod
+IPod
+Jolla
+Kindle
+Kindle Fire
+Lumia
+Mega Drive
+N3DS
+N64
+NES
+Nintendo 2DS
+Nintendo 3DS
+Nintendo DS
+Nintendo Switch
+Nokia #
+Nokia Lumia
+Nokia N1
+Nokia N2
+Nokia N9
+Playstation
+PlayStation
+PlayStation #
+Pleikkari
+PS1
+PS2
+PS3
+PS4
+PSOne
+PSX
+Raspberry
+Raspberry Pi
+Samsung Galaxy
+Sega Dreamcast
+Sega Genesikse
+Sega Genesis
+Sega Mega Drive
+Sega Saturn
+SNES
+Sony PlayStation
+Sony Xperia
+Super Nintendo
+SwanCrystal
+Wii
+Wii U
+WonderSwan
+Xbox
+Xbox 360
+Xbox One

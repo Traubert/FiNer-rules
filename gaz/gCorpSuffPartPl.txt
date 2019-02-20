@@ -1,0 +1,11 @@
+akseli
+hotelli
+huoneisto
+keittiö
+kiinteistö
+lääkäri
+profiili
+ravintola
+remontti
+tehdas
+yrittäjä

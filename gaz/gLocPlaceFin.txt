@@ -1,0 +1,78 @@
+
+Ahjola
+Aikatalo
+Ainola
+Aleksandrian majakka
+Amiraalintalo
+Autotalo
+Dipoli
+Eduskuntatalo
+Eiffelin torni
+Eiffel-torni
+Finlandia-talo
+Golden Gaten silta
+Graniittitalo
+Hakaniemen halli
+Hartwall-areena
+Helsingin Stadion
+Helsinki-Malmi
+Helsinki-Vantaa
+Hotelli Torni
+Inventaariokamari
+Itämerentorni
+Kaapelitehdas
+Kaivopiha
+Kaivotalo
+Kiinan muuri
+Kruununmakasiini
+Kultaranta
+Kulttuuritalo
+Kymijokilinja
+Lasipalats
+Lasipalatsi
+Lastenlinna
+Linnanmäki
+Luumäenlinja
+Luumäkilinja
+Makkaratalo
+Meritorni
+Metsätalo
+Musiikkitalo
+Muumimaailma
+Näsilinna
+Näsinneula
+Neuschwansteinin linna
+Olympiastadion
+Pikkuparlamentti
+Pisararata
+Postitalo
+Presidentinlinna
+Puijon näkötorni
+Puijon torni
+Raatihuone
+Riemukaari
+Ritarihuone
+Ruiskumestarintalo
+Runonlaulajanpirtti
+Säätytalo
+Salpalinja
+Sampola
+Sanomatalo
+Soittokunnantalo
+Stadika
+Stadikka
+Steissi
+Suomenlinna
+Suurkikko
+Sydneyn oopperatalo
+Tahkovuori
+Tennispalatsi
+Valtioneuvoston linna
+Vanajanlinna
+Vanhakirkko
+Viapori
+Ylioppilastalo
+Ympyrätalo
+Gizan suuri%sg pyramidi
+Uusi%sg ylioppilastalo
+Vanha%sg ylioppilastalo

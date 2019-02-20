@@ -5,6 +5,7 @@ alistua
 aloittaa
 analysoida
 ärähtää
+ärsyyntyä
 ärtyä
 arvella
 arvioida
@@ -13,6 +14,7 @@ ennustaa
 epäillä
 esitellä
 esittää
+hankkia
 hakea
 haluta
 harkita
@@ -41,7 +43,10 @@ kehuskella
 kertoa
 kieltäytyä
 kiinnostua
+kiittää
+kiitellä
 kiistää
+kiirehtiä
 kilpailla
 kiristää
 kirjoittaa
@@ -54,6 +59,7 @@ kritisoida
 kunnioittaa
 kunnuoittaa
 kutsua
+kuvata
 kuvailla
 laajentaa
 laajentua
@@ -105,9 +111,11 @@ rauhoitella
 reagoida
 rekrytoida
 rohkaista
+ryhtyä
 sanoa
 satsata
 selvittää
+sekaantua
 sensuroida
 sinnitellä
 sijoittaa
@@ -142,14 +150,18 @@ tuskailla
 tutkia
 tutustua
 työstää
+työllistää
 tyrmätä
 tyytyä
 uhkailla
 uskaltaa
+uskoa
+uskotella
 uudistaa
 uutisoida
 vaatia
 valmistaa
+valmistautua
 valmistella
 vahvistaa
 vakuuttaa
@@ -159,6 +171,7 @@ vastaa
 vastustaa
 vedota
 visioida
+väittää
 vuokrata
 ylläpitää
 ymmärtää

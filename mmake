@@ -1,6 +1,5 @@
 #!/bin/sh
 
-./compile-infl.sh
 ./convert-m4gaz.sh
 
 LOGFILE=_mmake_`date '+%Y%m%d_%H%M%S'`.log

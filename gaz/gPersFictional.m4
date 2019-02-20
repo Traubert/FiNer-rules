@@ -1,0 +1,6 @@
+inflect_sg( {Afrodite} | {Allah} | {Amaterasu} | {Amun} | {Anubi} ["s"|{kse}] | {Apollo} | {Apollon} | {Athene} | {Azrael} | {Bellerofon} | {Brahma} | {Cthulhu} | {Dionyso} ["s"|{kse}] | {Durga} | {Freija} | {Freya} | {Freyja} | {Gaia} | {Ganesha} | {Haade} ["s"|{kse}] | {Hefaisto} ["s"|{kse}] | {Herakle} ["s"|{kse}] | {Herkule} ["s"|{kse}] | {Herme} ["s"|{kse}] | {Horukse} | {Horu} ["s"|{kse}] | {Indra} | {Jahve} | {Juppiter} | {Krishna} | {Krišna} | {Lakshmi} | {Leishen} | {Lucifer} | {Marduk} | {Mefistofele} ["s"|{kse}] | {Mercuriu} ["s"|{kse}] | {Mithra} | {Mitra} | {Moloch} | {Molok} | {Moroni} | {Nut} | {Odin} | {Óðinn} | {Osirikse} | {Osiri} ["s"|{kse}] | {Pazuzu} | {Persefone} | {Poseidon} | {Ptah} | {Seker} | {Selene} | {Shiva} | {Šiva} | {Skadi} | {Skáði} | {Sokar} | {Surya} | {Sūrya} | {Tammu} ["s"|{kse}] | {Vishnu} | {Višnu} | {Wotan} | {Zeu} ["s"|{kse}] ) |
+wordform_exact({Pallas}) WSep inflect_sg({Athene}) |
+wordform_exact({Seppä}) WSep "I" lemma_exact({ilmarinen}) |
+wordform_exact({Seppo}) WSep "I" lemma_exact({ilmarinen}) |
+Lst(AlphaUp) [ lemma_exact( {ilmatar} | {mefistofeles} | {moolok} | {saatana} | {tammus} | {ukko} | {väinämöinen} ) |
+  lemma_exact_morph({pyhä}, {NUM=SG}) WSep "H" lemma_exact_morph({henki}, {NUM=SG}) ]
