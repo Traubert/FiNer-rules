@@ -329,7 +329,7 @@ Define PersonHyphen1
        [ CapMisc WSep ]*
        [ NameInitial WSep ]*
        ( CapMisc WSep )
-       AlphaUp Field [ Word WSep | Dash {nimi} ] lemma_ends({niminen}) WSep
+       AlphaUp Field [ Word WSep Dash | Dash {nimi} ] lemma_ends({niminen}) WSep
        [ Ins(PersTitle) | lemma_exact( AlphaDown* [ {henkilö} | {asiakas} | {käyttäjä} | {nainen} | {mies} |
        	 		  	       {poika} | {tyttö} ]) ] ;
 
@@ -4936,11 +4936,12 @@ Define ProdMiscWithBrand1
        ( PosAdj WSep )
        PosNoun::0.50 ;
 
-!* Xxx Xxx -merkkinen xxx
+!* Xxx Xxx merkkinen käytetty xxx
+!* Xxx xxx -merkkinen xxx
 !* Xxx merkkinen xxx
 Define ProdMiscWithBrand2
        [ CapMiscExt WSep ]*
-       Word WSep
+       [ Field CapWord WSep Dash | CapMiscExt WSep ]
        lemma_exact( (Dash) {merkkinen} ) WSep
        ( PosAdj WSep )
        PosNoun::0.50 ;
@@ -6012,14 +6013,22 @@ Define ExceptChampionship2
        wordform_exact([ {18} | {19} | {20} ] 0To9 0To9 ("."))
        EndTag(Exc024) ;
 
-!* Block prefixes erroneously – they may sometimes be tagged as proper names
+!* Block prefixes in isolation (they may be tagged as PROP)
 Define ExceptPrefixProp
        wordform_exact( Alpha Field Dash )
        EndTag(Exc025) ;
 
 Define ExceptChurch
        lemma_exact( {katolinen} | {ortodoksinen} | {luterilainen} ) WSep
-       lemma_exact({kirkko}) ;
+       lemma_exact({kirkko})
+       EndTag(Exc026) ;
+
+Define ExceptWhatNameBrand
+       lemma_exact({mikä}|{tämän}|{tuo}|{se}|{sama}|{eri}, {CASE=GEN}) WSep
+       lemma_exact({niminen}|{merkkinen}) WSep
+       ( PosAdj WSep )
+       morphtag({CASE})
+       EndTag(Exc027) ;
 
 !* Category HEAD
 Define Exceptions
@@ -6048,6 +6057,7 @@ Define Exceptions
        | Ins(ExceptProductCommunity)::0.00
        | Ins(ExceptPrefixProp)::0.00
        | Ins(ExceptChurch)::0.00
+       | Ins(ExceptWhatNameBrand)::0.00
        ] ;
 
 !!----------------------------------------------------------------------
