@@ -16,8 +16,8 @@ Define CorpOrPro @txt"gaz/gStatORGxPRO.txt" | Ins(VehicleBrand) ;
 Define CorpOrLoc @txt"gaz/gStatLOCxORG.txt" ;
 Define LocOrPer  @txt"gaz/gStatLOCxPER.txt" ;
 
-Define VerbPer	 @txt"per-verbs.txt" ; ! Verbs for disambiguating people from other entities
-Define VerbOrg	 @txt"org-verbs.txt" ; ! Verbs for disambiguating organizations from e.g. locations or products
+Define VerbPer	 @txt"gaz/per-verbs.txt" ; ! Verbs for disambiguating people from other entities
+Define VerbOrg	 @txt"gaz/org-verbs.txt" ; ! Verbs for disambiguating organizations from e.g. locations or products
 
 Define PartyMemberAbbr lemma_exact( [ {kok} | {sit} | {r} | {rkp} | {sdp} | {sd} | {kd} | {vihr} | {skp} | {sin} |
        		       		      {ps} | {kom} | {kesk} | {p} | {skdl} | {lib} ] (".") | {vas} ) ;
