@@ -24,7 +24,7 @@ Sen sijaan jos yhdysviivaa seuraa jokin muu kuin selite, lauseketta ei merkitä.
 *_Netflix-elokuva_  
 *_Android-puhelin_
 
-Ylläolevissa tapauksissa kyseessä ei ole selite: elokuvan nimi ei ole _Netflix_ eikä _Android-puhelin_ tarkoita Android-nimistä puhelinta.
+Näissä tapauksissa kyseessä ei ole selite: elokuvan nimi ei ole _Netflix_ eikä _Android-puhelin_ tarkoita Android-nimistä puhelinta.
 
 Nimi ja sitä seuraava selite merkitään kokonaisuudessan entiteetiksi silloinkin, jos nimen ja selitteen välissä on välilyönti (esim. monisanaisen nimen tapauksessa) tai jos nimeä ympäröivät lainausmerkit, kuten alla:
 
@@ -83,14 +83,14 @@ _tammi- ja helmikuussa_
 
 Esimerkiksi paikannimen genetiiviä omana sananaan seuraavaa sanaa ei merkitä osaksi entiteettiä, jos kyseessä on puhtaasti selite, jonka tarkoitus on selventää nimen sisältöä. Tällöin pelkän nimen merkitseminen riittää:
 
-_Montanan osavaltio_ (=_Montana_) -> vain _Montana_ merkitään  
-_Uppsalan kaupungissa_ (=_Uppsalassa_) -> vain _Uppsalan_ merkitään  
-_Uudenmaan maakunta_ (≈_Uusimaa_) -> vain _Uudenmaan_ merkitään
+_Montanan osavaltio_ (= _Montana_) -> vain _Montana_ merkitään  
+_Uppsalan kaupungissa_ (= _Uppsalassa_) -> vain _Uppsalan_ merkitään  
+_Uudenmaan maakunta_ (≈ _Uusimaa_) -> vain _Uudenmaan_ merkitään
 
 Jos kyseinen yhdistelmä on kuitenkin vakiintunut paikannimi tai esim. hallinnollisen alueen virallinen nimi (jolloin kyseessä ei ole välttämättä edes selite), se merkitään kokonaan. Tällöin ei ole merkitystä sillä, onko nimen alkuosa synonyymi koko nimen kanssa vai ei:
 
-_Ruotsin kuningaskunta_	(≈_Ruotsi_)  
-_Suomen tasavalta_ (≈_Suomi_)  
+_Ruotsin kuningaskunta_	(≈ _Ruotsi_)  
+_Suomen tasavalta_ (≈ _Suomi_)  
 _Uudenmaan lääni_ (selkeämpää merkitä kokonaisuudessaan; _Uusimaa_ viittaa yksinään usein maakuntaan)  
 _Porin lääni_ (≠ _Pori_, kaupunki)
 
@@ -126,9 +126,7 @@ _Helsingin kesäolympialaiset 1952_
 _kesäolympialaiset 1952_  
 _vuoden 1952 kesäolympialaiset_
 
-Tämän lisäksi merkitään olympialaiset, ovat yksiselitteisiä myös ilman jotakin vaadittua elementtiä, esim. 
+Tämän lisäksi merkitään sellaiset olympialaiset, jos ne ovat yksiselitteisiä myös ilman jotakin vaadittua elementtiä, esim. 
 
-_Helsingin olympiakisat_
+_Helsingin olympiakisat_  
 _Helsingin kesäolympialaiset_.
-
-
