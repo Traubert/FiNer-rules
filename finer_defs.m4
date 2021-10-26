@@ -2,6 +2,8 @@
 
 ! Do not require matching complete words
 set need-separators off
+! Use unicode classes
+set use-character-classes on
 
 !======================================================================
 !==== Auxiliary definitions
@@ -20,19 +22,11 @@ Define Field NoFSep* ;
 
 ! Alphabetic characters not covered by built-in Alpha sets
 
-list AlphaUp
-       [ UppercaseAlpha | "Ă"|"Ắ"|"Ặ"|"Ẫ"|"Ã"|"Ȧ"|"Ā"|"Ć"|"Ĉ"|"Č"|"Ď"|"Đ"|"Ɖ"|"Ĕ"|"Ě"|"Ề"|"Ệ"|"Ė"|"Ę"|"Ē"|
-       	 		  "Ğ"|"Ĝ"|"Ǧ"|"Ĥ"|"Ȟ"|"Ħ"|"Ĭ"|"Ī"|"I"|"Ǩ"|"Ł"|"Ń"|"Ŋ"|"Ŏ"|"Ộ"|"Ő"|"Ȯ"|"Ǫ"|"Ō"|"Ợ"|
-			  "Œ"|"Ř"|"Ŕ"|"Ś"|"Š"|"Ş"|"Ṣ"|"Ť"|"Ŧ"|"Ț"|"Ŭ"|"Ů"|"Ű"|"Ū"|"Ụ"|"Ữ"|"Ŵ"|"Ẏ"|"Ȳ"|"Ź"|
-			  "Ž"|"Ż"|"Ʒ"|"Ǯ"|"Ə"|"Þ"] ;
+Define AlphaUp UppercaseAlpha ;
 
-list AlphaDown
-       [ LowercaseAlpha | "ă"|"ắ"|"ặ"|"ẫ"|"ã"|"ȧ"|"ā"|"ć"|"ĉ"|"č"|"ď"|"đ"|"ɖ"|"ĕ"|"ě"|"ề"|"ệ"|"ė"|"ę"|"ē"|
-       	 		  "ğ"|"ĝ"|"ǧ"|"ĥ"|"ȟ"|"ḥ"|"ħ"|"ĭ"|"ī"|"ı"|"ǰ"|"ǩ"|"ł"|"ń"|"ŋ"|"ŏ"|"ộ"|"ő"|"ȯ"|"ǫ"|"ō"|"ợ"|"ơ"|
-			  "œ"|"ř"|"ś"|"š"|"ş"|"ṣ"|"ť"|"ŧ"|"ț"|"ŭ"|"ů"|"ű"|"ū"|"ụ"|"ữ"|"ư"|"ŵ"|"ẙ"|"ẏ"|"ȳ"|"ỳ"|"ź"|
-			  "ž"|"ż"|"ʒ"|"ǯ"|"ə"|"þ"] ;
+Define AlphaDown LowercaseAlpha ;
 
-list AlphaAny	[ AlphaUp | AlphaDown ] ;
+Define AlphaAny Alpha;
 
 !======================================================================
 
@@ -49,7 +43,7 @@ Define DoubleQuote [ "\x22" | "”" | "“" | "„" | "»" | "«" ] ;
 Define Quote       [ Apostr | DoubleQuote ] ;
 Define Dash 	   [ "-" ("-") | "–" | "—" | "—" | "−" ] ;
 
-Define 1To9 [ "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ] ;
+list 1To9 [ "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ] ;
 Define 0To9 [ "0" | 1To9 ] ;
 
 Define SentBreakTag [ {<p} | {<paragraph} | {<sentence} | {<text} | {<body} ] (" " NoFSep+) {>} ;
@@ -63,7 +57,7 @@ Define SentBoundary [ [ ".#." ( WSep [ Quote | Dash ] FSep Word ) WSep ] |
 		      [ WSep [ "." | "!" | "?" | ":" | Dash | SentBreakTag ] FSep Word WSep ] |
 		      # ] ;
 
-Define NoSentBoundary WordBoundary [ [ [ Lst(AlphaUp) | Lst(AlphaDown) | Comma | 0To9 | LPar | RPar | "&" | "@" | "/" ] Word ] -
+Define NoSentBoundary WordBoundary [ [ [ AlphaUp | AlphaDown | Comma | 0To9 | LPar | RPar | "&" | "@" | "/" ] Word ] -
                                    [ [ 0To9 (0To9) (0To9) "." | SentBreakTag ] FSep Word ] ] WSep ;
 
 !======================================================================
@@ -97,7 +91,8 @@ m4_divert(0)
 list FinVowel   [ "a" | "e" | "i" | "o" | "u" | "y" | "ä" | "ö" | Apostr ] ;
 list Vowel      [ "á" | "é" | "í" | "ó" | "ú" | "ý" | "ü" | "ű" | "ā" | "ē" | "ī" | "ō" | "ū" | "ã" | FinVowel ] ;
 list CapVowel   [ "A" | "E" | "I" | "O" | "U" | "Y" | "Ä" | "Ö" | "Ü" ] ;
-list Cons	[AlphaDown|AlphaUp] - [Vowel|CapVowel] ;
+Define Cons	Lst({BCDFGHJKLMNPQRSTVWXZÇÐÑÞẞbcdfghjklmnpqrstvwxzçðñþß}); ! Cons doesn't appear in subtractions so can be a Lst()
+
 list SuffSep    ( "'" | "’" | ":" | "i" ) ;
 list Silent     [ "s" | "z" | "t" | "x" | "r" | "h" | "w" | "j" | "ł" ] ;
 
@@ -108,11 +103,11 @@ Define CaseSfx 	[ "n" | {sta} | {stä} | {ssa} | {ssä} | {lta} | {ltä} | {lla}
 Define Clitic  	[ {han} | {hän} | {kin} | {kaan} | {kään} ] ;
 
 Define SmartSep [ LC( Lst(Vowel) | Lst(CapVowel) | ":" ) (":") |
-		  LC( Lst(Cons) ) "i" |
+		  LC( Cons ) "i" |
        		  LC( Lst(Silent) ) ( Apostr | "i" ) |
 		  ":" ] ;
 
-Define AddI	  LC( Lst(Cons) ) "i" ;
+Define AddI	  LC( Cons ) "i" ;
 
 Define SmartSfx	[ SmartSep Ins(CaseSfx) ] ;
 Define NomSuff	( ( SmartSep ) Ins(Clitic) ) ;
@@ -120,15 +115,15 @@ Define GenSuff	[ SmartSep "n" ] ;
 
 Define ParSuff  [ LC( Lst(Vowel) ) [ "a" | "ä" ] |
        		  LC( Lst(Vowel) Lst(Vowel) ) "t" [ "a" | "ä" ] |
-       		  LC( Lst(Cons) ) "i" [ "a" | "ä" ] |
+       		  LC( Cons ) "i" [ "a" | "ä" ] |
 		  LC( "s" ) "t" [ "a" | "ä" ] |
-		  LC( Lst(Silent) | Lst(AlphaUp) Lst(Vowel) ) [ (Apostr) "t" ] [ "a" | "ä" ] |
+		  LC( Lst(Silent) | AlphaUp Lst(Vowel) ) [ (Apostr) "t" ] [ "a" | "ä" ] |
 		  LC( ":" ) [ ("t") [ "a" | "ä" ] | {aa} | {ää} ] |
 		  LC( [? - AlphaDown] ) ":" [ ("t") [ "a" | "ä" ] | {aa} | {ää} ]
 		  ];
 		  
 Define IllSuff  [ LC( {ks} ) {een} |
-       		  LC( Lst(Silent) | Lst(AlphaUp) Lst(Vowel) ) Apostr "h" Lst(Vowel) "n" |
+       		  LC( Lst(Silent) | AlphaUp Lst(Vowel) ) Apostr "h" Lst(Vowel) "n" |
 		  LC( "a" | "A" | "á" | "à" | "â" | "ă" ) (":") ("h") {an} |
 		  LC( "e" | "E" | "é" | "è" | "ê" | "ë" | "ě" | {ai} ) (":") ("h") {en} |
 		  LC( "i" | "I" | "í" | "ì" | "î" | "ï" | "y" | "j" | "ĳ" | {eu} | {äu} | {ee} ) (":") ("h") {in} |
@@ -179,26 +174,26 @@ Define lemma_sg_x2(W1, W2)	lemma_exact_sg(W1) WSep lemma_exact_sg(W2) ;
 
 Define Slash wordform_exact("/") ;
 
-Define LowerWord wordform_exact( Lst(AlphaDown) Field ) ;
-Define CapWord wordform_exact( Lst(AlphaUp) Field ) ;
-Define CapWordPart Lst(AlphaUp) Word ;
-Define CapWordNSB LC( NoSentBoundary ) Lst(AlphaUp) Word ;
+Define LowerWord wordform_exact( AlphaDown Field ) ;
+Define CapWord wordform_exact( AlphaUp Field ) ;
+Define CapWordPart AlphaUp Word ;
+Define CapWordNSB LC( NoSentBoundary ) AlphaUp Word ;
 
 Define AndOfTheStr [ {for} | {by} | {of} | {the} | {and} | "&" | {to} | {with} | {against} | {at} | {in} | {de} | {för} | {vid} | {och}
        		   | {i} | {till} | {für} | {degli} | {della} | {delle} | {und} | {an} | {no} | {et} | {dei} | {di} | {do} | {da} | {des} | {zu} | {zum}
 		   | {la} | {y} | {e} | {est} | {non} | {pas} | {para} | {el} | {av} | {os} | {as} | ( "d" Apostr ) {un}("e") ] ;
 
 Define AndOfThe wordform_exact( AndOfTheStr ) ;
-Define DeLa 	wordform_exact( "d" ( Apostr ) Lst(AlphaDown)* ) ( WSep wordform_exact(Apostr) ) ( WSep LowerWord ) ;
+Define DeLa 	wordform_exact( "d" ( Apostr ) AlphaDown* ) ( WSep wordform_exact(Apostr) ) ( WSep LowerWord ) ;
 
 Define NumWord wordform_ends( 0To9 Field ) ;
-Define CapNum wordform_ends( [ Lst(AlphaUp) | 0To9 ] ) ;
+Define CapNum wordform_ends( [ AlphaUp | 0To9 ] ) ;
 Define CapNameStr ( Alpha Apostr | [{al}|{el}] Dash | AlphaUp AlphaDown ) AlphaUp AlphaDown+ ( Dash AlphaUp AlphaDown+ ) ( Apostr AlphaDown+ ) ;
 Define CapNameNomStr [ CapNameStr - [ Field [ Vowel ["n"|{ssä}|{ssa}|{llä}|{lla}|{lle}|{ltä}|{lta}|{sta}|{stä}] |{iin}|{aan}|{ään}|{aa}|{ää}] ]] | [ AlphaUp [ {in} | {an} | {en} ] ] ;
 
 Define AcrNom AlphaUp+ FSep Word ;
 Define NumRoman ("X") ("X") [ ("V") "I" ("I")("I") | ("I") ["V"|"X"] ] ;
-Define CamelCase Lst(AlphaUp) Lst(AlphaDown+) Lst(AlphaUp) Field ;
+Define CamelCase AlphaUp AlphaDown+ AlphaUp Field ;
 Define WebDomain Alpha+ LowercaseAlpha+ "." [ LowercaseAlpha ]^{2,3} ;
 
 Define SentencePunct lemma_exact( "." | "?" | "!" | ":" | Dash | Quote | SentBreakTag ) ;
@@ -219,7 +214,7 @@ Define OptItalics(W)
        [ W | Italics(W) ] ;
 
 Define InQuotes
-       SetQuotes( [ Lst(AlphaUp) | 0To9 Field Alpha ] Word [ WSep [ ? - Quote ] Word ]* ) ;
+       SetQuotes( [ AlphaUp | 0To9 Field Alpha ] Word [ WSep [ ? - Quote ] Word ]* ) ;
 
 Define ADashA
        "a" Dash "a" | "e" Dash "e" | "i" Dash "i" | "o" Dash "o" |
@@ -261,7 +256,7 @@ Define NounGenPl morphtag({POS=NOUN} Field {NUM=PL} Field {CASE=GEN}) ;
 Define NounPl morphtag({POS=NOUN} Field {NUM=PL}) ;
 
 Define CoordConj morphtag({[SUBCAT=CONJUNCTION][CONJ=COORD]}) ;
-Define NotConj [ wordform_exact( [ Lst(AlphaUp) | Lst(AlphaDown) | 0To9 ] Field ) - CoordConj ] ;
+Define NotConj [ wordform_exact( [ AlphaUp | AlphaDown | 0To9 ] Field ) - CoordConj ] ;
 Define Coord   [ lemma_exact( {ja} | Comma ) ] ;
 
 Define Prop morphtag({PROPER}) ;
@@ -325,11 +320,11 @@ Define CapNounNom AlphaUp morphtag({POS=NOUN} Field {[NUM=SG][CASE=NOM]}) ;
 Define CapNounGen AlphaUp morphtag({POS=NOUN} Field {[NUM=SG][CASE=GEN]}) ;
 Define CapNounPar AlphaUp morphtag({POS=NOUN} Field {[NUM=SG][CASE=PAR]}) ;
 
-Define CapNounNSB    LC( NoSentBoundary ) Lst(AlphaUp) morphtag({POS=NOUN}) ;
-Define CapNounNomNSB LC( NoSentBoundary ) Lst(AlphaUp) morphtag({CASE=NOM}) ;
-Define CapNounGenNSB LC( NoSentBoundary ) Lst(AlphaUp) morphtag({CASE=GEN}) ;
-Define CapNounIneNSB LC( NoSentBoundary ) Lst(AlphaUp) morphtag({CASE=INE}) ;
-Define CapNounAdeNSB LC( NoSentBoundary ) Lst(AlphaUp) morphtag({CASE=ADE}) ;
+Define CapNounNSB    LC( NoSentBoundary ) AlphaUp morphtag({POS=NOUN}) ;
+Define CapNounNomNSB LC( NoSentBoundary ) AlphaUp morphtag({CASE=NOM}) ;
+Define CapNounGenNSB LC( NoSentBoundary ) AlphaUp morphtag({CASE=GEN}) ;
+Define CapNounIneNSB LC( NoSentBoundary ) AlphaUp morphtag({CASE=INE}) ;
+Define CapNounAdeNSB LC( NoSentBoundary ) AlphaUp morphtag({CASE=ADE}) ;
 
 Define CapName wordform_exact( CapNameStr ) ;
 Define CapNameNom wordform_exact( CapNameNomStr ) ;
@@ -371,7 +366,7 @@ Define CapMiscExt   [ [ Alpha | 0To9 ] Field CapNameNom | CapMisc | Field wordfo
        		      Field CapForeignForm | Field AbbrNom |
        		      wordform_exact( UppercaseAlpha "." ) ] ;
 
-Define Serial [ wordform_exact( Field Lst(AlphaUp) | Field Alpha Field 0To9 | Field 0To9 Alpha (Alpha) ) |
+Define Serial [ wordform_exact( Field AlphaUp | Field Alpha Field 0To9 | Field 0To9 Alpha (Alpha) ) |
        	      	[ Alpha | 0To9 ] Field CapNameNom ] ;
 
 Define WordsNom [ ( CapName WSep ) Ins(AndOfThe) WSep | CapMisc WSep ]+ ;
