@@ -7,7 +7,7 @@ Näitä samoja ohjeita voi käyttää ohjenuorana suomenkielisen tekstin käsin 
 ## §1 Kokonaiset saneet ja nimet
 
 FiNER tunnistaa tai merkitsee vain 1) kokonaisia saneita ja 2) kokonaisia nimiä. FiNER ei siis tunnista
-- nimiä, jotka ovat laajemman saneen osana (_**Android*-käyttäjä_) tai
+- nimiä, jotka ovat laajemman saneen osana (_**Android**-käyttäjä_) tai
 - nimen palasia yksinään (_**Pohjois-** ja Etelä-Amerikka_, _**Windows-** ja Linux-käyttöjärjestelmät_) – ks. kuitenkin §3.
 
 ## §2 Yhdysviivat ja selitteet
