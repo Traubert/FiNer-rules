@@ -3,8 +3,8 @@
 ./convert-m4gaz.sh
 
 LOGFILE=_mmake_`date '+%Y%m%d_%H%M%S'`.log
-m4 -P proper_tagger_ph1.m4 | ./add-inserted.sh | sed 's/Ins(AlphaUp)/AlphaUp/g' > proper_tagger_ph1.txt
-m4 -P proper_tagger_ph2.m4 | sed 's/Ins(AlphaUp)/AlphaUp/g' > proper_tagger_ph2.txt
+m4 -P proper_tagger_ph1.m4 | ./add-inserted.sh | sed 's/Lst(AlphaUp)/AlphaUp/g' > proper_tagger_ph1.txt
+m4 -P proper_tagger_ph2.m4 | sed 's/Lst(AlphaUp)/AlphaUp/g' > proper_tagger_ph2.txt
 
 time hfst-pmatch2fst -v proper_tagger_ph1.txt > proper_tagger_ph1.pmatch 2> $LOGFILE
 time hfst-pmatch2fst -v proper_tagger_ph2.txt > proper_tagger_ph2.pmatch 2>> $LOGFILE

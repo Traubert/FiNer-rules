@@ -370,7 +370,7 @@ Define HumanRelativeWord
 		     {sukulainen} | {perhe}({enjäsen}) | {rakastaja}({tar}) ]) ;
 
 Define PersonIsRelative
-       LC( wordform_ends( Vowel "n" ) WSep ( PosAdj WSep ) HumanRelativeWord WSep )
+       LC( wordform_ends( Lst(Vowel) "n" ) WSep ( PosAdj WSep ) HumanRelativeWord WSep )
        ( CapMisc WSep )
        CapName ;
 
@@ -578,12 +578,12 @@ Define AnimalNameColloc4
        [ CapName::0.60 | PropFirstLast::0.20 ] ;
 
 Define AnimalNameGaz1
-       Lst(AlphaUp) lemma_exact( DownCase( {Heluna} | {Mansikki} | {Musti} | {Fifi} | {Asteri} | {Tessu} | {Peni} |
+       AlphaUp lemma_exact( DownCase( {Heluna} | {Mansikki} | {Musti} | {Fifi} | {Asteri} | {Tessu} | {Peni} |
        		    		 	   {Ressu} | {Rekku} | {Turre} | {Muppe} ) )::0.20 ;
 
 Define AnimalNameGaz2
        LC( NoSentBoundary )
-       Lst(AlphaUp) lemma_exact_morph( DownCase( {Musti} | {Ystävä} | {Ruusu} | {Omena} | {Kielo} |
+       AlphaUp lemma_exact_morph( DownCase( {Musti} | {Ystävä} | {Ruusu} | {Omena} | {Kielo} |
        		    		       		 {Kirjo} | {Lemmikki} ), {NUM=SG} )::0.30 ;
 
 Define AnimalNameGaz3
@@ -705,9 +705,9 @@ Define PersFictional
 
 !* Category HEAD
 Define Person
-       [ Ins(PersHuman)
-       | Ins(AnimalName)
-       | Ins(PersFictional)
+       [ PersHuman
+       | AnimalName
+       | PersFictional
        ] ;
 
 !!----------------------------------------------------------------------
@@ -1326,7 +1326,7 @@ Define LocPolColloc7
 	   | {järjestet}
 	   | {tapahtuv}
 	   | {tapahtun}
-	   ] FinVowel Field ) ) ;
+	   ] Lst(FinVowel) Field ) ) ;
 
 !* "Uusimaa" : "Uudenmaan"
 Define LocPolMisc1
@@ -1421,7 +1421,7 @@ Define LocPolit
 !!----------------------------------------------------------------------
 
 Define StreetSfxFin
-       FinVowel ("s"|"n"|"l"|"r") {tie}({ltä}|{lle}|{llä}) | {katu} | {kuja} | {polku} | {väylä} | {bulevardi} |
+       Lst(FinVowel) ("s"|"n"|"l"|"r") {tie}({ltä}|{lle}|{llä}) | {katu} | {kuja} | {polku} | {väylä} | {bulevardi} |
        {esplanadi} | {puistikko} | {tanhua} ;
 
 Define StreetSfxMisc
@@ -1440,7 +1440,7 @@ Define StreetSfxWord
 ! "Pieni Robertinkatu"
 Define LocStreet1
        ( AlphaUp lemma_exact( GeoAdj | {pikku} | {pieni} | {iso} | {vanha} | {vähä} ) WSep )
-       AlphaUp lemma_morph([ Alpha+ Ins(StreetSfxFin) ] - [ {kulkuväylä} ], {NUM=SG}) ;
+       AlphaUp lemma_morph([ NRC({kulkuväylä}) Alpha+ StreetSfxFin ], {NUM=SG}) ;
 
 ! "Brändovägen", "Motzstraße"
 Define LocStreet2
@@ -1563,7 +1563,7 @@ Define LocReligiousType
 Define LocStructType
        {pato} | {kaivos} | {linna} | {kartano} | {linnoitus} | {linnake} | {palatsi} | {muuri} | {aukio} | {torni} |
        {majakka} | {stadion} | {areena} | {riemukaari} | {paviljonki} | {tunneli} | {allas} |
-       [ [ Dash | Vowel "n" | [ FinVowel - Apostr ] ("s"|"l"|"r") ] {silta} ] ;
+       [ [ Dash | Lst(Vowel) "n" | Lst(FinVowel) ("s"|"l"|"r") ] {silta} ] ;
 
 !* Xxx-kirkko, Xxxkirkko
 Define LocPlaceOfWorship1A
@@ -1658,7 +1658,7 @@ Define LocPlaceGenAttr3
 !* Xxxin teollisuusalue, Helsingin kaupungintalo
 Define LocPlaceGenAttr4
        [ CapMisc WSep ]*
-       [ PropGeoGen EndTag(EnamexLocPpl2) | [CapNameGenNSB - PropOrg]::0.60 ]  WSep 
+       [ PropGeoGen EndTag(EnamexLocPpl2) | [NRC(PropOrg) CapNameGenNSB]::0.60 ]  WSep 
        lemma_morph(
             {lentokenttä} |
 	    {lentoasema} |
@@ -1740,7 +1740,7 @@ Define LocPlaceProperty1
        RC( WSep [ lemma_exact({rn:o}) | PropGeoIne ]) ;
 
 Define LocPlaceProperty2
-       [ CapName - lemma_exact( {tila} ({lla}|{lle}) ) ]
+       [ NRC(lemma_exact( {tila} ({lla}|{lle}) )) CapName ]
        ( WSep CapWord ) Capture(PropertyNameUnk)
        RC( WSep lemma_exact({rn:o}) ) ;
 
@@ -1850,13 +1850,13 @@ Define LocFictional
 
 !* Category HEAD
 Define Location
-       [ Ins(LocGeneral)
-       | Ins(LocGeogr)
-       | Ins(LocPolit)
-       | Ins(LocStreet)
-       | Ins(LocAstro)
-       | Ins(LocPlace)
-       | Ins(LocFictional)
+       [ LocGeneral
+       | LocGeogr
+       | LocPolit
+       | LocStreet
+       | LocAstro
+       | LocPlace
+       | LocFictional
        ] ;
 
 !!----------------------------------------------------------------------
@@ -2186,7 +2186,7 @@ Define GroupCommonNoun [ {lordi} | {mamba} | {aikakone} | {valvomo} | {alivaltio
 !* xxx Lordi / xxx Aikakone / xxx Yö / xxx Rajattomien
 Define CultGroupCommonNoun
        LC( NoSentBoundary )
-       Lst(AlphaUp) lemma_exact( GroupCommonNoun ) ;
+       AlphaUp lemma_exact( GroupCommonNoun ) ;
 
 ! "Kansallismuseo"
 Define CultOrgSuffixed1
@@ -2555,7 +2555,7 @@ Define SemMediaGen morphtag({SEM=MEDIA} Field {CASE=GEN}) ;
 !* Taloussanomat, Verkkouutiset
 Define MediaFinSuffixed1
        [ [ PropGeoGen EndTag(EnamexLocPpl2) | CapNameGenNSB | AbbrNom ] WSep |
-       	 LC( NoSentBoundary ) Lst(AlphaUp) AlphaDown ]
+       	 LC( NoSentBoundary ) AlphaUp AlphaDown ]
        morphlem_p1( Field [ {sanoma}("t") | {uutinen} | {uutiset} ], {NUM=PL}) ;
 
 Define MediaFinSuffixed2
@@ -2564,26 +2564,26 @@ Define MediaFinSuffixed2
 
 Define MediaFinSuffixed3
        [ LC( NoSentBoundary ) Field | NoFSep+ ]
-       Lst(AlphaUp) morphlem_p1( AlphaDown+ [ {lehti} | {aviisi} | {seutu} ], {NUM=SG}) Capture(MediaCpt0) ;
+       AlphaUp morphlem_p1( AlphaDown+ [ {lehti} | {aviisi} | {seutu} ], {NUM=SG}) Capture(MediaCpt0) ;
 
 Define MediaFinSuffixed4
        ( PropGeoGen EndTag(EnamexLocPpl2) WSep )
-       [ CapNounGenNSB | Lst(AlphaUp) lemma_ends({inen}) ] WSep
+       [ CapNounGenNSB | AlphaUp lemma_ends({inen}) ] WSep
        morphlem_p1( {aikakauskirja} | {aikakauslehti}, {NUM=SG} ) ;
 
 Define MediaFinHyphen1
-       Field Lst(AlphaUp) Field Capture(MediaCpt1) Dash (lemma_ends(Dash {niminen}) WSep)
+       Field AlphaUp Field Capture(MediaCpt1) Dash (lemma_ends(Dash {niminen}) WSep)
        AlphaDown morphlem_p1( Ins(PublType) | Ins(MediaOrgType) , {NUM=SG}) ;
 
 Define MediaFinHyphen2
        ( Ins(WordsNom) )
-       Field Lst(AlphaUp) Field Capture(MediaCpt2) FSep Word WSep
+       Field AlphaUp Field Capture(MediaCpt2) FSep Word WSep
        Dash morphlem_p1( Ins(PublType) | Ins(MediaOrgType) , {NUM=SG}) ;
 
 Define MediaFinHyphen3
        CapName WSep
        ( LowerWord WSep ) ( LowerWord WSep )
-       [ [ Field Capture(MediaCpt3) FSep Word ] - CoordConj ] WSep
+       [ NRC(CoordConj) [ Field Capture(MediaCpt3) FSep Word ] ] WSep
        Ins(DashExt) morphlem_p1( Ins(PublType) | Ins(MediaOrgType) , {NUM=SG}) ;
 
 Define MediaFinHyphen4
@@ -2595,7 +2595,7 @@ Define MediaFinHyphen
 
 Define MediaSuffixed1
        [ Ins(CapMiscExt) WSep |
-       Lst(AlphaUp) ] Field OptCap(@txt"gaz/gMediaSfxPart.txt") ;
+       AlphaUp ] Field OptCap(@txt"gaz/gMediaSfxPart.txt") ;
 
 Define MediaSuffixed2
        [ Ins(WordsNom) | Ins(CapMiscExt) WSep ]
@@ -2790,7 +2790,7 @@ Define CorpPrefixedFin1
 		       {myynti} ]
 		       ]) ) WSep
        ( ( CapMisc WSep ) [ NameInitial WSep ]* | CapMisc WSep | CapWord WSep wordform_exact("&") WSep )
-       [ CapName - lemma_exact({oy}) | AbbrInfl |
+       [ [ NRC(lemma_exact({oy})) CapName ] | AbbrInfl |
        	 [ CapMisc | AlphaUp AlphaDown [ NounNom | PosAdjNom ] | AbbrBase ] WSep
 	 lemma_exact( {kommandiittiyhtiö} | {ky} | {oy} ) |
 	 lemma_exact( {avoin} | {keskinäinen} ) WSep lemma_ends({yhtiö}) ] ;
@@ -3910,14 +3910,14 @@ Define MiscOrg
 
 !* Category HEAD
 Define Organization
-       [ Ins(MediaOrg)
-       | Ins(EduOrg)
-       | Ins(FinancOrg)
-       | Ins(CorpOrg)
-       | Ins(AthlOrg)
-       | Ins(PolitOrg)
-       | Ins(CultOrg)
-       | Ins(MiscOrg)
+       [ MediaOrg
+       | EduOrg
+       | FinancOrg
+       | CorpOrg
+       | AthlOrg
+       | PolitOrg
+       | CultOrg
+       | MiscOrg
        ] ;
 
 !!----------------------------------------------------------------------
@@ -4299,7 +4299,7 @@ Define ProVehicleMisc1
        inflect_sg( @txt"gaz/gProdVehicleModel.txt" ) ;
 
 Define ProVehicleBrandPl
-       [ inflect_pl( VehicleBrand | @txt"gaz/gProdVehicleModel.txt" ) - lemma_exact({kiina}|{kiista}) ] ;
+       [ NRC(lemma_exact({kiina}|{kiista})) inflect_pl( VehicleBrand | @txt"gaz/gProdVehicleModel.txt" ) ] ;
 
 Define ProVehicleBrandLocInt
        infl_sg_locint( Ins(VehicleBrand) ) ;
@@ -4487,7 +4487,7 @@ Define ProDrugHyphen1A
        AlphaUp Field Capture(DrugCpt1) Dash Field Ins(ProDrugType) ;
 
 Define ProDrugHyphen1B
-       [ [ AlphaUp Field Dash AlphaDown Field Ins(ProDrugType) ] - ADashAField ] ;
+       [ NRC(ADashAField) [ AlphaUp Field Dash AlphaDown Field Ins(ProDrugType) ] ] ;
 
 Define ProDrugHyphen2
        AlphaUp Field Capture(DrugCpt3) Dash lemma_ends( Dash {niminen} ) WSep
@@ -4985,21 +4985,21 @@ Define ProdMisc
 !* Category HEAD
 
 Define Product
-       [ Ins(ProLaw)::0.00
-       | Ins(ProAgreement)::0.00
-       | Ins(ProAward)::0.25
-       | Ins(ProGame)::0.25
-       | Ins(ProFilmTV)::0.25
-       | Ins(ProLiterature)::0.25
-       | Ins(ProVehicle)
-       | Ins(ProProject)
-       | Ins(ProMusic)
-       | Ins(ProArtwork)
-       | Ins(ProDrug)
-       | Ins(ProdFoodDrink)
-       | Ins(ProdCultivar)
-       | Ins(ProdTech)
-       | Ins(ProdMisc)
+       [ ProLaw::0.00
+       | ProAgreement::0.00
+       | ProAward::0.25
+       | ProGame::0.25
+       | ProFilmTV::0.25
+       | ProLiterature::0.25
+       | ProVehicle
+       | ProProject
+       | ProMusic
+       | ProArtwork
+       | ProDrug
+       | ProdFoodDrink
+       | ProdCultivar
+       | ProdTech
+       | ProdMisc
        ] ;
 
 !!----------------------------------------------------------------------
@@ -5685,8 +5685,8 @@ Define TimeClock
 Define CurrencySymbol [ "€" | "$" | "¥" | "£" | "₽" | "¢" | {mk} | {eur} | {snt} |
        		      	{EUR} | {USD} | {JPY} | {RUB} | {GBP} | {BTC} | {XBT} ] ;
 
-Define Currency [ Lst(AlphaDown) morphorsemtag({CURRENCY}) |
-       		  Lst(AlphaDown) lemma_exact( @txt"gaz/gCurrency.txt" ) ] ;
+Define Currency [ AlphaDown morphorsemtag({CURRENCY}) |
+       		  AlphaDown lemma_exact( @txt"gaz/gCurrency.txt" ) ] ;
 
 Define MoneyAmount1
        ( lemma_exact({puoli}|{pari}|{muutama}) WSep )
@@ -6065,14 +6065,14 @@ Define Exceptions
 !!----------------------------------------------------------------------
 
 Define TOP whole_word(`
-       Ins(Person) |
-       Ins(Organization) |
-       Ins(Location) |
-       Ins(Product) |
-       Ins(Event) |
-       Ins(Date) |
-       Ins(TimeClock) |
-       Ins(CurrencyExpr) |
-       Ins(MeasureExpr) |
-       Ins(Backoff) |
-       Ins(Exceptions)') ;
+       Person::1.0 |
+       Organization::1.0 |
+       Location::1.0 |
+       Product::1.0 |
+       Event::1.0 |
+       Date::1.0 |
+       TimeClock::1.0 |
+       CurrencyExpr::1.0 |
+       MeasureExpr::1.0 |
+       Backoff::1.0 |
+       Exceptions::0.0') ;
