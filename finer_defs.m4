@@ -12,11 +12,12 @@ set unicode-character-classes on
 ! Word separator and field delimiters
 
 Define WSep "\n" ;
-Define NoWSep [ ? - WSep ] ;
+Define NoWSep Exc("\n"); ! [ ? - WSep ] ;
 Define Word NoWSep+ ;
 Define FSep "\t" ;
-Define NoFSep [ ? - [ WSep | FSep ] ] ;
+Define NoFSep Exc("\n" "\t"); ! [ ? - [ WSep | FSep ] ] ;
 Define Field NoFSep* ;
+Define NonemptyField NoFSep+ ;
 
 !======================================================================
 
@@ -285,8 +286,8 @@ Define PropLastPar morphtag_semtag({CASE=PAR}, {PROP=LAST}) ;
 
 Define PropFirstLast [ PropFirst | PropLast ] ;
 
-Define ShadowFirstNom PropFirstNom;
-Define ShadowLastNom PropLastNom;
+Define ShadowPropFirstNom PropFirstNom;
+Define ShadowPropLastNom PropLastNom;
 
 Define PropFirstLastNom [ ShadowPropFirstNom | ShadowPropLastNom ] - lemma_exact({le}) ;
 Define PropFirstLastGen [ PropFirstGen | PropLastGen ] ;
@@ -346,31 +347,15 @@ Define CapForeignForm
        wordform_exact( AlphaUp AlphaDown* [{nt}|{lt}|{ic}|{cs}|{ll}|{ss}|{ts}|{dt}|{tt}] |
        		       AlphaUp AlphaDown+ ["b"|"c"|"d"|"f"|"g"|"h"|"j"|"k"|"m"|"p"|"q"|"v"|"w"|"x"|"z"|"å"] ) ;
 
-Define CapNomWithN
-		[ {Domain} | {Open} | {European} | {American} | {African} | {Asian} | {Main} | {Syrian} | {London} | {Station} | {San}
-		| {Union} | {Western} | {Falcon} | {Debian} | {Captain} | {Human} | {Emotion} | {Pan} | {Education} | {Canon} | {Christian}
-		| {Women} | {Men} | {Nation} | {Motion} | {Time} | {Queen} | {Champion} | {Indian} | {Norwegian} | {Australian} | {Ten}
-		| {An} | {Milton} | {Hilton} | {Titan} | {Aryan} | {Austrian} | {German} | {Silicon} | {Icon} | {Falcon} | {Recon}
-		| {Lexicon} | {In} | {Teen} | {Canadian} | {Min} | {Don} | {Photon} | {Proton} | {Neutron} | {Electron}
-		| {Hadron} | {Un} | {Den} | {Great} | {Invasion} | {Within} | {Revolution} | {Pen} | {Can} | {Ten} | {Electronic}
-		| {Independent} | {Malaysian} | {Golden} | {Japan} | {Collection} | {Operation} | {Dragon} | {Action}
-		| {Edition} | {Fusion} | {Mission} | {Commission} | {Horizon} | {Caravan} | {Titan} | {Mr.} | {Dr.} | {Million} | {Billion} 
-		| {Marathon} | {Virgin} | {Norden} | {Ben} | {Johnson} | {Morgan} | {Equation} | {Taiwan} | {International} | {Global}
-		| {Dolphin} | {In} | AlphaUp {an} | {Typhoon} | {Mountain} | {Russian} | {Hidden} | {Green}
-		| AlphaUp AlphaDown* [ AlphaDown - "a" ] {ation} | AlphaUp AlphaDown* {lution} | AlphaUp AlphaDown+ {ción}
-		| AlphaUp AlphaDown* Apostr "s" | AlphaUp AlphaDown* {ction} ] ;
-
 Define CapNameProp  [ wordform_morph( CapNameStr, [{FOREIGN}|{PUNCTUATION}|{[POS=PARTICLE][SUBCAT=ABBREVIATION]}|{PROPER} Field {[NUM=SG][CASE=NOM]}] ) ] | CapNameNom {PROPER} Field {NUM=SG} Word ;
 Define CapMisc	    [ CapNameNomNSB | CapNameProp | CapForeignForm ] ;
 
-!Define CapMiscExt   wordform_ends( 0To9 Alpha | Alpha [ 0To9 | AlphaUp ] | [ Alpha | 0To9 ] Field CapNameNomStr |
-!       		    		   CapNomWithN | AlphaUp "." ) | Field CapMisc ;
 
-Define CapMiscExt   [ [ Alpha | 0To9 ] Field CapNameNom | CapMisc | Field wordform_exact(CapNomWithN) |
-       		      Field CapForeignForm | Field AbbrNom |
+Define CapMiscExt   [ [ Alpha | 0To9 ] Field CapNameNom | CapNameNomNSB | CapNameProp |
+                      [Field [ CapForeignForm | AbbrNom ]] |
        		      wordform_exact( UppercaseAlpha "." ) ] ;
 
-Define Serial [ wordform_exact( Field AlphaUp | Field Alpha Field 0To9 | Field 0To9 Alpha (Alpha) ) |
+Define Serial [ wordform_exact( Field [AlphaUp | [ Alpha Field 0To9 ] | [ 0To9 Alpha (Alpha) ]] )  |
        	      	[ Alpha | 0To9 ] Field CapNameNom ] ;
 
 Define WordsNom [ ( CapName WSep ) Ins(AndOfThe) WSep | CapMisc WSep ]+ ;
@@ -379,7 +364,7 @@ Define WordsNom [ ( CapName WSep ) Ins(AndOfThe) WSep | CapMisc WSep ]+ ;
 
 ! XXX -(työ)nimellä tunnettu/kulkeva/kehitetty
 Define DashName1
-       Dash wordform_ends({nimellä}) WSep morphtag({PCP=}) WSep ;
+       wordform_ends({nimellä}) WSep morphtag({PCP=}) WSep ;
 
 ! XXX -niminen/merkkinen
 Define DashName2
@@ -387,10 +372,10 @@ Define DashName2
 
 ! XXX -nimeä kantava
 Define DashName3
-       Dash wordform_ends({nimeä}) WSep [ lemma_morph([{ava}|{ävä}|{eva}|{evä}], {POS=ADJECTIVE}) | morphtag({PCP=VA}) ] WSep ;
+       wordform_ends({nimeä}) WSep [ lemma_morph([{ava}|{ävä}|{eva}|{evä}], {POS=ADJECTIVE}) | morphtag({PCP=VA}) ] WSep ;
 
 Define DashName4
-       Dash LowerWord WSep lemma_exact( {ja} | {sekä} ) WSep Dash ;
+       LowerWord WSep lemma_exact( {ja} | {sekä} ) WSep Dash ;
 
-Define DashExt [ Dash | DashName1 | DashName2 | DashName3 | DashName4 ] [ Ins(PosAdj) WSep ]* ;
+Define DashExt [ DashName2 | [ Dash ( DashName1 | DashName3 | DashName4 ) ]] [ Ins(PosAdj) WSep ]* ;
 

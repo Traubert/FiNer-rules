@@ -705,9 +705,9 @@ Define PersFictional
 
 !* Category HEAD
 Define Person
-       [ Ins(PersHuman)
-       | Ins(AnimalName)
-       | Ins(PersFictional)
+       [ PersHuman
+       | AnimalName
+       | PersFictional
        ] ;
 
 !!----------------------------------------------------------------------
@@ -1850,13 +1850,13 @@ Define LocFictional
 
 !* Category HEAD
 Define Location
-       [ Ins(LocGeneral)
-       | Ins(LocGeogr)
-       | Ins(LocPolit)
-       | Ins(LocStreet)
-       | Ins(LocAstro)
-       | Ins(LocPlace)
-       | Ins(LocFictional)
+       [ LocGeneral
+       | LocGeogr
+       | LocPolit
+       | LocStreet
+       | LocAstro
+       | LocPlace
+       | LocFictional
        ] ;
 
 !!----------------------------------------------------------------------
@@ -3910,14 +3910,14 @@ Define MiscOrg
 
 !* Category HEAD
 Define Organization
-       [ Ins(MediaOrg)
-       | Ins(EduOrg)
-       | Ins(FinancOrg)
-       | Ins(CorpOrg)
-       | Ins(AthlOrg)
-       | Ins(PolitOrg)
-       | Ins(CultOrg)
-       | Ins(MiscOrg)
+       [ MediaOrg
+       | EduOrg
+       | FinancOrg
+       | CorpOrg
+       | AthlOrg
+       | PolitOrg
+       | CultOrg
+       | MiscOrg
        ] ;
 
 !!----------------------------------------------------------------------
@@ -4985,21 +4985,21 @@ Define ProdMisc
 !* Category HEAD
 
 Define Product
-       [ Ins(ProLaw)::0.00
-       | Ins(ProAgreement)::0.00
-       | Ins(ProAward)::0.25
-       | Ins(ProGame)::0.25
-       | Ins(ProFilmTV)::0.25
-       | Ins(ProLiterature)::0.25
-       | Ins(ProVehicle)
-       | Ins(ProProject)
-       | Ins(ProMusic)
-       | Ins(ProArtwork)
-       | Ins(ProDrug)
-       | Ins(ProdFoodDrink)
-       | Ins(ProdCultivar)
-       | Ins(ProdTech)
-       | Ins(ProdMisc)
+       [ ProLaw::0.00
+       | ProAgreement::0.00
+       | ProAward::0.25
+       | ProGame::0.25
+       | ProFilmTV::0.25
+       | ProLiterature::0.25
+       | ProVehicle
+       | ProProject
+       | ProMusic
+       | ProArtwork
+       | ProDrug
+       | ProdFoodDrink
+       | ProdCultivar
+       | ProdTech
+       | ProdMisc
        ] ;
 
 !!----------------------------------------------------------------------
@@ -6065,14 +6065,14 @@ Define Exceptions
 !!----------------------------------------------------------------------
 
 Define TOP whole_word(`
-       Ins(Person) |
-       Ins(Organization) |
-       Ins(Location) |
-       Ins(Product) |
-       Ins(Event) |
-       Ins(Date) |
-       Ins(TimeClock) |
-       Ins(CurrencyExpr) |
-       Ins(MeasureExpr) |
-       Ins(Backoff) |
-       Ins(Exceptions)') ;
+       Person::1.0 |
+       Organization::1.0 |
+       Location::1.0 |
+       Product::1.0 |
+       Event::1.0 |
+       Date::1.0 |
+       TimeClock::1.0 |
+       CurrencyExpr::1.0 |
+       MeasureExpr::1.0 |
+       Backoff::1.0 |
+       Exceptions::0.0') ;
